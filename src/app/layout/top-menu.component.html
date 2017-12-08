@@ -1,0 +1,48 @@
+<div class="g__nav">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="nav">
+                    <div class="floatLeft header-logo g__header-logo">
+                        <a href="/" title="Главная страница" target="_self">
+                            <img src="/assets_rad3/img/logo.png" alt="">
+                        </a>
+                    </div>
+                    <div class="floatRight header-block">
+                        <div class="pull-right">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-md-11 <?= $isGHomePage ? 'col-xs-9' : '' ?>">
+                        <nav class="<?= $isGHomePage ? 'desktop-nav' : '' ?>">
+                            FIXME $navigation->psRbacMenu();
+                        </nav>
+                        <?php if ($isGHomePage): ?>
+                        <nav class="mobile-nav">
+                            <div id="nav-icon1" class="ham">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <!-- ?php
+                                $res = $this->navigation('navigation')->psRbacMenu()->setUlClass(
+                            'navigation g__navigation g__nav-mob'
+                            );
+                            echo $res;
+                            ? -->
+                        </nav>
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-md-1">
+                        <!-- ?= $this->partial('partial/logout_menu', ['isGHomePage' => $isGHomePage, 'user' => $user]) ? -->
+                    </div>
+                </div>
+
+                <!--/nav-->
+            </div>
+        </div>
+    </div>
+</div>

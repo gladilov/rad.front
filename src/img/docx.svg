@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="43px" height="20px" viewBox="0 0 43 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="43" height="20"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="43" height="20" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Документация" transform="translate(-220.000000, -401.000000)">
+            <g id="Group-2" transform="translate(220.000000, 401.000000)">
+                <use id="Rectangle-3-Copy-2" stroke="#31851B" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
+                <text id="docx" font-family="Roboto-Regular, Roboto" font-size="13" font-weight="normal" line-spacing="16" fill="#31851B">
+                    <tspan x="7" y="15">docx</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

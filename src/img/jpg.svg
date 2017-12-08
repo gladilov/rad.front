@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="20px" viewBox="0 0 32 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="32" height="20"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="32" height="20" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Документация" transform="translate(-220.000000, -303.000000)">
+            <g id="Group" transform="translate(220.000000, 303.000000)">
+                <use id="Rectangle-3" stroke="#31851B" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
+                <text id="jpg" font-family="Roboto-Regular, Roboto" font-size="13" font-weight="normal" line-spacing="16" fill="#31851B">
+                    <tspan x="7" y="14">jpg</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
