@@ -10,7 +10,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Главная</a>
+                            <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Главная</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Закупки</a>
@@ -30,7 +30,7 @@
                             <a class="nav-link" href="#">Документация</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Услуги</a>
+                            <a class="nav-link" routerLink="/services" routerLinkActive="active">Услуги</a>
                         </li>
                     </ul>
                 </div>
