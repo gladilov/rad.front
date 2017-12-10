@@ -11,7 +11,7 @@ const appRoutes: Routes = [
   {
     path: 'lazy-load',
     loadChildren: 'app/pages/lazy-load/lazy-load.module#LazyLoadModule',
-       canActivate: [ LazyLoadGuard ]
+      // canActivate: [ LazyLoadGuard ]
       // canActivateChild: [ LazyLoadGuard ]
   },
   { path: '**', component: NotFoundComponent }
