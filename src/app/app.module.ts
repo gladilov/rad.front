@@ -10,6 +10,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import {LazyLoadGuard} from './pages/lazy-load/lazy-load.guard';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     NgbModule.forRoot(),
     appRouting
   ],
-  providers: [],
+  providers: [LazyLoadGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

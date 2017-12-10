@@ -17,6 +17,7 @@ const lazyLoadRoutes: Routes = [
       {
         path: 'children',
         component: LazyLoadChildrenComponent
+//          canActivate: [ LazyLoadGuard ],
       }
     ]
   }
