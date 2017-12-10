@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LazyLoadComponent } from './lazy-load.component';
 import { LazyLoadChildrenComponent } from './lazy-load-children.component';
 import { LazyLoadSectionComponent } from './lazy-load-section.component';
+import { LazyLoadGuard } from './lazy-load.guard';
 
 const lazyLoadRoutes: Routes = [
   {
@@ -21,4 +22,5 @@ const lazyLoadRoutes: Routes = [
   }
 ];
 
-export const lazyLoadRouting: ModuleWithProviders = RouterModule.forChild(lazyLoadRoutes);
+export const lazyLoadRouting: ModuleWithProviders = RouterModule.forChild(lazyLoadRoutes)
+;
