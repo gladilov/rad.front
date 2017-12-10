@@ -7,6 +7,10 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'services', component: ServicesComponent },
+  {
+    path: 'lazy-load',
+    loadChildren: 'app/pages/lazy-load/lazy-load.module#LazyLoadModule'
+  },
   { path: '**', component: NotFoundComponent }
 ];
 
