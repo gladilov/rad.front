@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { appRouting } from './app.routing';
 
+import { AuthService } from './service/auth/auth.service';
+import { AuthGuard } from './service/auth/guards/auth.guard';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { FooterComponent } from './layout/footer/footer.component';
@@ -26,7 +29,10 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     NgbModule.forRoot(),
     appRouting
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
