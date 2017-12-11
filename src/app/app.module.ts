@@ -1,18 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { appRouting } from './app.routing';
 
-import { AuthService } from './service/auth/auth.service';
-import { AuthGuard } from './service/auth/guards/auth.guard';
+import { appRouting } from '@app/app.routing';
+import { AuthService } from '@app/service/auth/auth.service';
+import { AuthGuard } from '@app/service/auth/guards/auth.guard';
 
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './layout/navbar/navbar.component';
-import { FooterComponent } from './layout/footer/footer.component';
-import { HeaderComponent } from './layout/header/header.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ServicesComponent } from './pages/services/services.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { AppComponent } from '@app/app.component';
+import { NavbarComponent } from '@app/layout/navbar/navbar.component';
+import { FooterComponent } from '@app/layout/footer/footer.component';
+import { HeaderComponent } from '@app/layout/header/header.component';
+import { HomeComponent } from '@app/pages/home/home.component';
+import { ServicesComponent } from '@app/pages/services/services.component';
+import { NotFoundComponent } from '@app/pages/not-found/not-found.component';
 
 @NgModule({
   declarations: [

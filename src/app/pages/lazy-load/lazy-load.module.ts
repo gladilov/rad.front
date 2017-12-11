@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LazyLoadComponent } from './lazy-load.component';
-import { LazyLoadChildrenComponent } from './lazy-load-children.component';
-import { LazyLoadSectionComponent } from './lazy-load-section.component';
-import { lazyLoadRouting } from './lazy-load.routing';
+
+import { LazyLoadComponent } from '@app/pages/lazy-load/lazy-load.component';
+import { LazyLoadChildrenComponent } from '@app/pages/lazy-load/lazy-load-children.component';
+import { LazyLoadSectionComponent } from '@app/pages/lazy-load/lazy-load-section.component';
+import { lazyLoadRouting } from '@app/pages/lazy-load/lazy-load.routing';
 
 
 @NgModule({

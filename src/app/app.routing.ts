@@ -1,11 +1,10 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from './service/auth/guards/auth.guard';
-
-import { HomeComponent } from './pages/home/home.component';
-import { ServicesComponent } from './pages/services/services.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { AuthGuard } from '@app/service/auth/guards/auth.guard';
+import { HomeComponent } from '@app/pages/home/home.component';
+import { ServicesComponent } from '@app/pages/services/services.component';
+import { NotFoundComponent } from '@app/pages/not-found/not-found.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },

@@ -1,11 +1,10 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from '../../service/auth/guards/auth.guard';
-
-import { LazyLoadComponent } from './lazy-load.component';
-import { LazyLoadChildrenComponent } from './lazy-load-children.component';
-import { LazyLoadSectionComponent } from './lazy-load-section.component';
+import { AuthGuard } from '@app/service/auth/guards/auth.guard';
+import { LazyLoadComponent } from '@app/pages/lazy-load/lazy-load.component';
+import { LazyLoadChildrenComponent } from '@app/pages/lazy-load/lazy-load-children.component';
+import { LazyLoadSectionComponent } from '@app/pages/lazy-load/lazy-load-section.component';
 
 const lazyLoadRoutes: Routes = [
   {
