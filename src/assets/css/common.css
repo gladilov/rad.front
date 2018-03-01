@@ -358,3 +358,9 @@ nav ul.navigation li li:hover > a {
     opacity: .8;
     color: #fff;
 }
+
+
+
+.card {
+    margin-bottom: 20px;
+}
