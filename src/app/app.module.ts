@@ -1,7 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { appRouting } from './app.routing';
+// import { appRouting } from './app.routing';
+
+import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
@@ -25,9 +30,20 @@ import {LazyLoadGuard} from './pages/lazy-load/lazy-load.guard';
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
-    appRouting
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // appRouting
   ],
-  providers: [LazyLoadGuard],
+  providers: [
+    LazyLoadGuard,
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthenticationInterceptorService,
+    //   multi: true,
+    // }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
