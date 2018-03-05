@@ -1,28 +1,34 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ComponentRef, ViewContainerRef, ElementRef, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
+// import { ComponentRef, ViewContainerRef, ElementRef, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
 import { environment } from '../../../../../environments/environment';
+
+import { RevertToService } from '../../service/revert-to/revert-to.service';
 
 @Component({
   selector: 'app-revert-to',
   templateUrl: './revert-to.component.html',
   styleUrls: ['./revert-to.component.css'],
-  providers: [],
+  providers: [
+    RevertToService,
+  ],
 })
 export class RevertToComponent implements OnInit {
   form = new FormGroup({
     procedureChangeOptions: new FormGroup({
-      targetStatus: new FormControl(0, {}),
+      targetStatus: new FormControl('', {}),
       documentReason: new FormControl(0, {}),
       instructionData: new FormControl(0, {}),
       controlNumber: new FormControl(0, {}),
     }),
     procedureRequests: new FormGroup({}),
+    priceOffer: new FormGroup({}),
+    terms: new FormGroup({}),
     extraConditions: new FormGroup({}),
   });
 
-  constructor() {
+  constructor(public revertToS: RevertToService) {
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 <h1>Смена статуса закупки</h1>
 
-<form>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="card">
     <div class="card-header">
       Информация о закупке
@@ -57,19 +57,24 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" [formGroup]="form.controls['procedureChangeOptions']">
     <div class="card-header">
       Выбор статуса и отменяемые протоколы
     </div>
     <div class="card-body">
       <div class="form-group">
         <label for="field__7">Новый статус закупки</label>
-        <select class="form-control" id="field__7">
-          <option>Прием заявок</option>
+        <select class="form-control" id="field__7" formControlName="targetStatus">
+          <option *ngFor="let item of revertToS.procedureChangeOptions.targetStatus.options;"
+                  value="{{item.key}}"
+                  [selected]="item.key.toString() == form.controls['procedureChangeOptions'].controls['targetStatus'].value.toString()"
+          >{{item.value}}</option>
+
+          <!-- option>Прием заявок</option>
           <option>Рассмотрение заявок</option>
           <option>Ожидание торгов</option>
           <option>Подведение итогов</option>
-          <option>Заключение контракта</option>
+          <option>Заключение контракта</option -->
         </select>
       </div>
       <div class="form-group">
