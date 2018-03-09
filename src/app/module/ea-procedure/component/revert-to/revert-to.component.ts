@@ -18,6 +18,7 @@ export class RevertToComponent implements OnInit {
   form = new FormGroup({
     procedureChangeOptions: new FormGroup({
       targetStatus: new FormControl('', {}),
+      // только в качестве информации proto: new FormControl([], {}),
       documentReason: new FormControl(0, {}),
       instructionData: new FormControl(0, {}),
       controlNumber: new FormControl(0, {}),

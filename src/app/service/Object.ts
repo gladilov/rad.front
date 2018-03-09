@@ -1,3 +1,4 @@
+import {FormArray, FormGroup, FormControl} from '@angular/forms';
 
 class ValuePair {
   public constructor(
@@ -29,6 +30,7 @@ class ValuePairMultiSelect {
 
 export class BaseObject {
   buildingType: string;
+  private _mode: string;
   private _key: string;
   private _value: string;
   private _default: any;
@@ -37,6 +39,7 @@ export class BaseObject {
     this.key = data['_key'] || '';
     this.value = data['_value'] || '';
     this.default = data['_default'] || null;
+    this._mode = data['_mode'] || null;
   }
 
   get key(): string {
@@ -61,6 +64,14 @@ export class BaseObject {
 
   set default(value: any) {
     this._default = value;
+  }
+
+  get mode(): string {
+    return this._mode;
+  }
+
+  set mode(value: string) {
+    this._mode = value;
   }
 }
 
@@ -126,57 +137,50 @@ export class ObjectFormMultiSelector extends BaseObject {
   }
 }
 
-// export class Services {
-//   public options: ValuePair[] = [];
-//
-//   public constructor(data?) {
-//     if (data != undefined) {
-//       if (data['options'] != undefined) {
-//          let opt = data['options'];
-//         //this.options = data['options'];
-//         for (let i in opt) {
-//           let vp:ValuePair = new ValuePair(opt[i]['key'], opt[i]['value']);
-//           //console.log(vp instanceof ValuePair);
-//           this.options.push(vp);
-//         }
-//       }
-//     }
-//   }
-// }
+/**
+ * Marks all controls in a form group as touched
+ * @param formGroup - The group to caress..hah
+ */
+export function markFormGroupTouched(formGroup: FormGroup|FormArray) {
+  if (formGroup instanceof FormArray) {
+    for (let i = 0; i < formGroup.length; ++i) {
+      const control = <FormArray> formGroup.controls[i];
+      control.markAsTouched();
+      if ( control.controls) {
+        markFormGroupTouched(control);
+      }
+    }
+  }
+  if (formGroup instanceof FormGroup) {
+    for (const name in formGroup.controls) {
+      if (formGroup.controls.hasOwnProperty(name) === false) { continue; }
+      const control = <FormGroup> formGroup.controls[name];
+      control.markAsTouched();
+      if ( control.controls) {
+        markFormGroupTouched(control);
+      }
+    }
+  }
+}
 
-// export class Parking {
-//   parkingType: formSelector;
-//   cost: number;
-//   freePlaces: number;
-//   totalPlaces: number;
-//   freeOfCharge: boolean;
-//   guard: boolean;
-//
-//   public constructor(data?) {
-//     if (data !== undefined) {
-//       this.parkingType = data['parkingType'] || new formSelector;
-//       this.cost = data['cost'] || 0;
-//       this.freePlaces = data['freePlaces'] || 0;
-//       this.totalPlaces = data['totalPlaces'] || 0;
-//       this.freeOfCharge = data['freeOfCharge'] || false;
-//       this.guard = data['guard'] || false;
-//     }
-//   }
-// }
+/**
+ * TODO Вынести в утилиты по управлению элементами.
+ * @param event
+ * @param {FormControl} control
+ */
+export function changeMulti(event, control: FormControl) {
+  const currentData = control.value;
+  const position: number = currentData.indexOf(event.target.value);
+  if (event.target.checked === false) {
+    if (~position) {
+      currentData.splice(position, 1);
+    }
+  } else {
+    if (position === -1) {
+      currentData.push(event.target.value);
+    }
+  }
+  control.setValue(currentData);
+}
 
-// export class BusinessCentreObject extends BaseObject {
-//   services: Services = new Services();
-//   parking: Parking = new Parking();
-//
-//   public constructor(data?: any) {
-//     super(data);
-//
-//     if (data != undefined) {
-//       if (data['services'] != undefined) {
-//         this.services = new Services(data['services']);
-//       }
-//       //console.log('TTT', this.services);
-//       //this.parking = new Parking(data['parking']) || new Parking();
-//     }
-//   }
-// }
+

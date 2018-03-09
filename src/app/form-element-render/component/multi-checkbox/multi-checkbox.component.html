@@ -1,0 +1,11 @@
+<input type="hidden" id="{{id}}" [formControl]="formElement" class="{{elementClass}}" *ngIf="realMode() != 'view'">
+
+<div class="{{wrapCheckboxClass}}"
+     *ngFor="let item of elementData.options; let i=index">
+  <input type="checkbox" *ngIf="realMode() != 'view'"
+         class="{{checkboxClass}}" id="{{id}}__{{i}}" value="{{item.key}}"
+         [checked]="formElement.value.indexOf(item.key.toString()) >=0 "
+         (click)="changeMulti($event, formElement)"
+  >
+  <label class="{{checkboxLabelClass}}" for="{{id}}__{{i}}">{{item.value}}</label>
+</div>

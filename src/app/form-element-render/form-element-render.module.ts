@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SelectComponent } from './component/select/select.component';
 import { TextComponent } from './component/text/text.component';
+import { MultiCheckboxComponent } from './component/multi-checkbox/multi-checkbox.component';
+import { RadioComponent } from './component/radio/radio.component';
 
 @NgModule({
   imports: [
@@ -13,11 +15,15 @@ import { TextComponent } from './component/text/text.component';
   ],
   declarations: [
     SelectComponent,
-    TextComponent
+    TextComponent,
+    MultiCheckboxComponent,
+    RadioComponent
   ],
   exports: [
     SelectComponent,
-    TextComponent
+    TextComponent,
+    MultiCheckboxComponent,
+    RadioComponent
   ]
 })
 export class FormElementRenderModule { }
