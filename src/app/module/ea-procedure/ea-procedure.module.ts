@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { AgGridModule } from 'ag-grid-angular/main';
 
 import { environment } from '../../../environments/environment';
+// import { FormElementRenderModule } from '../../form-element-render/form-element-render.module';
+import { FormElementRenderModule } from '../../form-element-render/form-element-render.module';
 
-import { CommonModule } from '@angular/common';
 import { CommonComponent } from './component/common/common.component';
 import { RevertToComponent } from './component/revert-to/revert-to.component';
 
@@ -38,6 +39,7 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    FormElementRenderModule,
     objectRouting,
   ],
   declarations: [

@@ -64,6 +64,12 @@
     <div class="card-body">
       <div class="form-group">
         <label for="field__7">Новый статус закупки</label>
+        <app-fer-select
+                [elementClass]="'form-control'"
+                [formElement]="form.controls['procedureChangeOptions'].controls['targetStatus']"
+                [id]="'field__7'"
+                [elementData]="revertToS.procedureChangeOptions.targetStatus"
+        ></app-fer-select>
         <select class="form-control" id="field__7" formControlName="targetStatus">
           <option *ngFor="let item of revertToS.procedureChangeOptions.targetStatus.options;"
                   value="{{item.key}}"

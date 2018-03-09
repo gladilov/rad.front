@@ -1,0 +1,8 @@
+<select class="form-control" id="{{id}}"
+        [class] = "elementClass"
+        [formControl]="formElement">
+  <option *ngFor="let item of elementData.options;"
+          value="{{item.key}}"
+          [selected]="item.key.toString() == formElement.value.toString()"
+  >{{item.value}}</option>
+</select>

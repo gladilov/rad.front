@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { FormElementRenderModule } from './form-element-render/form-element-render.module';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { FooterComponent } from './layout/footer/footer.component';
@@ -34,6 +36,8 @@ import {LazyLoadGuard} from './pages/lazy-load/lazy-load.guard';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+
+    FormElementRenderModule
     // appRouting
   ],
   providers: [
