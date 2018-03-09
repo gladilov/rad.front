@@ -9,11 +9,11 @@ import { ObjectFormSelector } from '../../../service/Object';
 })
 export class RadioComponent implements OnInit {
   @Input() formElement = new FormControl('', {});
-  @Input() elementClass = '';
+  @Input() elementClass = 'custom-control-input';
   @Input() elementData: ObjectFormSelector;
   @Input() id = '';
   @Input() wrapRadioClass = '';
-  @Input() radioLabelClass = '';
+  @Input() radioLabelClass = 'custom-control-label';
 
   constructor() { }
 
