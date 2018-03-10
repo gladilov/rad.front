@@ -1,10 +1,12 @@
 <div class="{{wrapRadioClass}}" *ngFor="let item of elementData.options">
   <input type="radio"
          id="{{id}}__{{item.key}}"
+         name="{{id}}"
          class="{{elementClass}}"
          value="{{item.key}}"
          [checked]="formElement.value == item.key.toString()"
          [formControl]="formElement"
+         [disabled]="realMode() == 'view'"
   >
   <label class="{{radioLabelClass}}" for="{{id}}__{{item.key}}">{{item.value}}</label>
 </div>

@@ -15,21 +15,49 @@ import { RevertToService } from '../../service/revert-to/revert-to.service';
   ],
 })
 export class RevertToComponent implements OnInit {
+  private DOC_REASON_TYPE_FAS_ORDER = '1';
+  private DOC_REASON_TYPE_COURT_DECISION = '2';
+  private INSTRUCTION_TYPE_CONTROL_DATA = '1';
+
+  instructionData = new FormControl(0, {});
+  controlNumber = new FormControl(0, {});
+  documentReason = new FormControl(0, {});
+
+  procedureChangeOptions = new FormGroup({
+    targetStatus: new FormControl('', {}),
+    protocols: new FormControl({value: [], disabled: true}, {}),
+    documentReason: this.documentReason,
+    instructionData: this.instructionData,
+    controlNumber: this.controlNumber,
+  });
+
+  procedureRequests = new FormGroup({});
+
+  priceOffer = new FormGroup({});
+
   form = new FormGroup({
-    procedureChangeOptions: new FormGroup({
-      targetStatus: new FormControl('', {}),
-      // только в качестве информации proto: new FormControl([], {}),
-      documentReason: new FormControl(0, {}),
-      instructionData: new FormControl(0, {}),
-      controlNumber: new FormControl(0, {}),
-    }),
-    procedureRequests: new FormGroup({}),
-    priceOffer: new FormGroup({}),
+    procedureChangeOptions: this.procedureChangeOptions,
+    procedureRequests: this.procedureRequests,
+    priceOffer: this.priceOffer,
     terms: new FormGroup({}),
     extraConditions: new FormGroup({}),
   });
 
   constructor(public revertToS: RevertToService) {
+    // протоколы только для информационных целей
+    this.documentReason.valueChanges.subscribe(data => {
+      this.toggleByDocumentReason(data);
+    });
+
+    // this.instructionData.valueChanges.subscribe(data => {
+    //   this.toggleByInstructionData(data);
+    // });
+    this.instructionData.statusChanges.subscribe(status => {
+      // console.log('KOTA instructionData.statusChanges = ', status);
+      this.toggleByInstructionStatus(status);
+    });
+
+    this.documentReason.setValue(this.DOC_REASON_TYPE_FAS_ORDER);
   }
 
   ngOnInit() {
@@ -51,5 +79,57 @@ export class RevertToComponent implements OnInit {
     // });
 
     return false;
+  }
+
+  /**
+   * прячет элементы в зависимости от причины выполнения действия documentReason
+   * @param data
+   */
+  private toggleByDocumentReason(data) {
+    if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
+      this.instructionData.enable();
+    } else {
+      this.instructionData.disable();
+    }
+  }
+
+  /**
+   * выбрана ли причина "предписание ФАС"
+   * @returns {boolean}
+   */
+  documentReasonFAS() {
+    const procedureChangeOptions = <FormGroup>this.form.controls['procedureChangeOptions'];
+    return (procedureChangeOptions.controls['documentReason'].value === this.DOC_REASON_TYPE_FAS_ORDER);
+  }
+
+  /**
+   * прячет элементы в зависимости от причины выполнения действия documentReason
+   * @param data
+   */
+  private toggleByInstructionData(data) {
+    if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
+      // console.log('KOTA InstructionData instructionData = enable');
+      this.instructionData.enable();
+    } else {
+      // console.log('KOTA InstructionData instructionData = disable');
+      this.instructionData.disable();
+    }
+  }
+
+  private toggleByInstructionStatus(status) {
+    if (status === 'DISABLED') {
+      // console.log('KOTA controlNumber InstructionStatus = disable');
+      // console.log('KOTA controlNumber controlNumber = disable');
+      this.controlNumber.disable();
+    } else {
+      // console.log('KOTA controlNumber InstructionStatus != disable');
+      if (this.instructionData.value === this.INSTRUCTION_TYPE_CONTROL_DATA) {
+        // console.log('KOTA controlNumber controlNumber = enable');
+        this.controlNumber.enable();
+      } else {
+        // console.log('KOTA controlNumber controlNumber = disable2');
+        this.controlNumber.disable();
+      }
+    }
   }
 }

@@ -74,72 +74,85 @@
       <div class="form-group">
         <label>Отменяемые протоколы</label>
 
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_1">-->
-          <label class="custom-control-label" for="field__8_1">Протокол рассмотрения заявок</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_2">-->
-          <label class="custom-control-label" for="field__8_2">Протокол проведения электронного аукциона</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_3">-->
-          <label class="custom-control-label" for="field__8_3">Протокол подведения итогов</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_4">-->
-          <label class="custom-control-label" for="field__8_4">Протокол о признании электронного аукциона несостоявшимся</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_5">-->
-          <label class="custom-control-label" for="field__8_5">Протокол рассмотрения единственной заявки</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_6">-->
-          <label class="custom-control-label" for="field__8_6">Протокол рассмотрения единственной заявки</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_7">-->
-          <label class="custom-control-label" for="field__8_7">Протокол рассмотрения заявки единственного участника</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_8">-->
-          <label class="custom-control-label" for="field__8_8">Протокол об отказе от заключения контракта</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-          <!--<input type="checkbox" class="custom-control-input" id="field__8_9">-->
-          <label class="custom-control-label" for="field__8_9">Протокол признания участника уклонившимся от заключения контракта</label>
-        </div>
+        <app-fer-multi-checkbox
+                [elementData]="revertToS.procedureChangeOptions.protocols"
+                [id]="'procedureChangeOptions__protocols'"
+                [formElement]="form.controls['procedureChangeOptions'].controls['protocols']"
+                [mode]="'view'"
+                [wrapCheckboxClass]="'custom-control custom-checkbox'"
+                [checkboxLabelClass]="'custom-control-label'"
+        ></app-fer-multi-checkbox>
+
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_1">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_1">Протокол рассмотрения заявок</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_2">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_2">Протокол проведения электронного аукциона</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_3">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_3">Протокол подведения итогов</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_4">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_4">Протокол о признании электронного аукциона несостоявшимся</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_5">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_5">Протокол рассмотрения единственной заявки</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_6">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_6">Протокол рассмотрения единственной заявки</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_7">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_7">Протокол рассмотрения заявки единственного участника</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_8">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_8">Протокол об отказе от заключения контракта</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-checkbox">-->
+          <!--&lt;!&ndash;<input type="checkbox" class="custom-control-input" id="field__8_9">&ndash;&gt;-->
+          <!--<label class="custom-control-label" for="field__8_9">Протокол признания участника уклонившимся от заключения контракта</label>-->
+        <!--</div>-->
       </div>
       <div class="form-group">
         <label>Документ-основание для отмены протокола</label>
 
         <app-fer-radio
                 [formElement]="form.controls['procedureChangeOptions'].controls['documentReason']"
-                [id]="'field_9'"
-                [wrapRadioClass]="'custom-control custom-radio'"
-
+                [id]="'procedureChangeOptions__documentReason'"
                 [elementData]="revertToS.procedureChangeOptions.documentReason"
         ></app-fer-radio>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="documentReasonFAS()">
         <label>Данные о предписании из реестра результатов контроля</label>
 
-        <div class="custom-control custom-radio">
-          <input type="radio" id="field__10_1" name="field__10" class="custom-control-input" [checked]="true">
-          <label class="custom-control-label" for="field__10_1">Данные о предписании, выданном контролирующим органом</label>
-        </div>
-        <div class="custom-control custom-radio">
-          <input type="radio" id="field__10_2" name="field__10" class="custom-control-input">
-          <label class="custom-control-label" for="field__10_2">Предписание отсутствует в реестре результатов контроля</label>
-        </div>
+        <app-fer-radio
+                [formElement]="form.controls['procedureChangeOptions'].controls['instructionData']"
+                [id]="'procedureChangeOptions__instructionData'"
+                [elementData]="revertToS.procedureChangeOptions.instructionData"
+        ></app-fer-radio>
 
-        <div class="form-group row mt-3">
-          <label for="field__11" class="col-md-5 col-form-label">
+        <!--<div class="custom-control custom-radio">-->
+          <!--<input type="radio" id="field__10_1" name="field__10" class="custom-control-input" [checked]="true">-->
+          <!--<label class="custom-control-label" for="field__10_1">Данные о предписании, выданном контролирующим органом</label>-->
+        <!--</div>-->
+        <!--<div class="custom-control custom-radio">-->
+          <!--<input type="radio" id="field__10_2" name="field__10" class="custom-control-input">-->
+          <!--<label class="custom-control-label" for="field__10_2">Предписание отсутствует в реестре результатов контроля</label>-->
+        <!--</div>-->
+
+        <div class="form-group row mt-3" *ngIf="controlNumber.status != 'DISABLED'">
+          <label for="procedureChangeOptions__controlNumber" class="col-md-5 col-form-label">
             Номер результата контроля по предписанию
           </label>
           <div class="col-md-7">
-            <input type="text" class="form-control col-md-6" id="field__11">
+            <input type="text" class="form-control col-md-6" id="procedureChangeOptions__controlNumber" formControlName="controlNumber">
           </div>
         </div>
       </div>
