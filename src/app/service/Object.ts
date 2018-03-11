@@ -40,10 +40,15 @@ export class BaseObject implements FillDataInterface {
   private _default: any;
 
   public constructor(data: object = {}) {
-    this.fill(data);
+    this.setData(data);
   }
 
   public fill(data: object = {}): void {
+    // console.log('KOTA BaseFill');
+    this.setData(data);
+  }
+
+  private setData(data: object = {}): void {
     this.key = data['_key'] || '';
     this.value = data['_value'] || '';
     this.default = data['_default'] || null;
@@ -94,10 +99,16 @@ export class ObjectFormSelector extends BaseObject {
     this.initOptions(data);
   }
 
+  public fill(data: object = {}): void {
+    super.fill(data);
+    this.options.splice(0);
+    this.initOptions(data);
+  }
+
   protected initOptions(data) {
     if (data['_options'] instanceof Array) {
-      for (let i=0; i < data['_options'].length; ++i) {
-        let vp = new ValuePair(
+      for (let i = 0; i < data['_options'].length; ++i) {
+        const vp = new ValuePair(
           data['_options'][i]['value'],
           data['_options'][i]['label']
         );
@@ -120,6 +131,12 @@ export class ObjectFormMultiSelector extends BaseObject {
 
   constructor(data: object = {}) {
     super(data);
+    this.initOptions(data);
+  }
+
+  public fill(data: object = {}): void {
+    super.fill(data);
+    this.options.splice(0);
     this.initOptions(data);
   }
 

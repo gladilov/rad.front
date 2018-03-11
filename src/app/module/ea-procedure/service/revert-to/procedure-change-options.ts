@@ -1,55 +1,50 @@
-import {BaseObject, ObjectFormSelector, ObjectFormMultiSelector} from '../../../../service/Object';
+import {BaseObject, ObjectFormSelector, ObjectFormMultiSelector, FillDataInterface} from '../../../../service/Object';
 
-export class ProcedureChangeOptions {
+export class ProcedureChangeOptions implements FillDataInterface {
   private _targetStatus = new ObjectFormSelector({
-    // TODO забирать с сервера, т.к заранее неизвестны идентификаторы статусов в БД. или прегенерить на стороне бэка
-    _options: [
-      { value: '',  label: 'Выберите' },
-      { value: '1', label: 'Прием заявок' },
-      { value: '2', label: 'Рассмотрение заявок' },
-      { value: '3', label: 'Ожидание торгов' },
-      { value: '4', label: 'Подведение итогов' },
-      { value: '5', label: 'Заключение контракта' },
-    ],
     _value: '',
   });
-  public protocols = new ObjectFormMultiSelector({
+  private _protocols = new ObjectFormMultiSelector({
     // _mode: 'view',
-    _options: [
-      { value: '1', label: 'Протокол рассмотрения заявок' },
-      { value: '2', label: 'Протокол проведения электронного аукциона' },
-      { value: '3', label: 'Протокол подведения итогов' },
-      { value: '4', label: 'Протокол о признании электронного аукциона несостоявшимся' },
-      { value: '5', label: 'Протокол рассмотрения единственной заявки' },
-      { value: '6', label: 'Протокол рассмотрения единственной заявки' },
-      { value: '7', label: 'Протокол рассмотрения заявки единственного участника' },
-      { value: '8', label: 'Протокол об отказе от заключения контракта' },
-      { value: '9', label: 'Протокол признания участника уклонившимся от заключения контракта' },
-    ],
     _value: [],
   });
   private _documentReason = new ObjectFormSelector({
-    _options: [
-      { value: '1', label: 'Предписание контролирующего органа' },
-      { value: '2', label: 'Решение судебного органа' },
-    ],
-    _value: '1',
   });
   private _instructionData = new ObjectFormSelector({
-    _options: [
-      { value: '1', label: 'Данные о предписании, выданном контролирующим органом' },
-      { value: '2', label: 'Предписание отсутствует в реестре результатов контроля' },
-    ],
-    _value: '1',
   });
   private _controlNumber = new BaseObject();
 
+  fill(data: any): void {
+    const fieldsData = data['_fields'];
+    if (fieldsData['targetStatus'] !== undefined) {
+      this.targetStatus.fill(fieldsData['targetStatus']);
+    }
+    if (fieldsData['protocols'] !== undefined) {
+      this.protocols.fill(fieldsData['protocols']);
+    }
+    if (fieldsData['documentReason'] !== undefined) {
+      this.documentReason.fill(fieldsData['documentReason']);
+    }
+    if (fieldsData['instructionData'] !== undefined) {
+      this.instructionData.fill(fieldsData['instructionData']);
+    }
+  }
+
+  // =============================================
   get targetStatus(): ObjectFormSelector {
     return this._targetStatus;
   }
 
   set targetStatus(value: ObjectFormSelector) {
     this._targetStatus = value;
+  }
+
+  get protocols(): ObjectFormMultiSelector {
+    return this._protocols;
+  }
+
+  set protocols(value: ObjectFormMultiSelector) {
+    this._protocols = value;
   }
 
   get documentReason(): ObjectFormSelector {

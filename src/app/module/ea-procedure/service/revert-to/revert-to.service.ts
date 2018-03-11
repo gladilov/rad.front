@@ -18,7 +18,7 @@ export class RevertToService implements FillDataInterface {
   private _info = new Info();
   private _procedureChangeOptions = new ProcedureChangeOptions();
   private _procedureRequests = new ProcedureRequests();
-  private _priceOffer = new PriceOffers;
+  private _priceOffer = new PriceOffers();
   private _terms = new Terms();
   private _extraConditions = new ExtraConditions();
 
@@ -49,6 +49,25 @@ export class RevertToService implements FillDataInterface {
   }
 
   fill(data: any): void {
+    const fieldsData = data['_fields'];
+    if (fieldsData['info'] !== undefined) {
+      this.info.fill(fieldsData['info']);
+    }
+    if (fieldsData['procedureChangeOptions'] !== undefined) {
+      this.procedureChangeOptions.fill(fieldsData['procedureChangeOptions']);
+    }
+    if (fieldsData['procedureRequests'] !== undefined) {
+      this.procedureRequests.fill(fieldsData['procedureRequests']);
+    }
+    if (fieldsData['priceOffer'] !== undefined) {
+      this.priceOffer.fill(fieldsData['priceOffer']);
+    }
+    if (fieldsData['terms'] !== undefined) {
+      this.terms.fill(fieldsData['terms']);
+    }
+    if (fieldsData['extraConditions'] !== undefined) {
+      this.extraConditions.fill(fieldsData['extraConditions']);
+    }
     // TODO не реализовано
   }
 

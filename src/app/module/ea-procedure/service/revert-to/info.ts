@@ -1,4 +1,6 @@
-export class Info {
+import {FillDataInterface} from '../../../../service/Object';
+
+export class Info implements FillDataInterface {
   private requestNumber: string;
   private name: string;
   private status: string;
@@ -9,4 +11,7 @@ export class Info {
    * Дата и время проведения электронного аукциона
    */
 
+
+  fill(data: any): void {
+  }
 }
