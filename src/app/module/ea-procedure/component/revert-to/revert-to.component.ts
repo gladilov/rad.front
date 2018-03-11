@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 // import { ComponentRef, ViewContainerRef, ElementRef, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, NgForm, Validators } from '@angular/forms';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -31,7 +31,7 @@ export class RevertToComponent implements OnInit {
     controlNumber: this.controlNumber,
   });
 
-  procedureRequests = new FormGroup({});
+  procedureRequests = new FormArray([]);
 
   priceOffer = new FormGroup({});
 
@@ -61,11 +61,9 @@ export class RevertToComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadStructure();
-  }
-
-  protected loadStructure() {
-    // TODO загрузка начальных данных формы (списков  и т.п)
+    const id = 22; // FIXME брать из роутинга
+    // загрузка данных с сервера
+    this.revertToS.loadData(this.form, id);
   }
 
   onSubmit() {

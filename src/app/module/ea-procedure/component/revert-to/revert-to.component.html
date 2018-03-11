@@ -164,6 +164,13 @@
       Статусы заявок
     </div>
     <div class="card-body">
+      <div class="col-sm-12">
+          <app-revert-to-procedure-requests
+                  [form]="procedureRequests"
+                  [elementData]="revertToS.procedureRequests"
+          ></app-revert-to-procedure-requests>
+      </div>
+
       <table class="table table-bordered">
         <thead>
         <tr>

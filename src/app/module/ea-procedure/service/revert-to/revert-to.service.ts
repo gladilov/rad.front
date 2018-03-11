@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, FormArray, NgForm, Validators } from '@angular/forms';
+
+import { FillData } from '../../../../service/FillData';
+import { FillDataInterface } from '../../../../service/Object';
 
 import { Info } from './info';
 import { ProcedureChangeOptions } from './procedure-change-options';
@@ -7,8 +11,10 @@ import { PriceOffers } from './price-offers';
 import { Terms } from './terms';
 import { ExtraConditions } from './extra-conditions';
 
+import { loadData } from './MocRevertTo';
+
 @Injectable()
-export class RevertToService {
+export class RevertToService implements FillDataInterface {
   private _info = new Info();
   private _procedureChangeOptions = new ProcedureChangeOptions();
   private _procedureRequests = new ProcedureRequests();
@@ -17,6 +23,36 @@ export class RevertToService {
   private _extraConditions = new ExtraConditions();
 
   constructor() { }
+
+  /**
+   * Загрузка первоначальных данных путем GET запроса
+   * @param {AbstractControl} control
+   * @param {number} id идентификатор закупки
+   */
+  loadData(control: AbstractControl, id: number) {
+    // TODO http запрос на бэк за данными
+    // FIXME MOC-данные
+    const data = loadData;
+
+    FillData.fill(control, this, data);
+  }
+
+  /**
+   * Сохранение данных путем POST запроса, обработка ответа внедрение изменений в данные при необходимости
+   * @param {AbstractControl} control
+   * @param {number} id
+   */
+  submitData(control: AbstractControl, id: number) {
+    // TODO http POST запрос на бэк с данными, обработка результата
+    const data = {};
+    FillData.fill(control, this, data);
+  }
+
+  fill(data: any): void {
+    // TODO не реализовано
+  }
+
+  // ============================================
 
   get info(): Info {
     return this._info;

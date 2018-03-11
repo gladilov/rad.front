@@ -1,4 +1,8 @@
-import {FormArray, FormGroup, FormControl} from '@angular/forms';
+import {FormArray, FormGroup, FormControl, AbstractControl} from '@angular/forms';
+
+export interface FillDataInterface {
+  fill(data: any): void;
+}
 
 class ValuePair {
   public constructor(
@@ -28,7 +32,7 @@ class ValuePairMultiSelect {
 //   unit: any;
 // }
 
-export class BaseObject {
+export class BaseObject implements FillDataInterface {
   buildingType: string;
   private _mode: string;
   private _key: string;
@@ -36,6 +40,10 @@ export class BaseObject {
   private _default: any;
 
   public constructor(data: object = {}) {
+    this.fill(data);
+  }
+
+  public fill(data: object = {}): void {
     this.key = data['_key'] || '';
     this.value = data['_value'] || '';
     this.default = data['_default'] || null;
@@ -164,7 +172,9 @@ export function markFormGroupTouched(formGroup: FormGroup|FormArray) {
 }
 
 /**
- * TODO Вынести в утилиты по управлению элементами.
+ * обработчик мультиселектов, вешать на (change)
+ * по изменению чекбокса устанавливает или убирает значение из hidden элемента мультеселекта
+ *
  * @param event
  * @param {FormControl} control
  */
@@ -182,5 +192,4 @@ export function changeMulti(event, control: FormControl) {
   }
   control.setValue(currentData);
 }
-
 

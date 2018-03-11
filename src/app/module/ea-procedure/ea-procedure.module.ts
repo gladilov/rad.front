@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { AgGridModule } from 'ag-grid-angular/main';
+import { AgGridModule } from 'ag-grid-angular/main';
 
 import { environment } from '../../../environments/environment';
 // import { FormElementRenderModule } from '../../form-element-render/form-element-render.module';
@@ -11,6 +11,7 @@ import { FormElementRenderModule } from '../../form-element-render/form-element-
 
 import { CommonComponent } from './component/common/common.component';
 import { RevertToComponent } from './component/revert-to/revert-to.component';
+import { ProcedureRequestsComponent } from './component/revert-to/component/procedure-requests/procedure-requests.component';
 
 const objectRoutes: Routes = [
   {
@@ -41,10 +42,14 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     ReactiveFormsModule,
     FormElementRenderModule,
     objectRouting,
+    AgGridModule.withComponents([
+      // RemoveRowActionComponent
+    ])
   ],
   declarations: [
     CommonComponent,
-    RevertToComponent
+    RevertToComponent,
+    ProcedureRequestsComponent
   ],
   providers: [],
   entryComponents: [],
