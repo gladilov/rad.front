@@ -51,7 +51,7 @@ export class BaseObject implements FillDataInterface {
   private setData(data: object = {}): void {
     this.key = data['_key'] || '';
     this.value = data['_value'] || '';
-    this.default = data['_default'] || null;
+    this.default = data['_default'] || '';
     this._mode = data['_mode'] || null;
   }
 
