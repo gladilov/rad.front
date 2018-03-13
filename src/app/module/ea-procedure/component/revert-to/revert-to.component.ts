@@ -19,6 +19,15 @@ export class RevertToComponent implements OnInit {
   private DOC_REASON_TYPE_COURT_DECISION = '2';
   private INSTRUCTION_TYPE_CONTROL_DATA = '1';
 
+  procedureInfo = new FormGroup({
+    registrationNumber: new FormControl({value: '', disabled: true}, {}),
+    name: new FormControl({value: '', disabled: true}, {}),
+    status: new FormControl({value: '', disabled: true}, {}),
+    requestEndGiveDateTime: new FormControl({value: '', disabled: true}, {}),
+    requestReviewDateTime: new FormControl({value: '', disabled: true}, {}),
+    conditionalHoldingDateTime: new FormControl({value: '', disabled: true}, {}),
+  });
+
   instructionData = new FormControl(0, {});
   controlNumber = new FormControl(0, {});
   documentReason = new FormControl(0, {});
@@ -31,17 +40,38 @@ export class RevertToComponent implements OnInit {
     controlNumber: this.controlNumber,
   });
 
-  procedureRequests = new FormArray([]);
+  procedureRequests = new FormGroup({
+    requests: new FormArray([])
+  });
 
-  priceOffer = new FormGroup({});
+  priceOffer = new FormGroup({
+    offers: new FormArray([])
+  });
 
-  form = new FormGroup({
+  timeLimits = new FormGroup({
+    requestEndGiveDateTime: new FormControl('', {}),
+    requestReviewDateTime: new FormControl('', {}),
+    conditionalHoldingDateTime: new FormControl('', {}),
+  });
+
+  extraConditions = new FormGroup({
+    publishEvent: new FormControl(''),
+    notifyMembers: new FormControl('')
+  });
+
+  formData = new FormGroup({
+    procedureInfo: this.procedureInfo,
     procedureChangeOptions: this.procedureChangeOptions,
     procedureRequests: this.procedureRequests,
     priceOffer: this.priceOffer,
-    terms: new FormGroup({}),
-    extraConditions: new FormGroup({}),
+    timeLimits: this.timeLimits,
+    extraConditions: this.extraConditions
   });
+  form = new FormGroup({
+    data: this.formData,
+    sign: new FormControl('', {})
+  });
+
 
   constructor(public revertToS: RevertToService) {
     // протоколы только для информационных целей
@@ -49,9 +79,6 @@ export class RevertToComponent implements OnInit {
       this.toggleByDocumentReason(data);
     });
 
-    // this.instructionData.valueChanges.subscribe(data => {
-    //   this.toggleByInstructionData(data);
-    // });
     this.instructionData.statusChanges.subscribe(status => {
       // console.log('KOTA instructionData.statusChanges = ', status);
       this.toggleByInstructionStatus(status);
@@ -63,7 +90,7 @@ export class RevertToComponent implements OnInit {
   ngOnInit() {
     const id = 22; // FIXME брать из роутинга
     // загрузка данных с сервера
-    this.revertToS.loadData(this.form, id);
+    this.revertToS.loadData(this.formData, id);
   }
 
   onSubmit() {
@@ -96,7 +123,7 @@ export class RevertToComponent implements OnInit {
    * @returns {boolean}
    */
   documentReasonFAS() {
-    const procedureChangeOptions = <FormGroup>this.form.controls['procedureChangeOptions'];
+    const procedureChangeOptions = <FormGroup>this.procedureChangeOptions;
     return (procedureChangeOptions.controls['documentReason'].value === this.DOC_REASON_TYPE_FAS_ORDER);
   }
 

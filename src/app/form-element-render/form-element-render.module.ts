@@ -6,6 +6,7 @@ import { SelectComponent } from './component/select/select.component';
 import { TextComponent } from './component/text/text.component';
 import { MultiCheckboxComponent } from './component/multi-checkbox/multi-checkbox.component';
 import { RadioComponent } from './component/radio/radio.component';
+import { TextareaComponent } from './component/textarea/textarea.component';
 
 @NgModule({
   imports: [
@@ -17,11 +18,13 @@ import { RadioComponent } from './component/radio/radio.component';
     SelectComponent,
     TextComponent,
     MultiCheckboxComponent,
-    RadioComponent
+    RadioComponent,
+    TextareaComponent
   ],
   exports: [
     SelectComponent,
     TextComponent,
+    TextareaComponent,
     MultiCheckboxComponent,
     RadioComponent
   ]
