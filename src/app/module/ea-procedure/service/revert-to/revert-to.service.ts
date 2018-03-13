@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, FormArray, NgForm, Validators 
 import { FillData } from '../../../../service/FillData';
 import { FillDataInterface } from '../../../../service/Object';
 
-import { Info } from './info';
+import { ProcedureInfo } from './procedure-info';
 import { ProcedureChangeOptions } from './procedure-change-options';
 import { ProcedureRequests } from './procedure-requests';
 import { PriceOffers } from './price-offers';
@@ -15,7 +15,7 @@ import { loadData } from './MocRevertTo';
 
 @Injectable()
 export class RevertToService implements FillDataInterface {
-  private _info = new Info();
+  private _procedureInfo = new ProcedureInfo();
   private _procedureChangeOptions = new ProcedureChangeOptions();
   private _procedureRequests = new ProcedureRequests();
   private _priceOffer = new PriceOffers();
@@ -50,8 +50,8 @@ export class RevertToService implements FillDataInterface {
 
   fill(data: any): void {
     const fieldsData = data['_fields'];
-    if (fieldsData['info'] !== undefined) {
-      this.info.fill(fieldsData['info']);
+    if (fieldsData['procedureInfo'] !== undefined) {
+      this.procedureInfo.fill(fieldsData['procedureInfo']);
     }
     if (fieldsData['procedureChangeOptions'] !== undefined) {
       this.procedureChangeOptions.fill(fieldsData['procedureChangeOptions']);
@@ -73,12 +73,12 @@ export class RevertToService implements FillDataInterface {
 
   // ============================================
 
-  get info(): Info {
-    return this._info;
+  get procedureInfo(): ProcedureInfo {
+    return this._procedureInfo;
   }
 
-  set info(value: Info) {
-    this._info = value;
+  set procedureInfo(value: ProcedureInfo) {
+    this._procedureInfo = value;
   }
 
   get procedureChangeOptions(): ProcedureChangeOptions {

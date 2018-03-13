@@ -81,8 +81,6 @@ export class FillData {
    */
   public static fillFormControl(control: FormControl, data): void {
     FillData.setControlMode(control, data);
-    if (control.disabled) { return; }
-    // TODO значения нужно менять и у отключенных элементов, т.к. в дальйшем их могут включить
 
     if (data['_default'] !== undefined) {
       control.setValue(data['_default']);

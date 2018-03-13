@@ -1,17 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {ObjectFormSelector} from '../../../service/Object';
+import {BaseObject} from '../../../service/Object';
 
 @Component({
-  selector: 'app-fer-select',
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.css']
+  selector: 'app-fer-textarea',
+  templateUrl: './textarea.component.html',
+  styleUrls: ['./textarea.component.css']
 })
-export class SelectComponent implements OnInit {
+export class TextareaComponent implements OnInit {
   @Input() mode: string|null = null;
   @Input() formElement = new FormControl('', {});
   @Input() elementClass = '';
-  @Input() elementData: ObjectFormSelector;
+  @Input() elementData: BaseObject;
   @Input() id = '';
 
   constructor() { }

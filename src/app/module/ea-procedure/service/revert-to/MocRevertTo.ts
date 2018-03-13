@@ -1,5 +1,32 @@
 export const loadData = {
   _fields: {
+    procedureInfo: {
+      _fields: {
+        registrationNumber: {
+          _value: '03033010561981919681',
+        },
+        name: {
+          _value: 'Приобретение подарочной и наградной продукции для мероприятий по молодежной политике'
+        },
+        status: {
+          _options: [
+            {value: 'a1', label: 'Заключение контракта'},
+            {value: 'a2', label: 'Заключение контракта2'},
+            {value: 'a3', label: 'Заключение контракта3'},
+          ],
+          _value: 'a2'
+        },
+        requestEndGiveDateTime: {
+          _value: '2017-09-10 20:00'
+        },
+        requestReviewDateTime: {
+          _value: '2017-09-10 12:10'
+        },
+        conditionalHoldingDateTime: {
+          _value: '2017-09-10 12:00'
+        },
+      }
+    },
     procedureChangeOptions: {
       _fields: {
         targetStatus: {

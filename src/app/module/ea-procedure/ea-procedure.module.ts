@@ -12,6 +12,7 @@ import { FormElementRenderModule } from '../../form-element-render/form-element-
 import { CommonComponent } from './component/common/common.component';
 import { RevertToComponent } from './component/revert-to/revert-to.component';
 import { ProcedureRequestsComponent } from './component/revert-to/component/procedure-requests/procedure-requests.component';
+import { ProcedureInfoComponent } from './component/revert-to/component/procedure-info/procedure-info.component';
 
 const objectRoutes: Routes = [
   {
@@ -49,7 +50,8 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
   declarations: [
     CommonComponent,
     RevertToComponent,
-    ProcedureRequestsComponent
+    ProcedureRequestsComponent,
+    ProcedureInfoComponent
   ],
   providers: [],
   entryComponents: [],
