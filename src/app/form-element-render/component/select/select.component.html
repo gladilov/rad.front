@@ -1,14 +1,10 @@
 <select class="form-control" id="{{id}}"
         [class] = "elementClass"
         [formControl]="formElement"
-        *ngIf="realMode() !== 'view'"
+        [attr.disabled]="realMode() === 'view' ? '' : null"
 >
   <option *ngFor="let item of elementData.options;"
           value="{{item.key}}"
           [selected]="item.key.toString() == formElement.value.toString()"
   >{{item.value}}</option>
 </select>
-<div *ngFor="let item of elementData.options;" disabled="">
-  <div *ngIf="realMode() === 'view' && item.key.toString() == formElement.value.toString()" >{{item.value}}</div>
-</div>
-

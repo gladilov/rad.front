@@ -25,4 +25,11 @@ export class SelectComponent implements OnInit {
     }
     return this.mode;
   }
+  getValue() {
+    for (const item of this.elementData.options) {
+      if (item.key.toString() === this.formElement.value.toString()) {
+        return this.formElement.value;
+      }
+    }
+  }
 }
