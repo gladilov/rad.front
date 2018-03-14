@@ -10,9 +10,11 @@ import {BaseObject, ObjectFormSelector } from '../../../service/Object';
 export class CheckboxComponent implements OnInit {
   @Input() mode: string|null = null;
   @Input() formElement = new FormControl(false, {});
-  @Input() elementClass = 'custom-control-input22233';
+  @Input() elementClass = 'custom-control-input';
+  @Input() labelClass = 'custom-control-label';
   @Input() elementData: BaseObject;
   @Input() id = '';
+  @Input() label = '';
 
 
   constructor() { }
