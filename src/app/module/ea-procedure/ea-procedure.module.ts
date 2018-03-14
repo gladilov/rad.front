@@ -14,6 +14,7 @@ import { RevertToComponent } from './component/revert-to/revert-to.component';
 import { ProcedureRequestsComponent } from './component/revert-to/component/procedure-requests/procedure-requests.component';
 import { ProcedureInfoComponent } from './component/revert-to/component/procedure-info/procedure-info.component';
 import { TimeLimitsComponent } from './component/revert-to/component/time-limits/time-limits.component';
+import { ExtraConditionsComponent } from './component/revert-to/component/extra-conditions/extra-conditions.component';
 
 const objectRoutes: Routes = [
   {
@@ -53,7 +54,8 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     RevertToComponent,
     ProcedureRequestsComponent,
     ProcedureInfoComponent,
-    TimeLimitsComponent
+    TimeLimitsComponent,
+    ExtraConditionsComponent
   ],
   providers: [],
   entryComponents: [],

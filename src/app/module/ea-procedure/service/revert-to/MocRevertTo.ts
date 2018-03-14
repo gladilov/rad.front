@@ -80,6 +80,15 @@ export const loadData = {
         conditionalHoldingDateTime: {},
       }
     },
-    extraConditions: {},
+    extraConditions: {
+      _fields: {
+        publishEvent: {
+          _value: true
+        },
+        notifyMembers: {
+          _value: true
+        },
+      }
+    },
   }
 };

@@ -167,25 +167,7 @@
 
     <app-revert-to-time-limits [formElement]="timeLimits" [elementData]="revertToS.timeLimits" class="card"></app-revert-to-time-limits>
 
-    <div class="card">
-      <div class="card-header">
-        Дополнительные условия
-      </div>
-      <div class="card-body">
-        <div class="form-group">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="field__18_1">
-            <label class="custom-control-label" for="field__18_1">Публиковать событие смены статуса</label>
-          </div>
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="field__18_2">
-            <label class="custom-control-label" for="field__18_2">
-              Отправлять организатору, заказчику и участнику уведомление о смене статуса/отмене протокола
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-revert-to-extra-conditions [formElement]="extraConditions" [elementData]="revertToS.extraConditions" class="card"></app-revert-to-extra-conditions>
 
     <div class="card">
       <div class="card-header">
