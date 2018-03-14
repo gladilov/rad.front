@@ -74,11 +74,12 @@ export const loadData = {
     procedureRequests: {},
     priceOffer: {},
     timeLimits: {
-      _fields: {
-        requestEndGiveDateTime: {},
-        requestReviewDateTime: {},
-        conditionalHoldingDateTime: {},
-      }
+
+      // _fields: {
+      //   requestEndGiveDateTime: {},
+      //   requestReviewDateTime: {},
+      //   conditionalHoldingDateTime: {},
+      // }
     },
     extraConditions: {
       _fields: {
