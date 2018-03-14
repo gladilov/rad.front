@@ -73,7 +73,13 @@ export const loadData = {
     },
     procedureRequests: {},
     priceOffer: {},
-    terms: {},
+    timeLimits: {
+      _fields: {
+        requestEndGiveDateTime: {},
+        requestReviewDateTime: {},
+        conditionalHoldingDateTime: {},
+      }
+    },
     extraConditions: {},
   }
 };

@@ -4,15 +4,15 @@ export class ProcedureRequest {
   // headerName: 'Дата и время регистрации заявки',
   private _sendDateTime: string;
   // headerName: 'Наименование участника',
-  private _customerName: string;
+  private _organization: string;
   // headerName: 'Текущий статус',
-  private _requestStatusOld: string;
+  private _status: string;
   // headerName: 'Заблокированные средства (руб)',
-  private _blockedFinance: string;
+  private _blockMoney: string;
   // headerName: 'Свободные средства (руб)',
   private _freeFinance: string;
   // headerName: 'Новый статус',
-  private _requestStatus;
+  private _targetStatus;
 
   get requestNumber(): string {
     return this._requestNumber;
@@ -30,28 +30,28 @@ export class ProcedureRequest {
     this._sendDateTime = value;
   }
 
-  get customerName(): string {
-    return this._customerName;
+  get organization(): string {
+    return this._organization;
   }
 
-  set customerName(value: string) {
-    this._customerName = value;
+  set organization(value: string) {
+    this._organization = value;
   }
 
-  get requestStatusOld(): string {
-    return this._requestStatusOld;
+  get status(): string {
+    return this._status;
   }
 
-  set requestStatusOld(value: string) {
-    this._requestStatusOld = value;
+  set status(value: string) {
+    this._status = value;
   }
 
-  get blockedFinance(): string {
-    return this._blockedFinance;
+  get blockMoney(): string {
+    return this._blockMoney;
   }
 
-  set blockedFinance(value: string) {
-    this._blockedFinance = value;
+  set blockMoney(value: string) {
+    this._blockMoney = value;
   }
 
   get freeFinance(): string {
@@ -62,11 +62,11 @@ export class ProcedureRequest {
     this._freeFinance = value;
   }
 
-  get requestStatus() {
-    return this._requestStatus;
+  get targetStatus() {
+    return this._targetStatus;
   }
 
-  set requestStatus(value) {
-    this._requestStatus = value;
+  set targetStatus(value) {
+    this._targetStatus = value;
   }
 }

@@ -165,48 +165,7 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header">
-        Регламентированные сроки
-      </div>
-      <div class="card-body">
-        <div class="form-group row">
-          <label class="col-md-6 col-form-label mt-4">
-            Дата и время окончания срока подачи заявок
-          </label>
-          <div class="col-md-3">
-            <label>Текущие</label>
-            <input type="text" class="form-control" id="field__12">
-          </div>
-          <div class="col-md-3">
-            <label>Новые</label>
-            <input type="text" class="form-control" id="field__13">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-6 col-form-label">
-            Дата окончания срока рассмотрения заявок
-          </label>
-          <div class="col-md-3">
-            <input type="text" class="form-control" id="field__14">
-          </div>
-          <div class="col-md-3">
-            <input type="text" class="form-control" id="field__15">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-6 col-form-label">
-            Дата и время проведения электронного аукциона
-          </label>
-          <div class="col-md-3">
-            <input type="text" class="form-control" id="field__16">
-          </div>
-          <div class="col-md-3">
-            <input type="text" class="form-control" id="field__17">
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-revert-to-time-limits [formElement]="timeLimits" [elementData]="revertToS.timeLimits" class="card"></app-revert-to-time-limits>
 
     <div class="card">
       <div class="card-header">
