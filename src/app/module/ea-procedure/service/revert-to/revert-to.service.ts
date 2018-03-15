@@ -92,7 +92,7 @@ export class RevertToService implements FillDataInterface {
       this.priceOffer.fill(fieldsData['priceOffer']);
     }
     if (fieldsData['timeLimits'] !== undefined) {
-      //this.timeLimits.fill(fieldsData['timeLimits']);
+      this.timeLimits.fill(fieldsData['timeLimits']);
     }
     if (fieldsData['extraConditions'] !== undefined) {
       this.extraConditions.fill(fieldsData['extraConditions']);
