@@ -14,7 +14,7 @@ export class ErrorHandleService implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
       .catch((err: HttpErrorResponse) => {
-        console.log('KOTA Статус 000 ' + err.status);
+
         return Observable.of(new HttpResponse({body: {
             _error: 'KOTA Статус ' + err.status
           }}));

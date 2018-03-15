@@ -110,6 +110,8 @@ export class RevertToComponent implements OnInit {
     console.log(this.form.value);  // {first: 'Nancy', last: 'Drew'}
     const id = 3472; // FIXME брать из роутинга
 
+    this.clearSummaryErrorMessage();
+
     const res = this.revertToS.submitData(this.form, id);
     res.subscribe(data => {
       console.log('SUCCESS SUBMIT DATA =', data);

@@ -19,6 +19,7 @@ import { TimeLimits } from './time-limits';
 import { ExtraConditions } from './extra-conditions';
 
 import { loadData } from './MocRevertTo';
+import {HttpJsonParseError} from '@angular/common/http/src/response';
 
 @Injectable()
 export class RevertToService implements FillDataInterface {
@@ -63,7 +64,7 @@ export class RevertToService implements FillDataInterface {
    */
   submitData(control: AbstractControl, id: number): Observable<any> {
     // TODO http POST запрос на бэк с данными, обработка результата
-    const url = this.apiBaseUrl + '/EA/procedure/do-action/revertTo1/' + id;
+    const url = this.apiBaseUrl + '/EA/procedure/do-action/revertTo/' + id;
     const data = control.value;
 
     return this.http
@@ -73,17 +74,24 @@ export class RevertToService implements FillDataInterface {
         return respData.body;
       })
       .catch((err: HttpErrorResponse, caught) => {
-        console.log('KOTA error response data = ', err);
-        console.log('KOTA error response status = ', err.status);
-        console.log('KOTA error response caught = ', caught);
         let error;
-        if (err.status >= 400 && err.status < 500) {
-          error = err.error;
-        } else {
-          error = {
-            _error: 'Непредвиденная ошибка со стороны сервера'
-          };
-        }
+        // if (err instanceof HttpJsonParseError) {
+        //   error = {
+        //     _error: 'Ошибка HttpJsonParseError'
+        //   };
+        // } else {
+          console.log('KOTA error response data = ', err);
+          console.log('KOTA error response status = ', err.status);
+          console.log('KOTA error response caught = ', caught);
+
+          if ((<HttpErrorResponse>err).status >= 400 && err.status < 500) {
+            error = err.error;
+          } else {
+            error = {
+              _error: 'Непредвиденная ошибка со стороны сервера'
+            };
+          }
+        // }
 
         return new Observable<any>(observer => {
           observer.error(error);
