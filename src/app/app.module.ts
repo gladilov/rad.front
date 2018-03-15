@@ -19,6 +19,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import {LazyLoadGuard} from './pages/lazy-load/lazy-load.guard';
 
 import { JsonService as JsonInterceptor } from './service/http-client-interceptor/json.service';
+// import { ErrorHandleService } from './service/http-client-interceptor/error-handle.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,12 @@ import { JsonService as JsonInterceptor } from './service/http-client-intercepto
       provide: HTTP_INTERCEPTORS,
       useClass: JsonInterceptor,
       multi: true,
-    }
+    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ErrorHandleService,
+    //   multi: true,
+    // }
   ],
   bootstrap: [AppComponent]
 })

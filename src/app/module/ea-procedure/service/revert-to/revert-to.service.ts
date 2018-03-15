@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -31,9 +31,9 @@ export class RevertToService implements FillDataInterface {
 
   private apiBaseUrl = environment.apiBaseUrl;
 
-  private headers = new HttpHeaders({
-    // 'Content-Type': 'application/json'
-  });
+  // private headers = new HttpHeaders({
+  //   // 'Content-Type': 'application/json'
+  // });
 
   constructor(
     private http: HttpClient
@@ -49,28 +49,6 @@ export class RevertToService implements FillDataInterface {
     // FIXME MOC-данные
     const data = loadData;
 
-    // const fieldsData = data['_fields']['data']['_fields'];
-    // if (fieldsData['procedureInfo'] !== undefined) {
-    //   const procedureInfo = fieldsData['procedureInfo']['_fields'];
-    //   if (fieldsData['timeLimits'] === undefined) {
-    //     fieldsData['timeLimits'] = {};
-    //   }
-    //   if (fieldsData['timeLimits']['_fields'] === undefined) {
-    //     fieldsData['timeLimits']['_fields'] = {};
-    //   }
-    //   if (procedureInfo['requestEndGiveDateTime'] !== undefined) {
-    //     data['_fields']['timeLimits']['_fields']['requestEndGiveDateTime'] = procedureInfo['requestEndGiveDateTime'];
-    //   }
-    //   if (procedureInfo['requestReviewDateTime'] !== undefined) {
-    //     data['_fields']['timeLimits']['_fields']['requestReviewDateTime'] = procedureInfo['requestReviewDateTime'];
-    //   }
-    //   if (procedureInfo['conditionalHoldingDateTime'] !== undefined) {
-    //     data['_fields']['timeLimits']['_fields']['conditionalHoldingDateTime'] = procedureInfo['conditionalHoldingDateTime'];
-    //   }
-    // }
-
-    // FillData.fill(control, this, data);
-
     return new Observable<any>(observer => {
           observer.next(data);
           observer.complete();
@@ -85,20 +63,28 @@ export class RevertToService implements FillDataInterface {
    */
   submitData(control: AbstractControl, id: number): Observable<any> {
     // TODO http POST запрос на бэк с данными, обработка результата
-    const url = this.apiBaseUrl + '/EA/procedure/do-action/revertTo/' + id;
+    const url = this.apiBaseUrl + '/EA/procedure/do-action/revertTo1/' + id;
     const data = control.value;
 
     return this.http
-      .post<any>(url, data, {headers: this.headers})
-      .map(respData => {
+      .post<any>(url, data, {observe: 'response'})
+      .map((respData: HttpResponse<any>) => {
         console.log('CREATE RESPONSE = ', respData);
-        return respData;
+        return respData.body;
       })
-      .catch((err, caught) => {
-        const error = {
-          _fields: err.error
-        };
-        // this.loginStatus = err.status;
+      .catch((err: HttpErrorResponse, caught) => {
+        console.log('KOTA error response data = ', err);
+        console.log('KOTA error response status = ', err.status);
+        console.log('KOTA error response caught = ', caught);
+        let error;
+        if (err.status >= 400 && err.status < 500) {
+          error = err.error;
+        } else {
+          error = {
+            _error: 'Непредвиденная ошибка со стороны сервера'
+          };
+        }
+
         return new Observable<any>(observer => {
           observer.error(error);
           observer.complete();
@@ -109,8 +95,15 @@ export class RevertToService implements FillDataInterface {
     // FillData.fill(control, this, data);
   }
 
+  /**
+   * заполняе объект данными
+   * @param data
+   */
   fill(data: any): void {
     const fieldsData = data['_fields'];
+    if (fieldsData === undefined) {
+      return;
+    }
     if (fieldsData['data'] !== undefined) {
       this.fillData(fieldsData['data']);
     }

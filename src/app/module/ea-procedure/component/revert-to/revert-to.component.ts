@@ -6,6 +6,7 @@ import { environment } from '../../../../../environments/environment';
 
 import { RevertToService } from '../../service/revert-to/revert-to.service';
 import { FillData } from '../../../../service/FillData';
+import {markFormGroupTouched} from '../../../../service/Object';
 
 @Component({
   selector: 'app-revert-to',
@@ -19,6 +20,7 @@ export class RevertToComponent implements OnInit {
   private DOC_REASON_TYPE_FAS_ORDER = '1';
   private DOC_REASON_TYPE_COURT_DECISION = '2';
   private INSTRUCTION_TYPE_CONTROL_DATA = '1';
+  public summaryErrorMessage = null;
 
   procedureInfo = new FormGroup({
     registrationNumber: new FormControl({value: '', disabled: true}, {}),
@@ -111,10 +113,14 @@ export class RevertToComponent implements OnInit {
     const res = this.revertToS.submitData(this.form, id);
     res.subscribe(data => {
       console.log('SUCCESS SUBMIT DATA =', data);
-      FillData.fill(this.form, this.revertToS, data);
+      // если сохранение успешно, то нам ничего не нужно делать с данными.
+      // FillData.fill(this.form, this.revertToS, data);
     }, err => {
       console.log('ERROR ', err);
       FillData.fill(this.form, this.revertToS, err);
+      markFormGroupTouched(this.form);
+      const msg = err['_error'] || null;
+      this.setSummaryErrorMessage(msg);
     });
 
     return false;
@@ -170,5 +176,16 @@ export class RevertToComponent implements OnInit {
         this.controlNumber.disable();
       }
     }
+  }
+
+  setSummaryErrorMessage(msg?: string) {
+    if (msg) {
+      this.summaryErrorMessage = msg;
+    } else {
+      this.summaryErrorMessage = 'Обнаружены ошибки в данных формы, необходимо их исправить';
+    }
+  }
+  clearSummaryErrorMessage() {
+    this.summaryErrorMessage = null;
   }
 }

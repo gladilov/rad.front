@@ -179,5 +179,8 @@
     </div>
 
   </div>
-  <input type="submit" value="OK">
+  <div class="col-12">
+    <input type="submit" value="OK" (blur)="clearSummaryErrorMessage()" class="float-right">
+    <div class="float-left alert-danger" *ngIf="summaryErrorMessage">{{summaryErrorMessage}}</div>
+  </div>
 </form>
