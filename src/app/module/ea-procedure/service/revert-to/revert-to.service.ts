@@ -8,7 +8,7 @@ import { ProcedureInfo } from './procedure-info';
 import { ProcedureChangeOptions } from './procedure-change-options';
 import { ProcedureRequests } from './procedure-requests';
 import { PriceOffers } from './price-offers';
-import { Terms } from './terms';
+import { TimeLimits } from './time-limits';
 import { ExtraConditions } from './extra-conditions';
 
 import { loadData } from './MocRevertTo';
@@ -19,7 +19,7 @@ export class RevertToService implements FillDataInterface {
   private _procedureChangeOptions = new ProcedureChangeOptions();
   private _procedureRequests = new ProcedureRequests();
   private _priceOffer = new PriceOffers();
-  private _terms = new Terms();
+  private _timeLimits = new TimeLimits();
   private _extraConditions = new ExtraConditions();
 
   constructor() { }
@@ -33,6 +33,28 @@ export class RevertToService implements FillDataInterface {
     // TODO http запрос на бэк за данными
     // FIXME MOC-данные
     const data = loadData;
+
+    const fieldsData = data['_fields'];
+    if (fieldsData['procedureInfo'] !== undefined) {
+      const procedureInfo = fieldsData['procedureInfo']['_fields'];
+      if (fieldsData['timeLimits'] === undefined) {
+        fieldsData['timeLimits'] = {};
+      }
+      if (fieldsData['timeLimits']['_fields'] === undefined) {
+        fieldsData['timeLimits']['_fields'] = {};
+      }
+      if (procedureInfo['requestEndGiveDateTime'] !== undefined) {
+        data['_fields']['timeLimits']['_fields']['requestEndGiveDateTime'] = procedureInfo['requestEndGiveDateTime'];
+      }
+      if (procedureInfo['requestReviewDateTime'] !== undefined) {
+        data['_fields']['timeLimits']['_fields']['requestReviewDateTime'] = procedureInfo['requestReviewDateTime'];
+      }
+      if (procedureInfo['conditionalHoldingDateTime'] !== undefined) {
+        data['_fields']['timeLimits']['_fields']['conditionalHoldingDateTime'] = procedureInfo['conditionalHoldingDateTime'];
+      }
+    }
+
+    // console.log('KOTA loadData data: ', data);
 
     FillData.fill(control, this, data);
   }
@@ -52,6 +74,13 @@ export class RevertToService implements FillDataInterface {
     const fieldsData = data['_fields'];
     if (fieldsData['procedureInfo'] !== undefined) {
       this.procedureInfo.fill(fieldsData['procedureInfo']);
+
+      const timeLimitsData = {};
+      const procedureInfo = fieldsData['procedureInfo']['_fields'];
+      timeLimitsData['requestEndGiveDateTime'] = procedureInfo['requestEndGiveDateTime'];
+      timeLimitsData['requestReviewDateTime'] = procedureInfo['requestReviewDateTime'];
+      timeLimitsData['conditionalHoldingDateTime'] = procedureInfo['conditionalHoldingDateTime'];
+      this.timeLimits.fill({_fields: timeLimitsData});
     }
     if (fieldsData['procedureChangeOptions'] !== undefined) {
       this.procedureChangeOptions.fill(fieldsData['procedureChangeOptions']);
@@ -62,13 +91,12 @@ export class RevertToService implements FillDataInterface {
     if (fieldsData['priceOffer'] !== undefined) {
       this.priceOffer.fill(fieldsData['priceOffer']);
     }
-    if (fieldsData['terms'] !== undefined) {
-      this.terms.fill(fieldsData['terms']);
+    if (fieldsData['timeLimits'] !== undefined) {
+      this.timeLimits.fill(fieldsData['timeLimits']);
     }
     if (fieldsData['extraConditions'] !== undefined) {
       this.extraConditions.fill(fieldsData['extraConditions']);
     }
-    // TODO не реализовано
   }
 
   // ============================================
@@ -105,12 +133,13 @@ export class RevertToService implements FillDataInterface {
     this._priceOffer = value;
   }
 
-  get terms(): Terms {
-    return this._terms;
+
+  get timeLimits(): TimeLimits {
+    return this._timeLimits;
   }
 
-  set terms(value: Terms) {
-    this._terms = value;
+  set timeLimits(value: TimeLimits) {
+    this._timeLimits = value;
   }
 
   get extraConditions(): ExtraConditions {

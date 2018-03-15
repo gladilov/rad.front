@@ -1,0 +1,23 @@
+<div class="card-header">
+  Дополнительные условия
+</div>
+<div class="card-body">
+  <div class="form-group">
+      <app-fer-checkbox
+        class="custom-control custom-checkbox"
+        [formElement]="formElement.controls['publishEvent']"
+        [elementData]="elementData.publishEvent"
+        [id]="'field__18_1'"
+        [label]="'Публиковать событие смены статуса'"
+      ></app-fer-checkbox>
+
+      <app-fer-checkbox
+        class="custom-control custom-checkbox"
+        [formElement]="formElement.controls['notifyMembers']"
+        [elementData]="elementData.notifyMembers"
+        [id]="'field__18_22'"
+        [label]="'Отправлять организатору, заказчику и участнику уведомление о смене статуса/отмене протокола'"
+      ></app-fer-checkbox>
+  </div>
+</div>
+

@@ -1,0 +1,46 @@
+<div class="card-header">
+  Регламентированные сроки
+</div>
+<div class="card-body">
+  <div class="form-group row">
+    <label class="col-md-6 col-form-label mt-4">
+      Дата и время окончания срока подачи заявок
+    </label>
+    <div class="col-md-3">
+      <label>Текущие</label>
+      <app-fer-text [formElement]="formElement.controls['requestEndGiveDateTime']" [elementData]="elementData.requestEndGiveDateTime"
+                    [id]="'timeLimits__requestEndGiveDateTime'" [mode]="'view'"></app-fer-text>
+    </div>
+    <div class="col-md-3">
+      <label>Новые</label>
+      <app-fer-text [formElement]="formElement.controls['requestEndGiveDateTime']" [elementData]="elementData.requestEndGiveDateTime"
+                    [id]="'timeLimits__requestEndGiveDateTime'"></app-fer-text>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-6 col-form-label">
+      Дата окончания срока рассмотрения заявок
+    </label>
+    <div class="col-md-3">
+      <app-fer-text [formElement]="formElement.controls['requestReviewDateTime']" [elementData]="elementData.requestReviewDateTime"
+                    [id]="'timeLimits__requestReviewDateTime'" [mode]="'view'"></app-fer-text>
+    </div>
+    <div class="col-md-3">
+      <app-fer-text [formElement]="formElement.controls['requestReviewDateTime']" [elementData]="elementData.requestReviewDateTime"
+                    [id]="'timeLimits__requestReviewDateTime'"></app-fer-text>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-6 col-form-label">
+      Дата и время проведения электронного аукциона
+    </label>
+    <div class="col-md-3">
+      <app-fer-text [formElement]="formElement.controls['conditionalHoldingDateTime']" [elementData]="elementData.conditionalHoldingDateTime"
+                    [id]="'timeLimits__conditionalHoldingDateTime'" [mode]="'view'"></app-fer-text>
+    </div>
+    <div class="col-md-3">
+      <app-fer-text [formElement]="formElement.controls['conditionalHoldingDateTime']" [elementData]="elementData.conditionalHoldingDateTime"
+                    [id]="'timeLimits__conditionalHoldingDateTime'"></app-fer-text>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,8 @@ import { CommonComponent } from './component/common/common.component';
 import { RevertToComponent } from './component/revert-to/revert-to.component';
 import { ProcedureRequestsComponent } from './component/revert-to/component/procedure-requests/procedure-requests.component';
 import { ProcedureInfoComponent } from './component/revert-to/component/procedure-info/procedure-info.component';
+import { TimeLimitsComponent } from './component/revert-to/component/time-limits/time-limits.component';
+import { ExtraConditionsComponent } from './component/revert-to/component/extra-conditions/extra-conditions.component';
 
 const objectRoutes: Routes = [
   {
@@ -51,7 +53,9 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     CommonComponent,
     RevertToComponent,
     ProcedureRequestsComponent,
-    ProcedureInfoComponent
+    ProcedureInfoComponent,
+    TimeLimitsComponent,
+    ExtraConditionsComponent
   ],
   providers: [],
   entryComponents: [],
