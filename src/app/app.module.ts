@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-// import { appRouting } from './app.routing';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +17,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import {LazyLoadGuard} from './pages/lazy-load/lazy-load.guard';
+
+import { JsonService as JsonInterceptor } from './service/http-client-interceptor/json.service';
 
 @NgModule({
   declarations: [
@@ -42,11 +43,11 @@ import {LazyLoadGuard} from './pages/lazy-load/lazy-load.guard';
   ],
   providers: [
     LazyLoadGuard,
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: AuthenticationInterceptorService,
-    //   multi: true,
-    // }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JsonInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

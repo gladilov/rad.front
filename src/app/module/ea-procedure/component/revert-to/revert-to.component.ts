@@ -5,6 +5,7 @@ import { FormControl, FormGroup, FormArray, NgForm, Validators } from '@angular/
 import { environment } from '../../../../../environments/environment';
 
 import { RevertToService } from '../../service/revert-to/revert-to.service';
+import { FillData } from '../../../../service/FillData';
 
 @Component({
   selector: 'app-revert-to',
@@ -90,18 +91,31 @@ export class RevertToComponent implements OnInit {
   ngOnInit() {
     const id = 22; // FIXME брать из роутинга
     // загрузка данных с сервера
-    this.revertToS.loadData(this.formData, id);
+    const res = this.revertToS.loadData(this.formData, id);
+    res.subscribe(
+      data => {
+        console.log('SUCCESS LOAD DATA =', data);
+        FillData.fill(this.form, this.revertToS, data);
+      },
+      err => {
+        console.log('ERROR ', err);
+        FillData.fill(this.form, this.revertToS, err);
+      }
+    );
   }
 
   onSubmit() {
     console.log(this.form.value);  // {first: 'Nancy', last: 'Drew'}
+    const id = 3472; // FIXME брать из роутинга
 
-    // let res = this.revertToS.create(this.form.value);
-    // res.subscribe(data => {
-    //   console.log('SUCCESS AUTH DATA =', data);
-    // }, err => {
-    //   console.log('ERROR ', err);
-    // });
+    const res = this.revertToS.submitData(this.form, id);
+    res.subscribe(data => {
+      console.log('SUCCESS SUBMIT DATA =', data);
+      FillData.fill(this.form, this.revertToS, data);
+    }, err => {
+      console.log('ERROR ', err);
+      FillData.fill(this.form, this.revertToS, err);
+    });
 
     return false;
   }
