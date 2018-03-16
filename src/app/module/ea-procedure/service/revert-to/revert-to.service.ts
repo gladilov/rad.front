@@ -48,12 +48,45 @@ export class RevertToService implements FillDataInterface {
   loadData(control: AbstractControl, id: number): Observable<any> {
     // TODO http запрос на бэк за данными
     // FIXME MOC-данные
-    const data = loadData;
+    // const data = loadData;
+    // return new Observable<any>(observer => {
+    //   observer.next(data);
+    //   observer.complete();
+    // });
 
-    return new Observable<any>(observer => {
-          observer.next(data);
+    const url = this.apiBaseUrl + '/EA/procedure/form-change-status/' + id;
+    return this.http
+      .get<any>(url, {observe: 'response'})
+      .map((respData: HttpResponse<any>) => {
+        console.log('LOAD RESPONSE = ', respData);
+        return respData.body;
+      })
+      .catch((err: HttpErrorResponse, caught) => {
+        let error;
+        // if (err instanceof HttpJsonParseError) {
+        //   error = {
+        //     _error: 'Ошибка HttpJsonParseError'
+        //   };
+        // } else {
+        console.log('KOTA error response data = ', err);
+        console.log('KOTA error response status = ', err.status);
+        console.log('KOTA error response caught = ', caught);
+
+        if ((<HttpErrorResponse>err).status >= 400 && err.status < 500) {
+          error = err.error;
+        } else {
+          error = {
+            _error: 'Непредвиденная ошибка со стороны сервера'
+          };
+        }
+        // }
+
+        return new Observable<any>(observer => {
+          observer.error(error);
           observer.complete();
-    });
+        });
+      })
+      ;
   }
 
   /**

@@ -91,7 +91,7 @@ export class RevertToComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = 22; // FIXME брать из роутинга
+    const id = 3747; // FIXME брать из роутинга
     // загрузка данных с сервера
     const res = this.revertToS.loadData(this.formData, id);
     res.subscribe(
@@ -108,7 +108,7 @@ export class RevertToComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form.value);  // {first: 'Nancy', last: 'Drew'}
-    const id = 3472; // FIXME брать из роутинга
+    const id = 3747; // FIXME брать из роутинга
 
     this.clearSummaryErrorMessage();
 
