@@ -17,9 +17,9 @@ import {markFormGroupTouched} from '../../../../service/Object';
   ],
 })
 export class RevertToComponent implements OnInit {
-  private DOC_REASON_TYPE_FAS_ORDER = '1';
-  private DOC_REASON_TYPE_COURT_DECISION = '2';
-  private INSTRUCTION_TYPE_CONTROL_DATA = '1';
+  private DOC_REASON_TYPE_FAS_ORDER = 'reestrPrescription';
+  private DOC_REASON_TYPE_COURT_DECISION = 'externalPrescription';
+  private INSTRUCTION_TYPE_CONTROL_DATA = 'authorityPrescription';
   public summaryErrorMessage = null;
 
   procedureInfo = new FormGroup({

@@ -33,7 +33,7 @@ export const loadData = {
           _fields: {
             targetStatus: {
               // mode: 'view',
-              _value: '',
+              _value: null,
               _options: [
                 { value: '',  label: 'Выберите' },
                 { value: '1', label: 'Прием заявок' },
