@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { FileUploadModule, FileUploader, FileSelectDirective } from 'ng2-file-upload';
+
 import { SelectComponent } from './component/select/select.component';
 import { TextComponent } from './component/text/text.component';
 import { MultiCheckboxComponent } from './component/multi-checkbox/multi-checkbox.component';
@@ -15,6 +17,8 @@ import { UploadDocumentsComponent } from './component/upload-documents/upload-do
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+
+    FileUploadModule
   ],
   declarations: [
     SelectComponent,
