@@ -8,6 +8,7 @@ import { MultiCheckboxComponent } from './component/multi-checkbox/multi-checkbo
 import { RadioComponent } from './component/radio/radio.component';
 import { TextareaComponent } from './component/textarea/textarea.component';
 import { CheckboxComponent } from './component/checkbox/checkbox.component';
+import { UploadDocumentsComponent } from './component/upload-documents/upload-documents.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { CheckboxComponent } from './component/checkbox/checkbox.component';
     MultiCheckboxComponent,
     RadioComponent,
     TextareaComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    UploadDocumentsComponent
   ],
   exports: [
     SelectComponent,
@@ -29,7 +31,8 @@ import { CheckboxComponent } from './component/checkbox/checkbox.component';
     TextareaComponent,
     MultiCheckboxComponent,
     RadioComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    UploadDocumentsComponent
   ]
 })
 export class FormElementRenderModule { }
