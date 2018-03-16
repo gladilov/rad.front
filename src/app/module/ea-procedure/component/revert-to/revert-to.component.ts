@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 // import { ComponentRef, ViewContainerRef, ElementRef, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
-import { FormControl, FormGroup, FormArray, NgForm, Validators } from '@angular/forms';
+import {FormControl, FormGroup, FormArray, NgForm, Validators, AbstractControl} from '@angular/forms';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -21,6 +21,12 @@ export class RevertToComponent implements OnInit {
   private DOC_REASON_TYPE_COURT_DECISION = 'externalPrescription';
   private INSTRUCTION_TYPE_CONTROL_DATA = 'authorityPrescription';
   public summaryErrorMessage = null;
+
+  /**
+   * Идентификатор заявки
+   * @type {number}
+   */
+  private requestId = 3779; // -1;
 
   procedureInfo = new FormGroup({
     registrationNumber: new FormControl({value: '', disabled: true}, {}),
@@ -88,10 +94,15 @@ export class RevertToComponent implements OnInit {
     });
 
     this.documentReason.setValue(this.DOC_REASON_TYPE_FAS_ORDER);
+
+    /** подписанты на различные изменения */
+    this.procedureChangeOptions.get('targetStatus').valueChanges.subscribe(value => {
+      this.loadRemovableProtocols(value);
+    });
   }
 
   ngOnInit() {
-    const id = 3747; // FIXME брать из роутинга
+    const id = this.requestId; // FIXME брать из роутинга
     // загрузка данных с сервера
     const res = this.revertToS.loadData(this.formData, id);
     res.subscribe(
@@ -108,7 +119,7 @@ export class RevertToComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form.value);  // {first: 'Nancy', last: 'Drew'}
-    const id = 3747; // FIXME брать из роутинга
+    const id = this.requestId; // FIXME брать из роутинга
 
     this.clearSummaryErrorMessage();
 
@@ -189,5 +200,28 @@ export class RevertToComponent implements OnInit {
   }
   clearSummaryErrorMessage() {
     this.summaryErrorMessage = null;
+  }
+
+  /**
+   * подгружает отменяемые протоколы по заданному новому статусу закупки
+   * @param {string} targetStatus
+   */
+  loadRemovableProtocols(targetStatus: string): void {
+    const formElement = this.procedureChangeOptions.get('protocols');
+    const id = this.requestId; // FIXME брать из роутинга
+
+    // загрузка протоколов с сервера
+    const protocolsFC = this.procedureChangeOptions.get('protocols');
+    const res = this.revertToS.loadProtocolData(id, targetStatus);
+    res.subscribe(
+      data => {
+        console.log('SUCCESS LOAD DATA =', data);
+        FillData.fill(formElement, this.revertToS.procedureChangeOptions.protocols, data);
+      },
+      err => {
+        console.log('ERROR ', err);
+        // FIXME что-то нужно сделать в случае ошибки получения списка протоколов
+      }
+    );
   }
 }
