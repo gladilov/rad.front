@@ -41,7 +41,8 @@ export class RevertToComponent implements OnInit {
   });
 
   procedureRequests = new FormGroup({
-    requests: new FormArray([])
+    // requests: new FormArray([]),
+    requests: new FormControl([], {})
   });
 
   priceOffer = new FormGroup({
@@ -71,7 +72,6 @@ export class RevertToComponent implements OnInit {
     data: this.formData,
     sign: new FormControl('', {})
   });
-
 
   constructor(public revertToS: RevertToService) {
     // протоколы только для информационных целей
