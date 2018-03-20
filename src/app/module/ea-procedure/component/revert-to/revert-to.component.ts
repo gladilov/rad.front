@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 // import { ComponentRef, ViewContainerRef, ElementRef, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
-import { FormControl, FormGroup, FormArray, NgForm, Validators } from '@angular/forms';
+import {FormControl, FormGroup, FormArray, NgForm, Validators, AbstractControl} from '@angular/forms';
 
 import { environment } from '../../../../../environments/environment';
 
 import { RevertToService } from '../../service/revert-to/revert-to.service';
+import { FillData } from '../../../../service/FillData';
+import {markFormGroupTouched} from '../../../../service/Object';
 
 @Component({
   selector: 'app-revert-to',
@@ -15,9 +17,16 @@ import { RevertToService } from '../../service/revert-to/revert-to.service';
   ],
 })
 export class RevertToComponent implements OnInit {
-  private DOC_REASON_TYPE_FAS_ORDER = '1';
-  private DOC_REASON_TYPE_COURT_DECISION = '2';
-  private INSTRUCTION_TYPE_CONTROL_DATA = '1';
+  private DOC_REASON_TYPE_FAS_ORDER = 'reestrPrescription';
+  private DOC_REASON_TYPE_COURT_DECISION = 'externalPrescription';
+  private INSTRUCTION_TYPE_CONTROL_DATA = 'authorityPrescription';
+  public summaryErrorMessage = null;
+
+  /**
+   * Идентификатор заявки
+   * @type {number}
+   */
+  private requestId = 3779; // -1;
 
   procedureInfo = new FormGroup({
     registrationNumber: new FormControl({value: '', disabled: true}, {}),
@@ -85,23 +94,47 @@ export class RevertToComponent implements OnInit {
     });
 
     this.documentReason.setValue(this.DOC_REASON_TYPE_FAS_ORDER);
+
+    /** подписанты на различные изменения */
+    this.procedureChangeOptions.get('targetStatus').valueChanges.subscribe(value => {
+      this.loadRemovableProtocols(value);
+    });
   }
 
   ngOnInit() {
-    const id = 22; // FIXME брать из роутинга
+    const id = this.requestId; // FIXME брать из роутинга
     // загрузка данных с сервера
-    this.revertToS.loadData(this.formData, id);
+    const res = this.revertToS.loadData(this.formData, id);
+    res.subscribe(
+      data => {
+        console.log('SUCCESS LOAD DATA =', data);
+        FillData.fill(this.form, this.revertToS, data);
+      },
+      err => {
+        console.log('ERROR ', err);
+        FillData.fill(this.form, this.revertToS, err);
+      }
+    );
   }
 
   onSubmit() {
     console.log(this.form.value);  // {first: 'Nancy', last: 'Drew'}
+    const id = this.requestId; // FIXME брать из роутинга
 
-    // let res = this.revertToS.create(this.form.value);
-    // res.subscribe(data => {
-    //   console.log('SUCCESS AUTH DATA =', data);
-    // }, err => {
-    //   console.log('ERROR ', err);
-    // });
+    this.clearSummaryErrorMessage();
+
+    const res = this.revertToS.submitData(this.form, id);
+    res.subscribe(data => {
+      console.log('SUCCESS SUBMIT DATA =', data);
+      // если сохранение успешно, то нам ничего не нужно делать с данными.
+      // FillData.fill(this.form, this.revertToS, data);
+    }, err => {
+      console.log('ERROR ', err);
+      FillData.fill(this.form, this.revertToS, err);
+      markFormGroupTouched(this.form);
+      const msg = err['_error'] || null;
+      this.setSummaryErrorMessage(msg);
+    });
 
     return false;
   }
@@ -156,5 +189,39 @@ export class RevertToComponent implements OnInit {
         this.controlNumber.disable();
       }
     }
+  }
+
+  setSummaryErrorMessage(msg?: string) {
+    if (msg) {
+      this.summaryErrorMessage = msg;
+    } else {
+      this.summaryErrorMessage = 'Обнаружены ошибки в данных формы, необходимо их исправить';
+    }
+  }
+  clearSummaryErrorMessage() {
+    this.summaryErrorMessage = null;
+  }
+
+  /**
+   * подгружает отменяемые протоколы по заданному новому статусу закупки
+   * @param {string} targetStatus
+   */
+  loadRemovableProtocols(targetStatus: string): void {
+    const formElement = this.procedureChangeOptions.get('protocols');
+    const id = this.requestId; // FIXME брать из роутинга
+
+    // загрузка протоколов с сервера
+    const protocolsFC = this.procedureChangeOptions.get('protocols');
+    const res = this.revertToS.loadProtocolData(id, targetStatus);
+    res.subscribe(
+      data => {
+        console.log('SUCCESS LOAD DATA =', data);
+        FillData.fill(formElement, this.revertToS.procedureChangeOptions.protocols, data);
+      },
+      err => {
+        console.log('ERROR ', err);
+        // FIXME что-то нужно сделать в случае ошибки получения списка протоколов
+      }
+    );
   }
 }

@@ -3,7 +3,7 @@ import {BaseObject, ObjectFormSelector, FillDataInterface} from '../../../../ser
 export class ProcedureInfo implements FillDataInterface {
   private _registrationNumber = new BaseObject();
   private _name = new BaseObject();
-  private _status = new ObjectFormSelector(); // FIXME заменить на селекто
+  private _status = new BaseObject(); // FIXME заменить на селекто
   private _requestEndGiveDateTime = new BaseObject();
   private _requestReviewDateTime = new BaseObject();
   private _conditionalHoldingDateTime = new BaseObject();
@@ -40,11 +40,11 @@ export class ProcedureInfo implements FillDataInterface {
     this._name = value;
   }
 
-  get status(): ObjectFormSelector {
+  get status(): BaseObject {
     return this._status;
   }
 
-  set status(value: ObjectFormSelector) {
+  set status(value: BaseObject) {
     this._status = value;
   }
 

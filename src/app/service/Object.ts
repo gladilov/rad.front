@@ -108,9 +108,11 @@ export class ObjectFormSelector extends BaseObject {
   protected initOptions(data) {
     if (data['_options'] instanceof Array) {
       for (let i = 0; i < data['_options'].length; ++i) {
+        const value = data['_options'][i]['value'] || data['_options'][i]['_value'] || '';
+        const label = data['_options'][i]['label'] || data['_options'][i]['_label'] || '';
         const vp = new ValuePair(
-          data['_options'][i]['value'],
-          data['_options'][i]['label']
+          value, // data['_options'][i]['value'],
+          label, // data['_options'][i]['label']
         );
         this.options.push(vp);
       }
