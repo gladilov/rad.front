@@ -152,4 +152,11 @@ export class UploadDocumentsComponent implements OnInit {
     // }
     // return false;
   }
+
+  private getDataByFileItem(item: FileItem): any {
+    if (item.formData.length === 0) {
+      return undefined;
+    }
+    return item.formData[0];
+  }
 }
