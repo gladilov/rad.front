@@ -52,9 +52,7 @@ export class UploadDocumentsComponent implements OnInit {
   }
 
   onAfterAddingFile(fileItem: FileItem): any {
-    const data = new ExtraFileData(this.uniqueIndex++);
-    fileItem.formData.push(data);
-
+    this.getDataByFileItem(fileItem);
     console.log('KOTA onAfterAddingFile fileItem ', fileItem);
 
     // if (fileItem.formData instanceof FormData === false) {
@@ -73,7 +71,8 @@ export class UploadDocumentsComponent implements OnInit {
     console.log('KOTA onBuildItemForm fileItem fileName = ', fileItem.file.name);
     console.log('KOTA onBuildItemForm form = ', form);
     // console.log('KOTA onBuildItemForm formData = ', fileItem.formData.get('uniqueIndex'));
-    form.append('uniqueIndex', '3333');
+    const data = this.getDataByFileItem(fileItem);
+    form.append('uniqueIndex', data.index);
   }
 
   onCompleteItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
@@ -101,7 +100,9 @@ export class UploadDocumentsComponent implements OnInit {
    * @param {Event} event
    */
   saveDocumentName(item: FileItem, event: Event) {
-    // const target = <HTMLInputElement>event.target;
+    const target = <HTMLInputElement>event.target;
+    const data = this.getDataByFileItem(item);
+    data.title = target.value;
     // if (item.formData instanceof FormData === false) {
     //   item.formData = new FormData();
     // }
@@ -138,7 +139,9 @@ export class UploadDocumentsComponent implements OnInit {
    * @returns {boolean}
    */
   hasDocName(item: FileItem): boolean {
-     return true;
+    const data = this.getDataByFileItem(item);
+    const ret = (data.title !== '');
+     return ret;
     // const ret = (item.formData.get('title') !== '');
     // console.log('KOTA hasDocName ret', ret);
     // return ret;
@@ -153,9 +156,11 @@ export class UploadDocumentsComponent implements OnInit {
     // return false;
   }
 
-  private getDataByFileItem(item: FileItem): any {
+  private getDataByFileItem(item: FileItem): ExtraFileData {
     if (item.formData.length === 0) {
-      return undefined;
+      const data = new ExtraFileData(this.uniqueIndex++);
+      item.formData.push(data);
+      return data;
     }
     return item.formData[0];
   }
