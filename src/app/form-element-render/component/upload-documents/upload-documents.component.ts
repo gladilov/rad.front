@@ -33,10 +33,7 @@ export class UploadDocumentsComponent implements OnInit {
    * Уникальный сквозной индекс для идентификации файлов и связынных с ними сущностей.
    * @type {number}
    */
-  private uniqueIndex = 0;
-  private extraFileData: ExtraFileData[] = [];
-
-  // file = new FormControl();
+  private uniqueIndex = 1;
 
   constructor() {}
 
@@ -53,46 +50,31 @@ export class UploadDocumentsComponent implements OnInit {
 
   onAfterAddingFile(fileItem: FileItem): any {
     this.getDataByFileItem(fileItem);
-    console.log('KOTA onAfterAddingFile fileItem ', fileItem);
-
-    // if (fileItem.formData instanceof FormData === false) {
-    //   fileItem.formData = new FormData();
-    // }
-    // const uniqueIndex = this.uniqueIndex++;
-    // fileItem.formData.append('uniqueIndex', uniqueIndex);
-
-    // console.log('KOTA onAfterAddingFile fileItem ', fileItem.formData);
-    // console.log('KOTA onAfterAddingFile fileItem fileName = ', fileItem.file.name);
-    // console.log('KOTA onAfterAddingFile fileItem index = ', fileItem.formData.get('uniqueIndex'));
+//    console.log('KOTA onAfterAddingFile fileItem ', fileItem);
   }
 
   onBuildItemForm(fileItem: FileItem, form: any): void {
-    console.log('KOTA onBuildItemForm fileItem index= ', fileItem.index);
-    console.log('KOTA onBuildItemForm fileItem fileName = ', fileItem.file.name);
-    console.log('KOTA onBuildItemForm form = ', form);
-    // console.log('KOTA onBuildItemForm formData = ', fileItem.formData.get('uniqueIndex'));
     const data = this.getDataByFileItem(fileItem);
     form.append('uniqueIndex', data.index);
+    form.append('title', data.title);
+    // console.log('KOTA onBuildItemForm form = ', form);
   }
 
   onCompleteItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    console.log('KOTA onCompleteItem FileItem.index', item.index);
-    console.log('KOTA onCompleteItem FileItem filename', item.file.name);
+    // console.log('KOTA onCompleteItem FileItem.index', item.index);
+    // console.log('KOTA onCompleteItem FileItem filename', item.file.name);
   }
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    console.log('KOTA onSuccessItem FileItem.index', item.index);
-    console.log('KOTA onSuccessItem FileItem filename', item.file.name);
+    // console.log('KOTA onSuccessItem FileItem.index', item.index);
+    // console.log('KOTA onSuccessItem FileItem filename', item.file.name);
     console.log('KOTA onSuccessItem FileItem response', response);
+    const result = JSON.parse(response);
+    const key = <string> result['key'];
+    const controlFiles = <FormGroup>this.formElement.get('files');
+    controlFiles.addControl(key, new FormControl({ key: key}, []));
+    console.log('KOTA onSuccessItem FileItem KEY=', result['key']);
   }
-
-  // public fileOverBase(e: any): void {
-  //   this.hasBaseDropZoneOver = e;
-  // }
-  //
-  // public fileOverAnother(e: any): void {
-  //   this.hasAnotherDropZoneOver = e;
-  // }
 
   /**
    * Сохраняем название документа для загрузки файла
@@ -103,35 +85,10 @@ export class UploadDocumentsComponent implements OnInit {
     const target = <HTMLInputElement>event.target;
     const data = this.getDataByFileItem(item);
     data.title = target.value;
-    // if (item.formData instanceof FormData === false) {
-    //   item.formData = new FormData();
-    // }
-    // const formData = item.formData;
-    // if (formData.has('title')) {
-    //   formData.delete('title'); // т.к. не все браузеры поддерживают set()
-    // }
-    // formData.append('title', target.value);
-
-    //
-    //
-    // const index = item.formData.get('uniqueIndex');
-    // // console.log('KOTA saveDocumentName data', index, (event.target));
-    // for (let i = 0; i < this.extraFileData.length; ++i) {
-    //   if (this.extraFileData[i].index === index) {
-    //     this.extraFileData[i].title = target.value;
-    //     break;
-    //   }
-    // }
-    // const data = new ExtraFileData();
-    // data.index = index;
-    // data.title = target.value;
-    // this.extraFileData.push(data);
   }
 
   disabledUpload(item: FileItem): boolean {
-    const ret = item.isReady || item.isUploading || item.isSuccess || !this.hasDocName(item);
-    console.log('KOTA disabledUpload = ', ret);
-    return ret;
+    return (item.isReady || item.isUploading || item.isSuccess || !this.hasDocName(item));
   }
   /**
    * проверка что для заданного файла есть название документа
@@ -140,20 +97,7 @@ export class UploadDocumentsComponent implements OnInit {
    */
   hasDocName(item: FileItem): boolean {
     const data = this.getDataByFileItem(item);
-    const ret = (data.title !== '');
-     return ret;
-    // const ret = (item.formData.get('title') !== '');
-    // console.log('KOTA hasDocName ret', ret);
-    // return ret;
-
-    // const index = item.formData.get('uniqueIndex');
-    // for (let i = 0; i < this.extraFileData.length; ++i) {
-    //   if (this.extraFileData[i].index === index) {
-    //     console.log('KOTA hasDocName ', (this.extraFileData[i].title !== ''));
-    //     return (this.extraFileData[i].title !== '');
-    //   }
-    // }
-    // return false;
+    return (data.title !== '');
   }
 
   private getDataByFileItem(item: FileItem): ExtraFileData {

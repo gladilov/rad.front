@@ -9,7 +9,7 @@
   </thead>
   <tbody [formGroup]="formElement.controls['files']">
     <tr *ngFor="let item of uploader.queue">
-      <td><input type="text" (blur)="saveDocumentName(item, $event)" >{{item.alias}}</td>
+      <td><input type="text" (blur)="saveDocumentName(item, $event)" ></td>
       <td>{{item.file.name}}</td>
       <td></td>
       <td>
