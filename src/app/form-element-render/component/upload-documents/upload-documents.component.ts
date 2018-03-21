@@ -15,6 +15,7 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./upload-documents.component.css']
 })
 export class UploadDocumentsComponent implements OnInit {
+  @Input()formElement = new FormGroup({});
   public uploader: FileUploader = new FileUploader({
     url: URL,
     // additionalParameter: {
@@ -25,9 +26,6 @@ export class UploadDocumentsComponent implements OnInit {
   });
   // public hasBaseDropZoneOver = false;
   // public hasAnotherDropZoneOver = false;
-  @Input()formElement = new FormGroup({
-    files: new FormGroup({})
-  });
 
   /**
    * Уникальный сквозной индекс для идентификации файлов и связынных с ними сущностей.
@@ -71,7 +69,7 @@ export class UploadDocumentsComponent implements OnInit {
     console.log('KOTA onSuccessItem FileItem response', response);
     const result = JSON.parse(response);
     const key = <string> result['key'];
-    const controlFiles = <FormGroup>this.formElement.get('files');
+    const controlFiles = this.formElement;
     controlFiles.addControl(key, new FormControl({ key: key}, []));
     console.log('KOTA onSuccessItem FileItem KEY=', result['key']);
   }

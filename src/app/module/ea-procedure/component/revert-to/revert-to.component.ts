@@ -68,13 +68,16 @@ export class RevertToComponent implements OnInit {
     notifyMembers: new FormControl('')
   });
 
+  documents = new FormGroup({});
+
   formData = new FormGroup({
     procedureInfo: this.procedureInfo,
     procedureChangeOptions: this.procedureChangeOptions,
     procedureRequests: this.procedureRequests,
     priceOffer: this.priceOffer,
     timeLimits: this.timeLimits,
-    extraConditions: this.extraConditions
+    extraConditions: this.extraConditions,
+    documents: this.documents
   });
   form = new FormGroup({
     data: this.formData,
