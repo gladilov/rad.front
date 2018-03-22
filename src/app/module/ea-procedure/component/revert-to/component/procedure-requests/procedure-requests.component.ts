@@ -45,13 +45,28 @@ export class ProcedureRequestsComponent implements OnInit {
       },
   ];
   public columnDefs: any[] = [
-      { field: 'requestNumber',     headerName: 'Номер', checkboxSelection: true },
+      { field: 'requestNumber',     headerName: 'Номер', width: 120, /*checkboxSelection: true,*/ /*headerCheckboxSelection: true*/ },
       { field: 'sendDateTime',      headerName: 'Дата и время регистрации заявки' },
       { field: 'customerName',      headerName: 'Наименование участника' },
       { field: 'requestStatusOld',  headerName: 'Текущий статус', },
       { field: 'blockedFinance',    headerName: 'Заблокированные средства (руб)', },
       { field: 'freeFinance',       headerName: 'Свободные средства (руб)', },
-      { field: 'requestStatus',     headerName: 'Новый статус', }
+      {
+        field: 'requestStatus',
+        headerName: 'Новый статус',
+        width: 170,
+        cellClass: 'ag-cell-custom-select',
+        editable: true,
+        cellEditor: 'agSelectCellEditor',
+        // cellEditor: 'agPopupSelectCellEditor',
+        cellEditorParams: {
+          cellRenderer: 'requestStatusCellRenderer',
+          values: [
+              'Подана',
+              'Заблокирована',
+          ],
+        },
+      }
   ];
   public gridMode = AGGRID_MODE_EDITABLE;
 
@@ -65,12 +80,20 @@ export class ProcedureRequestsComponent implements OnInit {
       },
       rowSelection: 'multiple',
       rowData: [],
-      domLayout: 'autoHeight',
+      // domLayout: 'autoHeight',
+      components: {
+        requestStatusCellRenderer: this.requestStatusCellRenderer
+      }
     };
     this.gridOptions.columnDefs = this.columnDefs;
   }
 
   ngOnInit() {
+  }
+
+  // simple function cellRenderer, just returns back the name of the requestStatus
+  requestStatusCellRenderer(params) {
+      return params.value.name;
   }
 
 }
