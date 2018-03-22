@@ -45,3 +45,6 @@ ng build --env=prod --base-href=/etp_front/ --output-path=./etp_front
 
         try_files $uri $uri/ /index.php$args;
 </pre>
+
+Пример запуска при условии что в nginx стоит proxy на запущеную ноду
+ng serve  --env=kota --base-href=/etp_front/ --output-path=./etp_front --port=4300 --host=local.test-gz.lot-online.ru
