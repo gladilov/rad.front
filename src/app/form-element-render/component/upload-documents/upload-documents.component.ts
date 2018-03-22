@@ -16,16 +16,11 @@ import { environment } from '../../../../environments/environment';
 })
 export class UploadDocumentsComponent implements OnInit {
   @Input()formElement = new FormGroup({});
-  public uploader: FileUploader = new FileUploader({
-    url: URL,
-    // additionalParameter: {
-    //   param1: 'test1',
-    //   param2: 'test2'
-    // },
-    headers: [{name: 'Accept', value: 'application/json'}]
-  });
-  // public hasBaseDropZoneOver = false;
-  // public hasAnotherDropZoneOver = false;
+  @Input()options = {};
+  @Input()minFiles = 0;
+  @Input()maxFiles = Number.MAX_SAFE_INTEGER;
+
+  public uploader: FileUploader = new FileUploader({});
 
   /**
    * Уникальный сквозной индекс для идентификации файлов и связынных с ними сущностей.
@@ -36,6 +31,9 @@ export class UploadDocumentsComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    // options are getting from parent components
+    this.uploader.setOptions(this.options);
+
     this.uploader.onBuildItemForm = (fileItem, form) => this.onBuildItemForm(fileItem, form);
     // this.uploader.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) =>
     //   this.onCompleteItem(item, response, status, headers);
@@ -48,14 +46,12 @@ export class UploadDocumentsComponent implements OnInit {
 
   onAfterAddingFile(fileItem: FileItem): any {
     this.getDataByFileItem(fileItem);
-//    console.log('KOTA onAfterAddingFile fileItem ', fileItem);
   }
 
   onBuildItemForm(fileItem: FileItem, form: any): void {
     const data = this.getDataByFileItem(fileItem);
     form.append('uniqueIndex', data.index);
     form.append('title', data.title);
-    // console.log('KOTA onBuildItemForm form = ', form);
   }
 
   onCompleteItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
@@ -88,6 +84,15 @@ export class UploadDocumentsComponent implements OnInit {
   disabledUpload(item: FileItem): boolean {
     return (item.isReady || item.isUploading || item.isSuccess || !this.hasDocName(item));
   }
+
+  /**
+   * Метод-ограничитель на добавление файлов
+   * @returns {boolean}
+   */
+  disableAdd(): boolean {
+    return (this.uploader.queue.length >= this.maxFiles);
+  }
+
   /**
    * проверка что для заданного файла есть название документа
    * @param {FileItem} item
