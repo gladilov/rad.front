@@ -24,7 +24,6 @@ export class FillData {
     } else if (control instanceof FormArray) {
       FillData.fillFormArray(control, data);
     } else if (control instanceof FormControl) {
-      console.log('KOTA DDDDDDDDDD');
       FillData.fillFormControl(control, data);
     }
 
@@ -92,7 +91,7 @@ export class FillData {
     }
 
     if (control instanceof FormControlSelect) {
-      control.elementData = new ObjectFormSelector(data);
+      control.elementData.fill(data);
       console.log('KOTA FormControlSelect SET DATA');
     }
     // TODO можно заполнять еще и валидаторы
