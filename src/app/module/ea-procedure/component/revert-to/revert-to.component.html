@@ -137,11 +137,15 @@
       <div class="card-header">
         Прикрепляемые документы
       </div>
-      <div class="card-body">
-        <p>Стандартный блок прикрепления документов..</p>
-      </div>
+      <app-revert-to-documents class="card-body" [formElement]="documents"></app-revert-to-documents>
+      <!--<div class="card-body">-->
+        <!--<p>Стандартный блок прикрепления документов..</p>-->
+      <!--</div>-->
     </div>
 
   </div>
-  <input type="submit" value="OK">
+  <div class="col-12">
+    <input type="submit" value="OK" (blur)="clearSummaryErrorMessage()" class="float-right">
+    <div class="float-left alert-danger" *ngIf="summaryErrorMessage">{{summaryErrorMessage}}</div>
+  </div>
 </form>

@@ -5,7 +5,12 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://api.gl.local/v2/',
+  // apiBaseUrl: 'http://api.gl.local/v2/',
+  apiBaseDomain: 'etp_base.local',
+  apiBaseUrl: 'http://etp_base.local',
+  apiOptions: {
+    uploadFileUrl: 'http://etp_base.local/File/upload'
+  },
   gmaps: {
     apiKey: 'AIzaSyDOHWdM430kZKJK0n1kySk0vQwVWiyG5es',
     lat: 59.892882,

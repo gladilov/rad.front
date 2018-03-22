@@ -82,10 +82,10 @@ export class FillData {
   public static fillFormControl(control: FormControl, data): void {
     FillData.setControlMode(control, data);
 
-    if (data['_default'] !== undefined) {
+    if (data['_default'] !== undefined && data['_default'] !== null) {
       control.setValue(data['_default']);
     }
-    if (data['_value'] !== undefined) {
+    if (data['_value'] !== undefined && data['_value'] !== null) {
       control.setValue(data['_value']);
     }
     // TODO можно заполнять еще и валидаторы
