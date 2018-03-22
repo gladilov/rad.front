@@ -12,12 +12,18 @@
       <div class="card-body">
         <div class="form-group">
           <label for="field__7">Новый статус закупки</label>
-          <app-fer-select
-                  [elementClass]="'form-control'"
-                  [formElement]="procedureChangeOptions.controls['targetStatus']"
-                  [id]="'field__7'"
-                  [elementData]="revertToS.procedureChangeOptions.targetStatus"
-          ></app-fer-select>
+          <app-fer-select2
+            [elementClass]="'form-control'"
+            [formElement]="procedureChangeOptions.controls['targetStatus']"
+            [id]="'field__7'"
+          ></app-fer-select2>
+
+          <!--<app-fer-select-->
+                  <!--[elementClass]="'form-control'"-->
+                  <!--[formElement]="procedureChangeOptions.controls['targetStatus']"-->
+                  <!--[id]="'field__7'"-->
+                  <!--[elementData]="revertToS.procedureChangeOptions.targetStatus"-->
+          <!--&gt;</app-fer-select>-->
         </div>
         <div class="form-group">
           <label>Отменяемые протоколы</label>

@@ -1,0 +1,10 @@
+<select class="form-control" id="{{id}}"
+        [class] = "elementClass"
+        [formControl]="formElement"
+        [attr.disabled]="realMode() === 'view' ? '' : null"
+>
+  <option *ngFor="let item of formElement.elementData.options;"
+          value="{{item.key}}"
+          [selected]="item.key.toString() == formElement.value.toString()"
+  >{{item.value}}</option>
+</select>

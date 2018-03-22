@@ -14,6 +14,8 @@ import { CheckboxComponent } from './component/checkbox/checkbox.component';
 import { UploadDocumentsComponent } from './component/upload-documents/upload-documents.component';
 import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-grid-formcontrol.component';
 
+import { Select2Component } from './component/select2/select.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -32,7 +34,9 @@ import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-g
     CheckboxComponent,
     UploadDocumentsComponent,
     CheckboxComponent,
-    AgGridFormcontrolComponent
+    AgGridFormcontrolComponent,
+
+    Select2Component,
   ],
   exports: [
     SelectComponent,
@@ -43,7 +47,9 @@ import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-g
     CheckboxComponent,
     UploadDocumentsComponent,
     CheckboxComponent,
-    AgGridFormcontrolComponent
+    AgGridFormcontrolComponent,
+
+    Select2Component,
   ]
 })
 export class FormElementRenderModule { }

@@ -1,5 +1,6 @@
-import { FillDataInterface } from './Object';
+import {FillDataInterface, ObjectFormSelector} from './Object';
 import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
+import {FormControlSelect} from '../form-element-render/form-control/form-control-select';
 
 /**
  * пробегает по переданным данным и рекурсивно заполняет объект полученными данными
@@ -23,6 +24,7 @@ export class FillData {
     } else if (control instanceof FormArray) {
       FillData.fillFormArray(control, data);
     } else if (control instanceof FormControl) {
+      console.log('KOTA DDDDDDDDDD');
       FillData.fillFormControl(control, data);
     }
 
@@ -79,7 +81,7 @@ export class FillData {
    * @param {FormControl} control
    * @param data
    */
-  public static fillFormControl(control: FormControl, data): void {
+  public static fillFormControl(control: FormControl|FormControlSelect, data): void {
     FillData.setControlMode(control, data);
 
     if (data['_default'] !== undefined && data['_default'] !== null) {
@@ -87,6 +89,11 @@ export class FillData {
     }
     if (data['_value'] !== undefined && data['_value'] !== null) {
       control.setValue(data['_value']);
+    }
+
+    if (control instanceof FormControlSelect) {
+      control.elementData = new ObjectFormSelector(data);
+      console.log('KOTA FormControlSelect SET DATA');
     }
     // TODO можно заполнять еще и валидаторы
   }

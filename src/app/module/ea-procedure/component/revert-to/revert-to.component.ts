@@ -9,6 +9,7 @@ import { environment } from '../../../../../environments/environment';
 import { RevertToService } from '../../service/revert-to/revert-to.service';
 import { FillData } from '../../../../service/FillData';
 import {markFormGroupTouched} from '../../../../service/Object';
+import {FormControlSelect} from '../../../../form-element-render/form-control/form-control-select';
 
 @Component({
   selector: 'app-revert-to',
@@ -44,7 +45,7 @@ export class RevertToComponent implements OnInit {
   documentReason = new FormControl('', {});
 
   procedureChangeOptions = new FormGroup({
-    targetStatus: new FormControl('', {}),
+    targetStatus: new FormControlSelect('', {}),
     protocols: new FormControl({value: [], disabled: true}, {}),
     documentReason: this.documentReason,
     instructionData: this.instructionData,
