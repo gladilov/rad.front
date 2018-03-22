@@ -125,6 +125,10 @@ export class RevertToComponent implements OnInit {
     const id = this.requestId; // FIXME брать из роутинга
 
     this.clearSummaryErrorMessage();
+    if (this.form.invalid === true) {
+      console.log('KOTA ошибка встроенной валидации формы');
+      return false;
+    }
 
     const res = this.revertToS.submitData(this.form, id);
     res.subscribe(data => {
