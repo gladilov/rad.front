@@ -4,20 +4,24 @@ export class ProcedureChangeOptions implements FillDataInterface {
   private _targetStatus = new ObjectFormSelector({
     _value: '',
   });
+  private _authorityType = new ObjectFormSelector({
+    _value: '',
+  });
   private _protocols = new ObjectFormMultiSelector({
     // _mode: 'view',
     _value: [],
   });
-  private _documentReason = new ObjectFormSelector({
-  });
-  private _instructionData = new ObjectFormSelector({
-  });
+  private _documentReason = new ObjectFormSelector({});
+  private _instructionData = new ObjectFormSelector({});
   private _controlNumber = new BaseObject();
 
   fill(data: any): void {
     const fieldsData = data['_fields'];
     if (fieldsData['targetStatus'] !== undefined) {
       this.targetStatus.fill(fieldsData['targetStatus']);
+    }
+    if (fieldsData['authorityType'] !== undefined) {
+      this.authorityType.fill(fieldsData['authorityType']);
     }
     if (fieldsData['protocols'] !== undefined) {
       this.protocols.fill(fieldsData['protocols']);
@@ -37,6 +41,14 @@ export class ProcedureChangeOptions implements FillDataInterface {
 
   set targetStatus(value: ObjectFormSelector) {
     this._targetStatus = value;
+  }
+
+  get authorityType(): ObjectFormSelector {
+    return this._authorityType;
+  }
+
+  set authorityType(value: ObjectFormSelector) {
+    this._authorityType = value;
   }
 
   get protocols(): ObjectFormMultiSelector {

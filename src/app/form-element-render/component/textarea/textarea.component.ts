@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {BaseObject} from '../../../service/Object';
 
@@ -8,13 +8,14 @@ import {BaseObject} from '../../../service/Object';
   styleUrls: ['./textarea.component.css']
 })
 export class TextareaComponent implements OnInit {
-  @Input() mode: string|null = null;
+  @Input() mode: string | null = null;
   @Input() formElement = new FormControl('', {});
   @Input() elementClass = '';
-  @Input() elementData: BaseObject;
+  @Input() elementData = new BaseObject();
   @Input() id = '';
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

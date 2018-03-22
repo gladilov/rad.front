@@ -1,8 +1,7 @@
-<textarea type="text"
+<textarea
        class="{{elementClass}}"
        id="{{id}}"
-       [class]="realMode() === 'view'? 'form-control-plaintext' : 'form-control'"
-       [readonly]="realMode() === 'view'"
+       [class]="realMode() == 'view'? 'form-control-plaintext' : 'form-control'"
+       [readonly]="realMode() == 'view'"
        [formControl]="formElement"
-       [value]="elementData.value"
 ></textarea>
