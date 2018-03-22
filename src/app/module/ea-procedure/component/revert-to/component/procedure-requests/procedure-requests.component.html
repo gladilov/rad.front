@@ -1,5 +1,10 @@
-<ag-grid-angular #agGrid class="ag-theme-bootstrap"
-                 [gridOptions]="gridOptions"
-                 [enableSorting]="true"
->
-</ag-grid-angular>
+<app-ag-grid-formcontrol
+        [formControl]="form.controls['requests']"
+        [columnDefs]="gridOptions.columnDefs"
+        [rowData]="rowData"
+        [mode]="gridMode"
+></app-ag-grid-formcontrol>
+
+<!-- FOR TEST -->
+<pre>{{ form.value | json }}</pre>
+<pre>{{ {'elementData (revertToS.procedureRequests)': elementData} | json }}</pre>

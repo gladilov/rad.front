@@ -2,6 +2,8 @@
 
 @import "assets/css/common.css";
 @import "assets/css/layout.css";
+@import "assets/css/form.css";
+@import "assets/css/ag-grid.css";
 
 body {
     min-width: 0;

@@ -52,7 +52,8 @@ export class RevertToComponent implements OnInit {
   });
 
   procedureRequests = new FormGroup({
-    requests: new FormArray([])
+    // requests: new FormArray([]),
+    requests: new FormControl([], {})
   });
 
   priceOffer = new FormGroup({
@@ -70,13 +71,16 @@ export class RevertToComponent implements OnInit {
     notifyMembers: new FormControl('')
   });
 
+  documents = new FormGroup({});
+
   formData = new FormGroup({
     procedureInfo: this.procedureInfo,
     procedureChangeOptions: this.procedureChangeOptions,
     procedureRequests: this.procedureRequests,
     priceOffer: this.priceOffer,
     timeLimits: this.timeLimits,
-    extraConditions: this.extraConditions
+    extraConditions: this.extraConditions,
+    documents: this.documents
   });
   form = new FormGroup({
     data: this.formData,
@@ -93,7 +97,6 @@ export class RevertToComponent implements OnInit {
       const id = +this.route.snapshot.paramMap.get('id');
       this.loadData(id);
     });
-
 
     // протоколы только для информационных целей
     this.documentReason.valueChanges.subscribe(data => {
@@ -153,6 +156,10 @@ export class RevertToComponent implements OnInit {
     const id = this.requestId; // FIXME брать из роутинга
 
     this.clearSummaryErrorMessage();
+    if (this.form.invalid === true) {
+      console.log('KOTA ошибка встроенной валидации формы');
+      return false;
+    }
 
     const res = this.revertToS.submitData(this.form, id);
     res.subscribe(data => {
