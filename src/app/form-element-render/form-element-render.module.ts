@@ -20,7 +20,7 @@ import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-g
     FormsModule,
     ReactiveFormsModule,
 
-    FileUploadModule
+    FileUploadModule,
     AgGridModule.withComponents([])
   ],
   declarations: [
