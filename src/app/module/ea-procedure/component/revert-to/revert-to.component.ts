@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 // import { ComponentRef, ViewContainerRef, ElementRef, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
 import {FormControl, FormGroup, FormArray, NgForm, Validators, AbstractControl} from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
+import {ActivatedRoute} from '@angular/router';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -37,9 +39,9 @@ export class RevertToComponent implements OnInit {
     conditionalHoldingDateTime: new FormControl({value: '', disabled: true}, {}),
   });
 
-  instructionData = new FormControl(0, {});
-  controlNumber = new FormControl(0, {});
-  documentReason = new FormControl(0, {});
+  instructionData = new FormControl('', {});
+  controlNumber = new FormControl('', {});
+  documentReason = new FormControl('', {});
 
   procedureChangeOptions = new FormGroup({
     targetStatus: new FormControl('', {}),
@@ -81,8 +83,18 @@ export class RevertToComponent implements OnInit {
     sign: new FormControl('', {})
   });
 
+  subscription: Subscription;
 
-  constructor(public revertToS: RevertToService) {
+  constructor(
+    public revertToS: RevertToService,
+    private route: ActivatedRoute
+  ) {
+    this.subscription = route.params.subscribe((params) => {
+      const id = +this.route.snapshot.paramMap.get('id');
+      this.loadData(id);
+    });
+
+
     // протоколы только для информационных целей
     this.documentReason.valueChanges.subscribe(data => {
       this.toggleByDocumentReason(data);
@@ -102,8 +114,27 @@ export class RevertToComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.requestId; // FIXME брать из роутинга
-    // загрузка данных с сервера
+    // const id = this.requestId; // FIXME брать из роутинга
+    // // загрузка данных с сервера
+    // const res = this.revertToS.loadData(this.formData, id);
+    // res.subscribe(
+    //   data => {
+    //     console.log('SUCCESS LOAD DATA =', data);
+    //     FillData.fill(this.form, this.revertToS, data);
+    //   },
+    //   err => {
+    //     console.log('ERROR ', err);
+    //     FillData.fill(this.form, this.revertToS, err);
+    //   }
+    // );
+  }
+
+  /**
+   * Начальная загрузка данных формы
+   * @param {number | string} id
+   */
+  loadData(id: number) {
+    this.requestId = id;
     const res = this.revertToS.loadData(this.formData, id);
     res.subscribe(
       data => {

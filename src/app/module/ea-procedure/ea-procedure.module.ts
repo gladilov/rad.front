@@ -27,6 +27,10 @@ const objectRoutes: Routes = [
         // canActivate: [ RevertToGuard ],
         // canActivateChild: [ RevertToGuard ],
       },
+      {
+        path: 'revert-to/:id',
+        component: RevertToComponent,
+      },
       // {
       //   path: 'retail-entertainment-centre',
       //   component: RetailEntertainmentCentreComponent,
