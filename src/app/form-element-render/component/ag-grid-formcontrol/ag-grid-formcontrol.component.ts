@@ -28,12 +28,13 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   @Input() columnDefs: any[];
   // Optional:
   @Input() mode = AGGRID_MODE_READONLY; // 'readonly' or 'editable'
-  @Input() themeClass = 'ag-theme-bootstrap';
+  @Input() themeClass = 'ag-theme-balham';
 
   // @Output() onChange: EventEmitter<any> = new EventEmitter();
 
   // The internal data model
   private innerValue: any = '';
+  private innerChangedValues: any = [];
   // Placeholders for the callbacks which are later providesd
   // by the Control Value Accessor
   private onTouchedCallback: () => void = noop;
@@ -45,6 +46,8 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
         componentParent: this
       },
       rowSelection: 'multiple',
+      // rowMultiSelectWithClick: true,
+      headerHeight: 48,
       columnDefs: [],
       rowData: [],
       domLayout: 'autoHeight',
@@ -56,13 +59,14 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
     this.gridOptions.rowData = this.rowData;
 
     if (this.mode === AGGRID_MODE_EDITABLE) {
-      this.gridOptions.onSelectionChanged = this.onSelectionChanged;
+      // this.gridOptions.onSelectionChanged = this.onSelectionChanged;
+      this.gridOptions.onCellEditingStopped = this.onCellEditingStopped;
     }
   }
 
   // get accessor
   get value(): any {
-    return this.innerValue;
+      return this.innerValue;
   }
 
   // set accessor including call the onchange callback
@@ -71,6 +75,31 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
           this.innerValue = v;
           this.onChangeCallback(v);
       }
+  }
+
+  // get accessor
+  get changedValues(): any {
+      return this.innerChangedValues;
+  }
+
+  // set accessor including call the onchange callback
+  set changedValues(values: any) {
+      this.innerChangedValues = values;
+      this.onChangeCallback(values);
+  }
+
+  // push value to changedValues
+  private pushToChangedValues(value: any) {
+      const changedValuesRows = this.changedValues;
+      changedValuesRows.forEach(function(row, i) {
+          // remove if exist
+          if (value.rowIndex === row.rowIndex) {
+            const removed = changedValuesRows.splice(i, 1);
+          }
+      });
+
+      changedValuesRows.push(value);
+      this.changedValues = changedValuesRows;
   }
 
   writeValue(value: any): void {
@@ -87,18 +116,32 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
       this.onTouchedCallback = fn;
   }
 
-  onSelectionChanged = (params: any): void => {
-      let selectedRows: any[] = this.gridOptions.api.getSelectedRows();
-      if (selectedRows.length === 0) {
-          // necessary for Validators.required to work
-          this.value = [];
-      } else {
-          this.value = selectedRows;
-      }
+  private onSelectionChanged = (params: any): void => {
+    const selectedRows: any[] = this.gridApi.getSelectedRows();
+    // console.log(selectedRows);
+    if (selectedRows.length === 0) {
+        // necessary for Validators.required to work
+        this.value = [];
+    } else {
+        this.value = selectedRows;
+    }
 
-      this.onChangeCallback(this.value);
-      this.onTouchedCallback();
-      // this.onChange.emit({originalEvent: event, value: this.value});
+    this.onChangeCallback(this.value);
+    this.onTouchedCallback();
+    // this.onChange.emit({originalEvent: event, value: this.value});
+  }
+
+  private onCellEditingStopped = (event: any): void => {
+    const rowEditingData = event.data;
+    console.log('rowEditingData', rowEditingData);
+
+    // const node = event.node;
+    // node.setSelected(true);
+
+    if (rowEditingData) {
+      rowEditingData.rowIndex = event.rowIndex;
+      this.pushToChangedValues(rowEditingData);
+    }
   }
 
   onGridReady(params) {

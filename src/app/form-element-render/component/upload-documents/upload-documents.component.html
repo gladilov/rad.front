@@ -1,0 +1,34 @@
+<table class="table" [formGroup]="formElement">
+  <thead>
+    <tr>
+      <td>Название документа</td>
+      <td>Имя файла</td>
+      <td>Размер</td>
+      <td>Действия</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of uploader.queue">
+      <td><input type="text" (blur)="saveDocumentName(item, $event)" ></td>
+      <td>{{item.file.name}}</td>
+      <td></td>
+      <td>
+        <button type="button" class="btn btn-success btn-xs"
+                (click)="item.upload()" [disabled]="disabledUpload(item)">
+          <span class="glyphicon glyphicon-upload"></span> Upload
+        </button>
+        <button type="button" class="btn btn-warning btn-xs"
+                (click)="item.cancel()" [disabled]="!item.isUploading">
+          <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+        </button>
+        <button type="button" class="btn btn-danger btn-xs"
+                (click)="item.remove()">
+          <span class="glyphicon glyphicon-trash"></span> Remove
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div>
+<input type="file" ng2FileSelect [uploader]="uploader" id="file" />
+</div>

@@ -5,5 +5,9 @@
 
 export const environment = {
   production: false,
+  apiBaseDomain: 'etp_base.local',
   apiBaseUrl: 'http://etp_base.local/',
+  apiOptions: {
+    uploadFileUrl: 'http://etp_base.local/File/upload'
+  }
 };

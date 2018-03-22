@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 import { FormElementRenderModule } from './form-element-render/form-element-render.module';
 
@@ -20,6 +21,7 @@ import {LazyLoadGuard} from './pages/lazy-load/lazy-load.guard';
 
 import { JsonService as JsonInterceptor } from './service/http-client-interceptor/json.service';
 // import { ErrorHandleService } from './service/http-client-interceptor/error-handle.service';
+import { XdebugService as XdebugInterceptor} from './service/http-client-interceptor/xdebug.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { JsonService as JsonInterceptor } from './service/http-client-intercepto
     // appRouting
   ],
   providers: [
+    CookieService,
     LazyLoadGuard,
     {
       provide: HTTP_INTERCEPTORS,
@@ -52,6 +55,11 @@ import { JsonService as JsonInterceptor } from './service/http-client-intercepto
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: ErrorHandleService,
+    //   multi: true,
+    // }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: XdebugInterceptor,
     //   multi: true,
     // }
   ],
