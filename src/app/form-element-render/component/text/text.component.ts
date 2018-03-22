@@ -11,7 +11,7 @@ export class TextComponent implements OnInit {
   @Input() mode: string|null = null;
   @Input() formElement = new FormControl('', {});
   @Input() elementClass = '';
-  @Input() elementData: BaseObject;
+  @Input() elementData = new BaseObject();
   @Input() id = '';
 
   constructor() { }

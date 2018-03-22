@@ -54,10 +54,82 @@
               Номер результата контроля по предписанию
             </label>
             <div class="col-md-7">
-              <input type="text" class="form-control col-md-6" id="procedureChangeOptions__controlNumber" formControlName="controlNumber">
+              <app-fer-text
+                [id]="'procedureChangeOptions__controlNumber'"
+                [elementClass]="'form-control'"
+                [formElement]="controlNumber"
+              ></app-fer-text>
             </div>
           </div>
+
+          <div class="form-group row mt-3" *ngIf="authorityName.status != 'DISABLED'">
+            <label for="procedureChangeOptions__authorityName" class="col-md-5 col-form-label">
+              Наименование органа, уполномоченного на осуществление контроля
+            </label>
+            <div class="col-md-7">
+              <app-fer-textarea
+                [id]="'procedureChangeOptions__authorityName'"
+                [elementClass]="'form-control'"
+                [formElement]="authorityName"
+              ></app-fer-textarea>
+            </div>
+          </div>
+
+          <div class="form-group row mt-3" *ngIf="authorityType.status != 'DISABLED'">
+            <label for="procedureChangeOptions__authorityType" class="col-md-5 col-form-label">
+              Вид органа, уполномоченного на осуществление контроля
+            </label>
+            <div class="col-md-7">
+              <app-fer-select
+                [elementClass]="'form-control'"
+                [formElement]="authorityType"
+                [id]="'procedureChangeOptions__authorityType'"
+                [elementData]="revertToS.procedureChangeOptions.authorityType"
+              ></app-fer-select>
+            </div>
+          </div>
+
         </div>
+
+          <div class="form-group row mt-3" *ngIf="docName.status != 'DISABLED'">
+            <label for="procedureChangeOptions__docName" class="col-md-5 col-form-label">
+              Наименование документа
+            </label>
+            <div class="col-md-7">
+              <app-fer-text
+                [id]="'procedureChangeOptions__docName'"
+                [elementClass]="'form-control'"
+                [formElement]="docName"
+              ></app-fer-text>
+            </div>
+          </div>
+
+          <div class="form-group row mt-3" *ngIf="docDate.status != 'DISABLED'">
+            <label for="procedureChangeOptions__docDate" class="col-md-5 col-form-label">
+              Дата документа
+            </label>
+            <div class="col-md-7">
+              <app-fer-text
+                [id]="'procedureChangeOptions__docDate'"
+                [elementClass]="'form-control'"
+                [formElement]="docDate"
+              ></app-fer-text>
+            </div>
+          </div>
+
+          <div class="form-group row mt-3" *ngIf="docNumber.status != 'DISABLED'">
+            <label for="procedureChangeOptions__docNumber" class="col-md-5 col-form-label">
+              Номер документа
+            </label>
+            <div class="col-md-7">
+              <app-fer-text
+                [id]="'procedureChangeOptions__docNumber'"
+                [elementClass]="'form-control'"
+                [formElement]="docNumber"
+              ></app-fer-text>
+            </div>
+          </div>
+
       </div>
     </div>
 

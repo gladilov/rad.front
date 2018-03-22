@@ -19,9 +19,10 @@ import {markFormGroupTouched} from '../../../../service/Object';
   ],
 })
 export class RevertToComponent implements OnInit {
-  private DOC_REASON_TYPE_FAS_ORDER = 'reestrPrescription';
-  private DOC_REASON_TYPE_COURT_DECISION = 'externalPrescription';
-  private INSTRUCTION_TYPE_CONTROL_DATA = 'authorityPrescription';
+  private DOC_REASON_TYPE_FAS_ORDER = 'authorityPrescription';
+  private DOC_REASON_TYPE_COURT_DECISION = 'courtDecision';
+  private INSTRUCTION_DATA_REESTR_PRESCRIPTION = 'reestrPrescription';
+  private INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION = 'externalPrescription';
   public summaryErrorMessage = null;
 
   /**
@@ -41,7 +42,12 @@ export class RevertToComponent implements OnInit {
 
   instructionData = new FormControl('', {});
   controlNumber = new FormControl('', {});
+  authorityName = new FormControl('', {});
+  authorityType = new FormControl('', {});
   documentReason = new FormControl('', {});
+  docName = new FormControl('', {});
+  docDate = new FormControl('', {});
+  docNumber = new FormControl('', {});
 
   procedureChangeOptions = new FormGroup({
     targetStatus: new FormControl('', {}),
@@ -49,6 +55,11 @@ export class RevertToComponent implements OnInit {
     documentReason: this.documentReason,
     instructionData: this.instructionData,
     controlNumber: this.controlNumber,
+    authorityName: this.authorityName,
+    authorityType: this.authorityType,
+    docName: this.docName,
+    docDate: this.docDate,
+    docNumber: this.docNumber,
   });
 
   procedureRequests = new FormGroup({
@@ -104,7 +115,6 @@ export class RevertToComponent implements OnInit {
     });
 
     this.instructionData.statusChanges.subscribe(status => {
-      // console.log('KOTA instructionData.statusChanges = ', status);
       this.toggleByInstructionStatus(status);
     });
 
@@ -141,11 +151,11 @@ export class RevertToComponent implements OnInit {
     const res = this.revertToS.loadData(this.formData, id);
     res.subscribe(
       data => {
-        console.log('SUCCESS LOAD DATA =', data);
+        // console.log('SUCCESS LOAD DATA =', data);
         FillData.fill(this.form, this.revertToS, data);
       },
       err => {
-        console.log('ERROR ', err);
+        // console.log('ERROR ', err);
         FillData.fill(this.form, this.revertToS, err);
       }
     );
@@ -157,17 +167,17 @@ export class RevertToComponent implements OnInit {
 
     this.clearSummaryErrorMessage();
     if (this.form.invalid === true) {
-      console.log('KOTA ошибка встроенной валидации формы');
+      // console.log('KOTA ошибка встроенной валидации формы');
       return false;
     }
 
     const res = this.revertToS.submitData(this.form, id);
     res.subscribe(data => {
-      console.log('SUCCESS SUBMIT DATA =', data);
+      // console.log('SUCCESS SUBMIT DATA =', data);
       // если сохранение успешно, то нам ничего не нужно делать с данными.
       // FillData.fill(this.form, this.revertToS, data);
     }, err => {
-      console.log('ERROR ', err);
+      // console.log('ERROR ', err);
       FillData.fill(this.form, this.revertToS, err);
       markFormGroupTouched(this.form);
       const msg = err['_error'] || null;
@@ -190,7 +200,7 @@ export class RevertToComponent implements OnInit {
   }
 
   /**
-   * выбрана ли причина "предписание ФАС"
+   * выбрана ли причина "Предписание контролирующего органа"
    * @returns {boolean}
    */
   documentReasonFAS() {
@@ -203,28 +213,51 @@ export class RevertToComponent implements OnInit {
    * @param data
    */
   private toggleByInstructionData(data) {
+    console.log(data);
     if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
-      // console.log('KOTA InstructionData instructionData = enable');
       this.instructionData.enable();
     } else {
-      // console.log('KOTA InstructionData instructionData = disable');
       this.instructionData.disable();
     }
   }
 
   private toggleByInstructionStatus(status) {
     if (status === 'DISABLED') {
-      // console.log('KOTA controlNumber InstructionStatus = disable');
-      // console.log('KOTA controlNumber controlNumber = disable');
       this.controlNumber.disable();
+      this.authorityName.disable();
+      this.authorityType.disable();
+
+      if (this.documentReason.value === this.DOC_REASON_TYPE_FAS_ORDER) {
+        this.docName.disable();
+        this.docDate.disable();
+        this.docNumber.disable();
+      } else if (this.documentReason.value === this.DOC_REASON_TYPE_COURT_DECISION) {
+        this.docName.enable();
+        this.docDate.enable();
+        this.docNumber.enable();
+      }
     } else {
-      // console.log('KOTA controlNumber InstructionStatus != disable');
-      if (this.instructionData.value === this.INSTRUCTION_TYPE_CONTROL_DATA) {
-        // console.log('KOTA controlNumber controlNumber = enable');
+      if (this.instructionData.value === this.INSTRUCTION_DATA_REESTR_PRESCRIPTION) {
         this.controlNumber.enable();
-      } else {
-        // console.log('KOTA controlNumber controlNumber = disable2');
+        this.authorityName.disable();
+        this.authorityType.disable();
+        this.docName.disable();
+        this.docDate.disable();
+        this.docNumber.disable();
+      } else if (this.instructionData.value === this.INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION) {
         this.controlNumber.disable();
+        this.authorityName.enable();
+        this.authorityType.enable();
+        this.docName.enable();
+        this.docDate.enable();
+        this.docNumber.enable();
+      } else {
+        this.controlNumber.disable();
+        this.authorityName.disable();
+        this.authorityType.disable();
+        this.docName.disable();
+        this.docDate.disable();
+        this.docNumber.disable();
       }
     }
   }
@@ -253,11 +286,11 @@ export class RevertToComponent implements OnInit {
     const res = this.revertToS.loadProtocolData(id, targetStatus);
     res.subscribe(
       data => {
-        console.log('SUCCESS LOAD DATA =', data);
+        // console.log('SUCCESS LOAD DATA =', data);
         FillData.fill(formElement, this.revertToS.procedureChangeOptions.protocols, data);
       },
       err => {
-        console.log('ERROR ', err);
+        // console.log('ERROR ', err);
         // FIXME что-то нужно сделать в случае ошибки получения списка протоколов
       }
     );
