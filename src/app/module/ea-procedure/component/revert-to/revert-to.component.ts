@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 // import { ComponentRef, ViewContainerRef, ElementRef, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
 import {FormControl, FormGroup, FormArray, NgForm, Validators, AbstractControl} from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute} from '@angular/router';
 
-import { environment } from '../../../../../environments/environment';
+import {environment} from '../../../../../environments/environment';
 
-import { RevertToService } from '../../service/revert-to/revert-to.service';
-import { FillData } from '../../../../service/FillData';
+import {RevertToService} from '../../service/revert-to/revert-to.service';
+import {FillData} from '../../../../service/FillData';
 import {markFormGroupTouched} from '../../../../service/Object';
+import {ProcedureRequestsComponent} from './component/procedure-requests/procedure-requests.component';
 
 @Component({
   selector: 'app-revert-to',
@@ -24,6 +25,8 @@ export class RevertToComponent implements OnInit {
   private INSTRUCTION_DATA_REESTR_PRESCRIPTION = 'reestrPrescription';
   private INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION = 'externalPrescription';
   public summaryErrorMessage = null;
+
+  @ViewChild(ProcedureRequestsComponent) requestsComponent: ProcedureRequestsComponent;
 
   /**
    * Идентификатор заявки
@@ -62,10 +65,7 @@ export class RevertToComponent implements OnInit {
     docNumber: this.docNumber,
   });
 
-  procedureRequests = new FormGroup({
-    // requests: new FormArray([]),
-    requests: new FormControl([], {})
-  });
+  procedureRequests = new FormControl([], {});
 
   priceOffer = new FormGroup({
     offers: new FormArray([])
@@ -100,10 +100,8 @@ export class RevertToComponent implements OnInit {
 
   subscription: Subscription;
 
-  constructor(
-    public revertToS: RevertToService,
-    private route: ActivatedRoute
-  ) {
+  constructor(public revertToS: RevertToService,
+              private route: ActivatedRoute) {
     this.subscription = route.params.subscribe((params) => {
       const id = +this.route.snapshot.paramMap.get('id');
       this.loadData(id);
@@ -153,6 +151,7 @@ export class RevertToComponent implements OnInit {
       data => {
         // console.log('SUCCESS LOAD DATA =', data);
         FillData.fill(this.form, this.revertToS, data);
+        this.requestsComponent.updateGrid();
       },
       err => {
         // console.log('ERROR ', err);
@@ -269,6 +268,7 @@ export class RevertToComponent implements OnInit {
       this.summaryErrorMessage = 'Обнаружены ошибки в данных формы, необходимо их исправить';
     }
   }
+
   clearSummaryErrorMessage() {
     this.summaryErrorMessage = null;
   }

@@ -1,10 +1,10 @@
 <app-ag-grid-formcontrol
-        [formControl]="form.controls['requests']"
+        [formControl]="form"
         [columnDefs]="gridOptions.columnDefs"
-        [rowData]="rowData"
+        [rowData]="elementData"
         [mode]="gridMode"
 ></app-ag-grid-formcontrol>
 
 <!-- FOR TEST -->
-<pre>{{ form.value | json }}</pre>
-<pre>{{ {'elementData (revertToS.procedureRequests)': elementData} | json }}</pre>
+<!--<pre>{{ form.value | json }}</pre>-->
+<!--<pre>{{ {'elementData (revertToS.procedureRequests)': elementData} | json }}</pre>-->

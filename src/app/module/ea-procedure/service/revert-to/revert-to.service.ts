@@ -25,7 +25,7 @@ import {HttpJsonParseError} from '@angular/common/http/src/response';
 export class RevertToService implements FillDataInterface {
   private _procedureInfo = new ProcedureInfo();
   private _procedureChangeOptions = new ProcedureChangeOptions();
-  private _procedureRequests = new ProcedureRequests();
+  private _procedureRequests = [];
   private _priceOffer = new PriceOffers();
   private _timeLimits = new TimeLimits();
   private _extraConditions = new ExtraConditions();
@@ -58,7 +58,7 @@ export class RevertToService implements FillDataInterface {
     return this.http
       .get<any>(url, {observe: 'response'})
       .map((respData: HttpResponse<any>) => {
-        console.log('LOAD RESPONSE = ', respData);
+        // console.log('LOAD RESPONSE = ', respData);
         return respData.body;
       })
       .catch((err: HttpErrorResponse, caught) => {
@@ -68,9 +68,9 @@ export class RevertToService implements FillDataInterface {
         //     _error: 'Ошибка HttpJsonParseError'
         //   };
         // } else {
-        console.log('KOTA error response data = ', err);
-        console.log('KOTA error response status = ', err.status);
-        console.log('KOTA error response caught = ', caught);
+        // console.log('KOTA error response data = ', err);
+        // console.log('KOTA error response status = ', err.status);
+        // console.log('KOTA error response caught = ', caught);
 
         if ((<HttpErrorResponse>err).status >= 400 && err.status < 500) {
           error = err.error;
@@ -94,7 +94,7 @@ export class RevertToService implements FillDataInterface {
     return this.http
       .get<any>(url, {observe: 'response'})
       .map((respData: HttpResponse<any>) => {
-        console.log('LOAD PROTOCOLS RESPONSE = ', respData);
+        // console.log('LOAD PROTOCOLS RESPONSE = ', respData);
         return respData.body;
       })
       .catch((err: HttpErrorResponse, caught) => {
@@ -104,9 +104,9 @@ export class RevertToService implements FillDataInterface {
         //     _error: 'Ошибка HttpJsonParseError'
         //   };
         // } else {
-        console.log('KOTA error response data = ', err);
-        console.log('KOTA error response status = ', err.status);
-        console.log('KOTA error response caught = ', caught);
+        // console.log('KOTA error response data = ', err);
+        // console.log('KOTA error response status = ', err.status);
+        // console.log('KOTA error response caught = ', caught);
 
         if ((<HttpErrorResponse>err).status >= 400 && err.status < 500) {
           error = err.error;
@@ -139,7 +139,7 @@ export class RevertToService implements FillDataInterface {
     return this.http
       .post<any>(url, data, {observe: 'response'})
       .map((respData: HttpResponse<any>) => {
-        console.log('CREATE RESPONSE = ', respData);
+        // console.log('CREATE RESPONSE = ', respData);
         return respData.body;
       })
       .catch((err: HttpErrorResponse, caught) => {
@@ -149,9 +149,9 @@ export class RevertToService implements FillDataInterface {
         //     _error: 'Ошибка HttpJsonParseError'
         //   };
         // } else {
-          console.log('KOTA error response data = ', err);
-          console.log('KOTA error response status = ', err.status);
-          console.log('KOTA error response caught = ', caught);
+        //   console.log('KOTA error response data = ', err);
+        //   console.log('KOTA error response status = ', err.status);
+        //   console.log('KOTA error response caught = ', caught);
 
           if ((<HttpErrorResponse>err).status >= 400 && err.status < 500) {
             error = err.error;
@@ -207,7 +207,28 @@ export class RevertToService implements FillDataInterface {
       this.procedureChangeOptions.fill(fieldsData['procedureChangeOptions']);
     }
     if (fieldsData['procedureRequests'] !== undefined) {
-      this.procedureRequests.fill(fieldsData['procedureRequests']);
+      for (const procedureRequestData of fieldsData['procedureRequests']) {
+        const procedureRequestRow = {
+          id: '',
+          requestNumber: '',
+          sendDateTime: '',
+          organization: '',
+          status: '',
+          blockMoney: '',
+          freeFinance: '',
+          targetStatus: ''
+        };
+        for (const i in procedureRequestData) {
+          if (procedureRequestData.hasOwnProperty(i) && i === '_fields') {
+            for (const name in procedureRequestData[i]) {
+              if (procedureRequestData[i].hasOwnProperty(name) && procedureRequestData[i][name]['_default'] !== null) {
+                procedureRequestRow[name] = procedureRequestData[i][name]['_default'];
+              }
+            }
+          }
+        }
+        this.procedureRequests.push(procedureRequestRow);
+      }
     }
     if (fieldsData['priceOffer'] !== undefined) {
       this.priceOffer.fill(fieldsData['priceOffer']);
@@ -238,11 +259,11 @@ export class RevertToService implements FillDataInterface {
     this._procedureChangeOptions = value;
   }
 
-  get procedureRequests(): ProcedureRequests {
+  get procedureRequests(): any[] {
     return this._procedureRequests;
   }
 
-  set procedureRequests(value: ProcedureRequests) {
+  set procedureRequests(value: any[]) {
     this._procedureRequests = value;
   }
 
