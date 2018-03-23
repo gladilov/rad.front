@@ -128,15 +128,10 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
 
     this.onChangeCallback(this.value);
     this.onTouchedCallback();
-    // this.onChange.emit({originalEvent: event, value: this.value});
   }
 
   private onCellEditingStopped = (event: any): void => {
     const rowEditingData = event.data;
-    console.log('rowEditingData', rowEditingData);
-
-    // const node = event.node;
-    // node.setSelected(true);
 
     if (rowEditingData) {
       rowEditingData.rowIndex = event.rowIndex;
@@ -151,4 +146,12 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
     this.gridOptions.api.sizeColumnsToFit();
   }
 
+  /**
+   * Добавление записей в grid
+   * @param rowData
+   * @returns {RowNodeTransaction}
+   */
+  addRow(rowData) {
+    return this.gridOptions.api.updateRowData({add: [rowData]});
+  }
 }
