@@ -5,133 +5,138 @@
     <app-revert-to-procedure-info class="card"
       [formElement]="procedureInfo" [elementData]="revertToS.procedureInfo"></app-revert-to-procedure-info>
 
-    <div class="card" [formGroup]="procedureChangeOptions">
-      <div class="card-header">
-        Выбор статуса и отменяемые протоколы
-      </div>
-      <div class="card-body">
-        <div class="form-group">
-          <label for="field__7">Новый статус закупки</label>
-          <app-fer-select
-                  [elementClass]="'form-control'"
-                  [formElement]="procedureChangeOptions.controls['targetStatus']"
-                  [id]="'field__7'"
-                  [elementData]="revertToS.procedureChangeOptions.targetStatus"
-          ></app-fer-select>
-        </div>
-        <div class="form-group">
-          <label>Отменяемые протоколы</label>
+    <app-revert-to-procedure-change-options class="card"
+      [formElement]="procedureChangeOptions"
+      [requestId]="requestId"
+    ></app-revert-to-procedure-change-options>
 
-          <app-fer-multi-checkbox
-                  [elementData]="revertToS.procedureChangeOptions.protocols"
-                  [id]="'procedureChangeOptions__protocols'"
-                  [formElement]="procedureChangeOptions.controls['protocols']"
-                  [mode]="'view'"
-                  [wrapCheckboxClass]="'custom-control custom-checkbox'"
-                  [checkboxLabelClass]="'custom-control-label'"
-          ></app-fer-multi-checkbox>
-        </div>
-        <div class="form-group">
-          <label>Документ-основание для отмены протокола</label>
+    <!--<div class="card" [formGroup]="procedureChangeOptions">-->
+      <!--<div class="card-header">-->
+        <!--Выбор статуса и отменяемые протоколы-->
+      <!--</div>-->
+      <!--<div class="card-body">-->
+        <!--<div class="form-group">-->
+          <!--<label for="field__7">Новый статус закупки</label>-->
+          <!--<app-fer-select-->
+                  <!--[elementClass]="'form-control'"-->
+                  <!--[formElement]="procedureChangeOptions.controls['targetStatus']"-->
+                  <!--[id]="'field__7'"-->
+                  <!--[elementData]="revertToS.procedureChangeOptions.targetStatus"-->
+          <!--&gt;</app-fer-select>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label>Отменяемые протоколы</label>-->
 
-          <app-fer-radio
-                  [formElement]="procedureChangeOptions.controls['documentReason']"
-                  [id]="'procedureChangeOptions__documentReason'"
-                  [elementData]="revertToS.procedureChangeOptions.documentReason"
-          ></app-fer-radio>
-        </div>
-        <div class="form-group" *ngIf="documentReasonFAS()">
-          <label>Данные о предписании из реестра результатов контроля</label>
+          <!--<app-fer-multi-checkbox-->
+                  <!--[elementData]="revertToS.procedureChangeOptions.protocols"-->
+                  <!--[id]="'procedureChangeOptions__protocols'"-->
+                  <!--[formElement]="procedureChangeOptions.controls['protocols']"-->
+                  <!--[mode]="'view'"-->
+                  <!--[wrapCheckboxClass]="'custom-control custom-checkbox'"-->
+                  <!--[checkboxLabelClass]="'custom-control-label'"-->
+          <!--&gt;</app-fer-multi-checkbox>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label>Документ-основание для отмены протокола</label>-->
 
-          <app-fer-radio
-                  [formElement]="procedureChangeOptions.controls['instructionData']"
-                  [id]="'procedureChangeOptions__instructionData'"
-                  [elementData]="revertToS.procedureChangeOptions.instructionData"
-          ></app-fer-radio>
+          <!--<app-fer-radio-->
+                  <!--[formElement]="procedureChangeOptions.controls['documentReason']"-->
+                  <!--[id]="'procedureChangeOptions__documentReason'"-->
+                  <!--[elementData]="revertToS.procedureChangeOptions.documentReason"-->
+          <!--&gt;</app-fer-radio>-->
+        <!--</div>-->
+        <!--<div class="form-group" *ngIf="documentReasonFAS()">-->
+          <!--<label>Данные о предписании из реестра результатов контроля</label>-->
 
-          <div class="form-group row mt-3" *ngIf="controlNumber.status != 'DISABLED'">
-            <label for="procedureChangeOptions__controlNumber" class="col-md-5 col-form-label">
-              Номер результата контроля по предписанию
-            </label>
-            <div class="col-md-7">
-              <app-fer-text
-                [id]="'procedureChangeOptions__controlNumber'"
-                [elementClass]="'form-control'"
-                [formElement]="controlNumber"
-              ></app-fer-text>
-            </div>
-          </div>
+          <!--<app-fer-radio-->
+                  <!--[formElement]="procedureChangeOptions.controls['instructionData']"-->
+                  <!--[id]="'procedureChangeOptions__instructionData'"-->
+                  <!--[elementData]="revertToS.procedureChangeOptions.instructionData"-->
+          <!--&gt;</app-fer-radio>-->
 
-          <div class="form-group row mt-3" *ngIf="authorityName.status != 'DISABLED'">
-            <label for="procedureChangeOptions__authorityName" class="col-md-5 col-form-label">
-              Наименование органа, уполномоченного на осуществление контроля
-            </label>
-            <div class="col-md-7">
-              <app-fer-textarea
-                [id]="'procedureChangeOptions__authorityName'"
-                [elementClass]="'form-control'"
-                [formElement]="authorityName"
-              ></app-fer-textarea>
-            </div>
-          </div>
+          <!--<div class="form-group row mt-3" *ngIf="controlNumber.status != 'DISABLED'">-->
+            <!--<label for="procedureChangeOptions__controlNumber" class="col-md-5 col-form-label">-->
+              <!--Номер результата контроля по предписанию-->
+            <!--</label>-->
+            <!--<div class="col-md-7">-->
+              <!--<app-fer-text-->
+                <!--[id]="'procedureChangeOptions__controlNumber'"-->
+                <!--[elementClass]="'form-control'"-->
+                <!--[formElement]="controlNumber"-->
+              <!--&gt;</app-fer-text>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="form-group row mt-3" *ngIf="authorityType.status != 'DISABLED'">
-            <label for="procedureChangeOptions__authorityType" class="col-md-5 col-form-label">
-              Вид органа, уполномоченного на осуществление контроля
-            </label>
-            <div class="col-md-7">
-              <app-fer-select
-                [elementClass]="'form-control'"
-                [formElement]="authorityType"
-                [id]="'procedureChangeOptions__authorityType'"
-                [elementData]="revertToS.procedureChangeOptions.authorityType"
-              ></app-fer-select>
-            </div>
-          </div>
+          <!--<div class="form-group row mt-3" *ngIf="authorityName.status != 'DISABLED'">-->
+            <!--<label for="procedureChangeOptions__authorityName" class="col-md-5 col-form-label">-->
+              <!--Наименование органа, уполномоченного на осуществление контроля-->
+            <!--</label>-->
+            <!--<div class="col-md-7">-->
+              <!--<app-fer-textarea-->
+                <!--[id]="'procedureChangeOptions__authorityName'"-->
+                <!--[elementClass]="'form-control'"-->
+                <!--[formElement]="authorityName"-->
+              <!--&gt;</app-fer-textarea>-->
+            <!--</div>-->
+          <!--</div>-->
 
-        </div>
+          <!--<div class="form-group row mt-3" *ngIf="authorityType.status != 'DISABLED'">-->
+            <!--<label for="procedureChangeOptions__authorityType" class="col-md-5 col-form-label">-->
+              <!--Вид органа, уполномоченного на осуществление контроля-->
+            <!--</label>-->
+            <!--<div class="col-md-7">-->
+              <!--<app-fer-select-->
+                <!--[elementClass]="'form-control'"-->
+                <!--[formElement]="authorityType"-->
+                <!--[id]="'procedureChangeOptions__authorityType'"-->
+                <!--[elementData]="revertToS.procedureChangeOptions.authorityType"-->
+              <!--&gt;</app-fer-select>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="form-group row mt-3" *ngIf="docName.status != 'DISABLED'">
-            <label for="procedureChangeOptions__docName" class="col-md-5 col-form-label">
-              Наименование документа
-            </label>
-            <div class="col-md-7">
-              <app-fer-text
-                [id]="'procedureChangeOptions__docName'"
-                [elementClass]="'form-control'"
-                [formElement]="docName"
-              ></app-fer-text>
-            </div>
-          </div>
+        <!--</div>-->
 
-          <div class="form-group row mt-3" *ngIf="docDate.status != 'DISABLED'">
-            <label for="procedureChangeOptions__docDate" class="col-md-5 col-form-label">
-              Дата документа
-            </label>
-            <div class="col-md-7">
-              <app-fer-text
-                [id]="'procedureChangeOptions__docDate'"
-                [elementClass]="'form-control'"
-                [formElement]="docDate"
-              ></app-fer-text>
-            </div>
-          </div>
+          <!--<div class="form-group row mt-3" *ngIf="docName.status != 'DISABLED'">-->
+            <!--<label for="procedureChangeOptions__docName" class="col-md-5 col-form-label">-->
+              <!--Наименование документа-->
+            <!--</label>-->
+            <!--<div class="col-md-7">-->
+              <!--<app-fer-text-->
+                <!--[id]="'procedureChangeOptions__docName'"-->
+                <!--[elementClass]="'form-control'"-->
+                <!--[formElement]="docName"-->
+              <!--&gt;</app-fer-text>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="form-group row mt-3" *ngIf="docNumber.status != 'DISABLED'">
-            <label for="procedureChangeOptions__docNumber" class="col-md-5 col-form-label">
-              Номер документа
-            </label>
-            <div class="col-md-7">
-              <app-fer-text
-                [id]="'procedureChangeOptions__docNumber'"
-                [elementClass]="'form-control'"
-                [formElement]="docNumber"
-              ></app-fer-text>
-            </div>
-          </div>
+          <!--<div class="form-group row mt-3" *ngIf="docDate.status != 'DISABLED'">-->
+            <!--<label for="procedureChangeOptions__docDate" class="col-md-5 col-form-label">-->
+              <!--Дата документа-->
+            <!--</label>-->
+            <!--<div class="col-md-7">-->
+              <!--<app-fer-text-->
+                <!--[id]="'procedureChangeOptions__docDate'"-->
+                <!--[elementClass]="'form-control'"-->
+                <!--[formElement]="docDate"-->
+              <!--&gt;</app-fer-text>-->
+            <!--</div>-->
+          <!--</div>-->
 
-      </div>
-    </div>
+          <!--<div class="form-group row mt-3" *ngIf="docNumber.status != 'DISABLED'">-->
+            <!--<label for="procedureChangeOptions__docNumber" class="col-md-5 col-form-label">-->
+              <!--Номер документа-->
+            <!--</label>-->
+            <!--<div class="col-md-7">-->
+              <!--<app-fer-text-->
+                <!--[id]="'procedureChangeOptions__docNumber'"-->
+                <!--[elementClass]="'form-control'"-->
+                <!--[formElement]="docNumber"-->
+              <!--&gt;</app-fer-text>-->
+            <!--</div>-->
+          <!--</div>-->
+
+      <!--</div>-->
+    <!--</div>-->
 
     <div class="card">
       <div class="card-header">

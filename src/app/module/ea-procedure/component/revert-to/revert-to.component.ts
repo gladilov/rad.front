@@ -35,7 +35,7 @@ export class RevertToComponent implements OnInit {
    * Идентификатор заявки
    * @type {number}
    */
-  private requestId = 3779; // -1;
+  requestId = 3779; // -1;
 
   procedureInfo = new FormGroup({
     registrationNumber: new NgxFormControlText({value: '', disabled: true}, {}),
@@ -98,7 +98,7 @@ export class RevertToComponent implements OnInit {
   });
   form = new FormGroup({
     data: this.formData,
-    sign: new FormControl('', {})
+    sign: new NgxFormControlText('', {})
   });
 
   subscription: Subscription;
@@ -110,21 +110,21 @@ export class RevertToComponent implements OnInit {
       this.loadData(id);
     });
 
-    // протоколы только для информационных целей
-    this.documentReason.valueChanges.subscribe(data => {
-      this.toggleByDocumentReason(data);
-    });
+    // // протоколы только для информационных целей
+    // this.documentReason.valueChanges.subscribe(data => {
+    //   this.toggleByDocumentReason(data);
+    // });
+    //
+    // this.instructionData.statusChanges.subscribe(status => {
+    //   this.toggleByInstructionStatus(status);
+    // });
 
-    this.instructionData.statusChanges.subscribe(status => {
-      this.toggleByInstructionStatus(status);
-    });
+    // this.documentReason.setValue(this.DOC_REASON_TYPE_FAS_ORDER);
 
-    this.documentReason.setValue(this.DOC_REASON_TYPE_FAS_ORDER);
-
-    /** подписанты на различные изменения */
-    this.procedureChangeOptions.get('targetStatus').valueChanges.subscribe(value => {
-      this.loadRemovableProtocols(value);
-    });
+    // /** подписанты на различные изменения */
+    // this.procedureChangeOptions.get('targetStatus').valueChanges.subscribe(value => {
+    //   this.loadRemovableProtocols(value);
+    // });
   }
 
   ngOnInit() {
@@ -161,10 +161,10 @@ export class RevertToComponent implements OnInit {
           }
         }
 
-
-
         // console.log('SUCCESS LOAD DATA =', data);
         FillData.fill(this.form, this.revertToS, data);
+
+        NpxControlDataSetter.setControlsData(this.form, data);
         this.requestsComponent.updateGrid();
       },
       err => {
@@ -200,80 +200,80 @@ export class RevertToComponent implements OnInit {
     return false;
   }
 
-  /**
-   * прячет элементы в зависимости от причины выполнения действия documentReason
-   * @param data
-   */
-  private toggleByDocumentReason(data) {
-    if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
-      this.instructionData.enable();
-    } else {
-      this.instructionData.disable();
-    }
-  }
+  // /**
+  //  * прячет элементы в зависимости от причины выполнения действия documentReason
+  //  * @param data
+  //  */
+  // private toggleByDocumentReason(data) {
+  //   if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
+  //     this.instructionData.enable();
+  //   } else {
+  //     this.instructionData.disable();
+  //   }
+  // }
 
-  /**
-   * выбрана ли причина "Предписание контролирующего органа"
-   * @returns {boolean}
-   */
-  documentReasonFAS() {
-    const procedureChangeOptions = <FormGroup>this.procedureChangeOptions;
-    return (procedureChangeOptions.controls['documentReason'].value === this.DOC_REASON_TYPE_FAS_ORDER);
-  }
+  // /**
+  //  * выбрана ли причина "Предписание контролирующего органа"
+  //  * @returns {boolean}
+  //  */
+  // documentReasonFAS() {
+  //   const procedureChangeOptions = <FormGroup>this.procedureChangeOptions;
+  //   return (procedureChangeOptions.controls['documentReason'].value === this.DOC_REASON_TYPE_FAS_ORDER);
+  // }
 
-  /**
-   * прячет элементы в зависимости от причины выполнения действия documentReason
-   * @param data
-   */
-  private toggleByInstructionData(data) {
-    console.log(data);
-    if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
-      this.instructionData.enable();
-    } else {
-      this.instructionData.disable();
-    }
-  }
+  // /**
+  //  * прячет элементы в зависимости от причины выполнения действия documentReason
+  //  * @param data
+  //  */
+  // private toggleByInstructionData(data) {
+  //   console.log(data);
+  //   if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
+  //     this.instructionData.enable();
+  //   } else {
+  //     this.instructionData.disable();
+  //   }
+  // }
 
-  private toggleByInstructionStatus(status) {
-    if (status === 'DISABLED') {
-      this.controlNumber.disable();
-      this.authorityName.disable();
-      this.authorityType.disable();
-
-      if (this.documentReason.value === this.DOC_REASON_TYPE_FAS_ORDER) {
-        this.docName.disable();
-        this.docDate.disable();
-        this.docNumber.disable();
-      } else if (this.documentReason.value === this.DOC_REASON_TYPE_COURT_DECISION) {
-        this.docName.enable();
-        this.docDate.enable();
-        this.docNumber.enable();
-      }
-    } else {
-      if (this.instructionData.value === this.INSTRUCTION_DATA_REESTR_PRESCRIPTION) {
-        this.controlNumber.enable();
-        this.authorityName.disable();
-        this.authorityType.disable();
-        this.docName.disable();
-        this.docDate.disable();
-        this.docNumber.disable();
-      } else if (this.instructionData.value === this.INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION) {
-        this.controlNumber.disable();
-        this.authorityName.enable();
-        this.authorityType.enable();
-        this.docName.enable();
-        this.docDate.enable();
-        this.docNumber.enable();
-      } else {
-        this.controlNumber.disable();
-        this.authorityName.disable();
-        this.authorityType.disable();
-        this.docName.disable();
-        this.docDate.disable();
-        this.docNumber.disable();
-      }
-    }
-  }
+  // private toggleByInstructionStatus(status) {
+  //   if (status === 'DISABLED') {
+  //     this.controlNumber.disable();
+  //     this.authorityName.disable();
+  //     this.authorityType.disable();
+  //
+  //     if (this.documentReason.value === this.DOC_REASON_TYPE_FAS_ORDER) {
+  //       this.docName.disable();
+  //       this.docDate.disable();
+  //       this.docNumber.disable();
+  //     } else if (this.documentReason.value === this.DOC_REASON_TYPE_COURT_DECISION) {
+  //       this.docName.enable();
+  //       this.docDate.enable();
+  //       this.docNumber.enable();
+  //     }
+  //   } else {
+  //     if (this.instructionData.value === this.INSTRUCTION_DATA_REESTR_PRESCRIPTION) {
+  //       this.controlNumber.enable();
+  //       this.authorityName.disable();
+  //       this.authorityType.disable();
+  //       this.docName.disable();
+  //       this.docDate.disable();
+  //       this.docNumber.disable();
+  //     } else if (this.instructionData.value === this.INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION) {
+  //       this.controlNumber.disable();
+  //       this.authorityName.enable();
+  //       this.authorityType.enable();
+  //       this.docName.enable();
+  //       this.docDate.enable();
+  //       this.docNumber.enable();
+  //     } else {
+  //       this.controlNumber.disable();
+  //       this.authorityName.disable();
+  //       this.authorityType.disable();
+  //       this.docName.disable();
+  //       this.docDate.disable();
+  //       this.docNumber.disable();
+  //     }
+  //   }
+  // }
 
   setSummaryErrorMessage(msg?: string) {
     if (msg) {
