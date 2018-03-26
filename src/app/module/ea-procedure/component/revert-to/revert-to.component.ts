@@ -152,7 +152,7 @@ export class RevertToComponent implements OnInit {
         if (data['_fields'] !== undefined
             && data['_fields']['data'] !== undefined
         ) {
-          let formData = data['_fields']['data'];
+          const formData = data['_fields']['data'];
           if (formData['_fields']['procedureInfo'] !== undefined) {
             formData['_fields']['timeLimits'] = formData['_fields']['procedureInfo'];
           }
