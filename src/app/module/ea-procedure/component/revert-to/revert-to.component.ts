@@ -4,6 +4,9 @@ import {FormControl, FormGroup, FormArray, NgForm, Validators, AbstractControl} 
 import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute} from '@angular/router';
 
+import { NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox } from 'ngx-form-controls';
+import { NpxControlDataSetter } from 'ngx-form-controls';
+
 import {environment} from '../../../../../environments/environment';
 
 import {RevertToService} from '../../service/revert-to/revert-to.service';
@@ -35,26 +38,26 @@ export class RevertToComponent implements OnInit {
   private requestId = 3779; // -1;
 
   procedureInfo = new FormGroup({
-    registrationNumber: new FormControl({value: '', disabled: true}, {}),
-    name: new FormControl({value: '', disabled: true}, {}),
-    status: new FormControl({value: '', disabled: true}, {}),
-    requestEndGiveDateTime: new FormControl({value: '', disabled: true}, {}),
-    requestReviewDateTime: new FormControl({value: '', disabled: true}, {}),
-    conditionalHoldingDateTime: new FormControl({value: '', disabled: true}, {}),
+    registrationNumber: new NgxFormControlText({value: '', disabled: true}, {}),
+    name: new NgxFormControlText({value: '', disabled: true}, {}),
+    status: new NgxFormControlText({value: '', disabled: true}, {}),
+    requestEndGiveDateTime: new NgxFormControlText({value: '', disabled: true}, {}),
+    requestReviewDateTime: new NgxFormControlText({value: '', disabled: true}, {}),
+    conditionalHoldingDateTime: new NgxFormControlText({value: '', disabled: true}, {}),
   });
 
-  instructionData = new FormControl('', {});
-  controlNumber = new FormControl('', {});
-  authorityName = new FormControl('', {});
-  authorityType = new FormControl('', {});
-  documentReason = new FormControl('', {});
-  docName = new FormControl('', {});
-  docDate = new FormControl('', {});
-  docNumber = new FormControl('', {});
+  instructionData = new NgxFormControlSelect('', {});
+  controlNumber = new NgxFormControlText('', {});
+  authorityName = new NgxFormControlText('', {});
+  authorityType = new NgxFormControlSelect('', {});
+  documentReason = new NgxFormControlSelect('', {});
+  docName = new NgxFormControlText('', {});
+  docDate = new NgxFormControlText('', {});
+  docNumber = new NgxFormControlText('', {});
 
   procedureChangeOptions = new FormGroup({
-    targetStatus: new FormControl('', {}),
-    protocols: new FormControl({value: [], disabled: true}, {}),
+    targetStatus: new NgxFormControlSelect('', {}),
+    protocols: new NgxFormControlMultiSelect({value: [], disabled: true}, {}),
     documentReason: this.documentReason,
     instructionData: this.instructionData,
     controlNumber: this.controlNumber,
@@ -65,21 +68,21 @@ export class RevertToComponent implements OnInit {
     docNumber: this.docNumber,
   });
 
-  procedureRequests = new FormControl([], {});
+  procedureRequests = new NgxFormControlMultiSelect([], {});
 
   priceOffer = new FormGroup({
     offers: new FormArray([])
   });
 
   timeLimits = new FormGroup({
-    requestEndGiveDateTime: new FormControl('', {}),
-    requestReviewDateTime: new FormControl('', {}),
-    conditionalHoldingDateTime: new FormControl('', {}),
+    requestEndGiveDateTime: new NgxFormControlText('', {}),
+    requestReviewDateTime: new NgxFormControlText('', {}),
+    conditionalHoldingDateTime: new NgxFormControlText('', {}),
   });
 
   extraConditions = new FormGroup({
-    publishEvent: new FormControl(''),
-    notifyMembers: new FormControl('')
+    publishEvent: new NgxFormControlCheckbox(''),
+    notifyMembers: new NgxFormControlCheckbox('')
   });
 
   documents = new FormGroup({});

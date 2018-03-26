@@ -6,8 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular/main';
 
 import { environment } from '../../../environments/environment';
-// import { FormElementRenderModule } from '../../form-element-render/form-element-render.module';
 import { FormElementRenderModule } from '../../form-element-render/form-element-render.module';
+import { NgxFormControlsModule } from 'ngx-form-controls';
 
 import { CommonComponent } from './component/common/common.component';
 import { RevertToComponent } from './component/revert-to/revert-to.component';
@@ -48,6 +48,7 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxFormControlsModule,
     FormElementRenderModule,
     objectRouting,
     AgGridModule.withComponents([
