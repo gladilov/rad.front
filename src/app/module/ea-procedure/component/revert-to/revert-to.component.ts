@@ -149,6 +149,17 @@ export class RevertToComponent implements OnInit {
     const res = this.revertToS.loadData(this.formData, id);
     res.subscribe(
       data => {
+        if (data['_fields'] !== undefined
+            && data['_fields']['data'] !== undefined
+        ) {
+          let formData = data['_fields']['data'];
+          if (formData['_fields']['procedureInfo'] !== undefined) {
+            formData['_fields']['timeLimits'] = formData['_fields']['procedureInfo'];
+          }
+        }
+
+
+
         // console.log('SUCCESS LOAD DATA =', data);
         FillData.fill(this.form, this.revertToS, data);
         this.requestsComponent.updateGrid();

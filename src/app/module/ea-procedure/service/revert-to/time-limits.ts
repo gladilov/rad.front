@@ -13,6 +13,7 @@ export class TimeLimits implements FillDataInterface {
     for (const key in fieldsData) {
       if (fieldsData.hasOwnProperty(key) === undefined) { continue; }
       if (this[key] instanceof BaseObject === false) { continue; }
+      // console.log('KOTA TimeLimits fill data key=', key);
       this[key].fill(fieldsData[key]);
     }
   }

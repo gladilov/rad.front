@@ -191,17 +191,18 @@ export class RevertToService implements FillDataInterface {
 
   fillData(data: any): void {
     const fieldsData = data['_fields'];
-    // console.log('KOTA load data data', fieldsData);
+     // console.log('KOTA load data data', fieldsData);
 
     if (fieldsData['procedureInfo'] !== undefined) {
       this.procedureInfo.fill(fieldsData['procedureInfo']);
 
-      const timeLimitsData = {};
-      const procedureInfo = fieldsData['procedureInfo']['_fields'];
-      timeLimitsData['requestEndGiveDateTime'] = procedureInfo['requestEndGiveDateTime'];
-      timeLimitsData['requestReviewDateTime'] = procedureInfo['requestReviewDateTime'];
-      timeLimitsData['conditionalHoldingDateTime'] = procedureInfo['conditionalHoldingDateTime'];
-      this.timeLimits.fill({_fields: timeLimitsData});
+      // const timeLimitsData = {};
+      // const procedureInfo = fieldsData['procedureInfo']['_fields'];
+      // timeLimitsData['requestEndGiveDateTime'] = procedureInfo['requestEndGiveDateTime'];
+      // timeLimitsData['requestReviewDateTime'] = procedureInfo['requestReviewDateTime'];
+      // timeLimitsData['conditionalHoldingDateTime'] = procedureInfo['conditionalHoldingDateTime'];
+      // // console.log('KOTA timeLimitsData1 = ', timeLimitsData);
+      // this.timeLimits.fill({_fields: timeLimitsData});
     }
     if (fieldsData['procedureChangeOptions'] !== undefined) {
       this.procedureChangeOptions.fill(fieldsData['procedureChangeOptions']);
@@ -234,6 +235,7 @@ export class RevertToService implements FillDataInterface {
       this.priceOffer.fill(fieldsData['priceOffer']);
     }
     if (fieldsData['timeLimits'] !== undefined) {
+      // console.log('KOTA timeLimitsData 2  = ', fieldsData['timeLimits']);
       this.timeLimits.fill(fieldsData['timeLimits']);
     }
     if (fieldsData['extraConditions'] !== undefined) {
