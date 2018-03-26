@@ -5,23 +5,22 @@
   <div class="form-group row">
     <label for="procedureInfo__registrationNumber" class="col-sm-4 col-form-label">Номер извещения</label>
     <div class="col-sm-8">
-      <app-fer-text [formElement]="formElement.controls['registrationNumber']" [elementData]="elementData.registrationNumber"
-                    [id]="'procedureInfo__registrationNumber'" [mode]="'view'"></app-fer-text>
+      <ngx-form-control-text [formElement]="formElement.controls['registrationNumber']"
+                             [id]="'procedureInfo__registrationNumber'" [mode]="'view'"></ngx-form-control-text>
     </div>
   </div>
   <div class="form-group row">
     <label for="procedureInfo__name" class="col-sm-4 col-form-label">Наименование закупки</label>
     <div class="col-sm-8">
-      <app-fer-textarea [formElement]="formElement.controls['name']" [elementData]="elementData.name"
-                    [id]="'procedureInfo__name'" [mode]="'view'"></app-fer-textarea>
+      <ngx-form-control-textarea [formElement]="formElement.controls['name']"
+                    [id]="'procedureInfo__name'" [mode]="'view'"></ngx-form-control-textarea>
     </div>
   </div>
   <div class="form-group row">
     <label for="procedureInfo__status" class="col-sm-4 col-form-label">Текущий статус закупки</label>
     <div class="col-sm-8">
-      <app-fer-text [formElement]="formElement.controls['status']" [elementData]="elementData.status"
-                      [elementClass]="'form-control'"
-                    [id]="'procedureInfo__status'" [mode]="'view'"></app-fer-text>
+      <ngx-form-control-text [formElement]="formElement.controls['status']"
+                    [id]="'procedureInfo__status'" [mode]="'view'"></ngx-form-control-text>
     </div>
   </div>
   <div class="form-group row">
@@ -29,8 +28,8 @@
       Дата и время окончания срока подачи заявок
     </label>
     <div class="col-sm-8">
-      <app-fer-text [formElement]="formElement.controls['requestEndGiveDateTime']" [elementData]="elementData.requestEndGiveDateTime"
-                    [id]="'procedureInfo__requestEndGiveDateTime'" [mode]="'view'"></app-fer-text>
+      <ngx-form-control-text [formElement]="formElement.controls['requestEndGiveDateTime']"
+                    [id]="'procedureInfo__requestEndGiveDateTime'" [mode]="'view'"></ngx-form-control-text>
     </div>
   </div>
   <div class="form-group row">
@@ -38,8 +37,8 @@
       Дата окончания срока рассмотрения заявок
     </label>
     <div class="col-sm-8">
-      <app-fer-text [formElement]="formElement.controls['requestReviewDateTime']" [elementData]="elementData.requestReviewDateTime"
-                    [id]="'procedureInfo__requestReviewDateTime'" [mode]="'view'"></app-fer-text>
+      <ngx-form-control-text [formElement]="formElement.controls['requestReviewDateTime']"
+                    [id]="'procedureInfo__requestReviewDateTime'" [mode]="'view'"></ngx-form-control-text>
     </div>
   </div>
   <div class="form-group row">
@@ -47,8 +46,8 @@
       Дата и время проведения электронного аукциона
     </label>
     <div class="col-sm-8">
-      <app-fer-text [formElement]="formElement.controls['conditionalHoldingDateTime']" [elementData]="elementData.conditionalHoldingDateTime"
-                    [id]="'procedureInfo__conditionalHoldingDateTime'" [mode]="'view'"></app-fer-text>
+      <ngx-form-control-text [formElement]="formElement.controls['conditionalHoldingDateTime']"
+                    [id]="'procedureInfo__conditionalHoldingDateTime'" [mode]="'view'"></ngx-form-control-text>
     </div>
   </div>
 </div>
