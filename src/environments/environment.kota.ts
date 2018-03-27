@@ -6,10 +6,10 @@
 export const environment = {
   production: false,
   // apiBaseUrl: 'http://api.gl.local/v2/',
-  apiBaseDomain: 'etp_base.local',
-  apiBaseUrl: 'http://etp_base.local',
+  apiBaseDomain: 'etp_base.local/etp_back',
+  apiBaseUrl: 'http://etp_base.local/etp_back',
   apiOptions: {
-    uploadFileUrl: 'http://etp_base.local/File/upload'
+    uploadFileUrl: 'http://etp_base.local/etp_back/File/upload'
   },
   gmaps: {
     apiKey: 'AIzaSyDOHWdM430kZKJK0n1kySk0vQwVWiyG5es',

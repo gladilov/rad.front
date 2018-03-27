@@ -6,9 +6,9 @@
 export const environment = {
   production: false,
   // apiBaseUrl: 'http://api.gl.local/v2/',
-  apiBaseDomain: 'local.etpbase',
-  apiBaseUrl: 'http://local.etpbase',
+  apiBaseDomain: 'local.etpbase/etp_back',
+  apiBaseUrl: 'http://local.etpbase/etp_back',
   apiOptions: {
-    uploadFileUrl: 'http://local.etpbase/File/upload'
+    uploadFileUrl: 'http://local.etpbase/etp_back/File/upload'
   }
 };
