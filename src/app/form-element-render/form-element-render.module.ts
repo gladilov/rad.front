@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular/main';
+import {NgxFormControlsModule} from 'ngx-form-controls';
 
 import { FileUploadModule, FileUploader, FileSelectDirective } from 'ng2-file-upload';
 
@@ -21,7 +22,8 @@ import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-g
     ReactiveFormsModule,
 
     FileUploadModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    NgxFormControlsModule
   ],
   declarations: [
     SelectComponent,

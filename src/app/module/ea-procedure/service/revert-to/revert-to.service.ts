@@ -177,71 +177,72 @@ export class RevertToService implements FillDataInterface {
    * @param data
    */
   fill(data: any): void {
-    const fieldsData = data['_fields'];
-    if (fieldsData === undefined) {
-      return;
-    }
-    if (fieldsData['data'] !== undefined) {
-      this.fillData(fieldsData['data']);
-    }
-    if (fieldsData['sign'] !== undefined) {
-      // TODO не реализовано
-    }
+    // const fieldsData = data['_fields'];
+    // if (fieldsData === undefined) {
+    //   return;
+    // }
+    // if (fieldsData['data'] !== undefined) {
+    //   this.fillData(fieldsData['data']);
+    // }
+    // if (fieldsData['sign'] !== undefined) {
+    //   // TODO не реализовано
+    // }
   }
-
-  fillData(data: any): void {
-    const fieldsData = data['_fields'];
-     // console.log('KOTA load data data', fieldsData);
-
-    if (fieldsData['procedureInfo'] !== undefined) {
-      this.procedureInfo.fill(fieldsData['procedureInfo']);
-
-      // const timeLimitsData = {};
-      // const procedureInfo = fieldsData['procedureInfo']['_fields'];
-      // timeLimitsData['requestEndGiveDateTime'] = procedureInfo['requestEndGiveDateTime'];
-      // timeLimitsData['requestReviewDateTime'] = procedureInfo['requestReviewDateTime'];
-      // timeLimitsData['conditionalHoldingDateTime'] = procedureInfo['conditionalHoldingDateTime'];
-      // // console.log('KOTA timeLimitsData1 = ', timeLimitsData);
-      // this.timeLimits.fill({_fields: timeLimitsData});
-    }
-    if (fieldsData['procedureChangeOptions'] !== undefined) {
-      this.procedureChangeOptions.fill(fieldsData['procedureChangeOptions']);
-    }
-    if (fieldsData['procedureRequests'] !== undefined) {
-      for (const procedureRequestData of fieldsData['procedureRequests']) {
-        const procedureRequestRow = {
-          id: '',
-          requestNumber: '',
-          sendDateTime: '',
-          organization: '',
-          status: '',
-          blockMoney: '',
-          freeFinance: '',
-          targetStatus: ''
-        };
-        for (const i in procedureRequestData) {
-          if (procedureRequestData.hasOwnProperty(i) && i === '_fields') {
-            for (const name in procedureRequestData[i]) {
-              if (procedureRequestData[i].hasOwnProperty(name) && procedureRequestData[i][name]['_default'] !== null) {
-                procedureRequestRow[name] = procedureRequestData[i][name]['_default'];
-              }
-            }
-          }
-        }
-        this.procedureRequests.push(procedureRequestRow);
-      }
-    }
-    if (fieldsData['priceOffer'] !== undefined) {
-      this.priceOffer.fill(fieldsData['priceOffer']);
-    }
-    if (fieldsData['timeLimits'] !== undefined) {
-      // console.log('KOTA timeLimitsData 2  = ', fieldsData['timeLimits']);
-      this.timeLimits.fill(fieldsData['timeLimits']);
-    }
-    if (fieldsData['extraConditions'] !== undefined) {
-      this.extraConditions.fill(fieldsData['extraConditions']);
-    }
-  }
+  //
+  // fillData(data: any): void {
+  //   const fieldsData = data['_fields'];
+  //   console.log('KOTA fillData data', fieldsData);
+  //
+  //   if (fieldsData['procedureInfo'] !== undefined) {
+  //     this.procedureInfo.fill(fieldsData['procedureInfo']);
+  //
+  //     // const timeLimitsData = {};
+  //     // const procedureInfo = fieldsData['procedureInfo']['_fields'];
+  //     // timeLimitsData['requestEndGiveDateTime'] = procedureInfo['requestEndGiveDateTime'];
+  //     // timeLimitsData['requestReviewDateTime'] = procedureInfo['requestReviewDateTime'];
+  //     // timeLimitsData['conditionalHoldingDateTime'] = procedureInfo['conditionalHoldingDateTime'];
+  //     // // console.log('KOTA timeLimitsData1 = ', timeLimitsData);
+  //     // this.timeLimits.fill({_fields: timeLimitsData});
+  //   }
+  //   if (fieldsData['procedureChangeOptions'] !== undefined) {
+  //     this.procedureChangeOptions.fill(fieldsData['procedureChangeOptions']);
+  //   }
+  //   if (fieldsData['procedureRequests'] !== undefined) {
+  //     for (const procedureRequestData of fieldsData['procedureRequests']) {
+  //       const procedureRequestRow = {
+  //         id: '',
+  //         requestNumber: '',
+  //         sendDateTime: '',
+  //         organization: '',
+  //         status: '',
+  //         blockMoney: '',
+  //         freeFinance: '',
+  //         targetStatus: ''
+  //       };
+  //       for (const i in procedureRequestData) {
+  //         if (procedureRequestData.hasOwnProperty(i) && i === '_fields') {
+  //           for (const name in procedureRequestData[i]) {
+  //             if (procedureRequestData[i].hasOwnProperty(name) && procedureRequestData[i][name]['_default'] !== null) {
+  //               procedureRequestRow[name] = procedureRequestData[i][name]['_default'];
+  //             }
+  //           }
+  //         }
+  //       }
+  //       procedureRequestRow['test'] = '222';
+  //       this.procedureRequests.push(procedureRequestRow);
+  //     }
+  //   }
+  //   if (fieldsData['priceOffer'] !== undefined) {
+  //     this.priceOffer.fill(fieldsData['priceOffer']);
+  //   }
+  //   if (fieldsData['timeLimits'] !== undefined) {
+  //     // console.log('KOTA timeLimitsData 2  = ', fieldsData['timeLimits']);
+  //     this.timeLimits.fill(fieldsData['timeLimits']);
+  //   }
+  //   if (fieldsData['extraConditions'] !== undefined) {
+  //     this.extraConditions.fill(fieldsData['extraConditions']);
+  //   }
+  // }
 
   // ============================================
 

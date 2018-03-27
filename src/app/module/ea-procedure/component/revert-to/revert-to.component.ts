@@ -13,6 +13,7 @@ import {RevertToService} from '../../service/revert-to/revert-to.service';
 import {FillData} from '../../../../service/FillData';
 import {markFormGroupTouched} from '../../../../service/Object';
 import {ProcedureRequestsComponent} from './component/procedure-requests/procedure-requests.component';
+import {FormControlAgGrid} from '../../../../form-element-render/controls/form-control-ag-grid';
 
 @Component({
   selector: 'app-revert-to',
@@ -68,7 +69,7 @@ export class RevertToComponent implements OnInit {
     docNumber: this.docNumber,
   });
 
-  procedureRequests = new NgxFormControlMultiSelect([], {});
+  procedureRequests = new FormControlAgGrid([], {});
 
   priceOffer = new FormGroup({
     offers: new FormArray([])
@@ -162,14 +163,15 @@ export class RevertToComponent implements OnInit {
         }
 
         // console.log('SUCCESS LOAD DATA =', data);
-        FillData.fill(this.form, this.revertToS, data);
+        // FillData.fill(this.form, this.revertToS, data);
 
         NpxControlDataSetter.setControlsData(this.form, data);
         this.requestsComponent.updateGrid();
       },
       err => {
         // console.log('ERROR ', err);
-        FillData.fill(this.form, this.revertToS, err);
+        NpxControlDataSetter.setControlsData(this.form, err);
+        // FillData.fill(this.form, this.revertToS, err);
       }
     );
   }
@@ -191,7 +193,8 @@ export class RevertToComponent implements OnInit {
       // FillData.fill(this.form, this.revertToS, data);
     }, err => {
       // console.log('ERROR ', err);
-      FillData.fill(this.form, this.revertToS, err);
+      NpxControlDataSetter.setControlsData(this.form, err);
+      // FillData.fill(this.form, this.revertToS, err);
       markFormGroupTouched(this.form);
       const msg = err['_error'] || null;
       this.setSummaryErrorMessage(msg);
@@ -287,26 +290,26 @@ export class RevertToComponent implements OnInit {
     this.summaryErrorMessage = null;
   }
 
-  /**
-   * подгружает отменяемые протоколы по заданному новому статусу закупки
-   * @param {string} targetStatus
-   */
-  loadRemovableProtocols(targetStatus: string): void {
-    const formElement = this.procedureChangeOptions.get('protocols');
-    const id = this.requestId; // FIXME брать из роутинга
-
-    // загрузка протоколов с сервера
-    const protocolsFC = this.procedureChangeOptions.get('protocols');
-    const res = this.revertToS.loadProtocolData(id, targetStatus);
-    res.subscribe(
-      data => {
-        // console.log('SUCCESS LOAD DATA =', data);
-        FillData.fill(formElement, this.revertToS.procedureChangeOptions.protocols, data);
-      },
-      err => {
-        // console.log('ERROR ', err);
-        // FIXME что-то нужно сделать в случае ошибки получения списка протоколов
-      }
-    );
-  }
+  // /**
+  //  * подгружает отменяемые протоколы по заданному новому статусу закупки
+  //  * @param {string} targetStatus
+  //  */
+  // loadRemovableProtocols(targetStatus: string): void {
+  //   const formElement = this.procedureChangeOptions.get('protocols');
+  //   const id = this.requestId; // FIXME брать из роутинга
+  //
+  //   // загрузка протоколов с сервера
+  //   const protocolsFC = this.procedureChangeOptions.get('protocols');
+  //   const res = this.revertToS.loadProtocolData(id, targetStatus);
+  //   res.subscribe(
+  //     data => {
+  //       // console.log('SUCCESS LOAD DATA =', data);
+  //       FillData.fill(formElement, this.revertToS.procedureChangeOptions.protocols, data);
+  //     },
+  //     err => {
+  //       // console.log('ERROR ', err);
+  //       // FIXME что-то нужно сделать в случае ошибки получения списка протоколов
+  //     }
+  //   );
+  // }
 }
