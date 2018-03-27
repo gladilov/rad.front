@@ -26,7 +26,7 @@ export class ProcedureRequestsComponent implements OnInit {
   public gridOptions: GridOptions;
   @Input() form: NgxFormControlMultiSelect;
   // @Input() form: FormControl;
-  @Input() elementData;
+  // @Input() elementData;
   @ViewChild(AgGridFormcontrolComponent) grid: AgGridFormcontrolComponent;
 
   public columnDefs: any[] = [

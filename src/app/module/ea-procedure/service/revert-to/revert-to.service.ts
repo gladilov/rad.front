@@ -8,33 +8,26 @@ import { AbstractControl, FormControl, FormGroup, FormArray, NgForm, Validators 
 
 import { environment } from '../../../../../environments/environment';
 
-import { FillData } from '../../../../service/FillData';
-import { FillDataInterface } from '../../../../service/Object';
-
-import { ProcedureInfo } from './procedure-info';
-import { ProcedureChangeOptions } from './procedure-change-options';
-import { ProcedureRequests } from './procedure-requests';
-import { PriceOffers } from './price-offers';
-import { TimeLimits } from './time-limits';
-import { ExtraConditions } from './extra-conditions';
+// import { ProcedureInfo } from './procedure-info';
+// import { ProcedureChangeOptions } from './procedure-change-options';
+// import { ProcedureRequests } from './procedure-requests';
+// import { PriceOffers } from './price-offers';
+// import { TimeLimits } from './time-limits';
+// import { ExtraConditions } from './extra-conditions';
 
 import { loadData } from './MocRevertTo';
 import {HttpJsonParseError} from '@angular/common/http/src/response';
 
 @Injectable()
-export class RevertToService implements FillDataInterface {
-  private _procedureInfo = new ProcedureInfo();
-  private _procedureChangeOptions = new ProcedureChangeOptions();
-  private _procedureRequests = [];
-  private _priceOffer = new PriceOffers();
-  private _timeLimits = new TimeLimits();
-  private _extraConditions = new ExtraConditions();
+export class RevertToService {
+  // private _procedureInfo = new ProcedureInfo();
+  // private _procedureChangeOptions = new ProcedureChangeOptions();
+  // private _procedureRequests = [];
+  // private _priceOffer = new PriceOffers();
+  // private _timeLimits = new TimeLimits();
+  // private _extraConditions = new ExtraConditions();
 
   private apiBaseUrl = environment.apiBaseUrl;
-
-  // private headers = new HttpHeaders({
-  //   // 'Content-Type': 'application/json'
-  // });
 
   constructor(
     private http: HttpClient
@@ -172,126 +165,54 @@ export class RevertToService implements FillDataInterface {
     // FillData.fill(control, this, data);
   }
 
-  /**
-   * заполняе объект данными
-   * @param data
-   */
-  fill(data: any): void {
-    // const fieldsData = data['_fields'];
-    // if (fieldsData === undefined) {
-    //   return;
-    // }
-    // if (fieldsData['data'] !== undefined) {
-    //   this.fillData(fieldsData['data']);
-    // }
-    // if (fieldsData['sign'] !== undefined) {
-    //   // TODO не реализовано
-    // }
-  }
-  //
-  // fillData(data: any): void {
-  //   const fieldsData = data['_fields'];
-  //   console.log('KOTA fillData data', fieldsData);
-  //
-  //   if (fieldsData['procedureInfo'] !== undefined) {
-  //     this.procedureInfo.fill(fieldsData['procedureInfo']);
-  //
-  //     // const timeLimitsData = {};
-  //     // const procedureInfo = fieldsData['procedureInfo']['_fields'];
-  //     // timeLimitsData['requestEndGiveDateTime'] = procedureInfo['requestEndGiveDateTime'];
-  //     // timeLimitsData['requestReviewDateTime'] = procedureInfo['requestReviewDateTime'];
-  //     // timeLimitsData['conditionalHoldingDateTime'] = procedureInfo['conditionalHoldingDateTime'];
-  //     // // console.log('KOTA timeLimitsData1 = ', timeLimitsData);
-  //     // this.timeLimits.fill({_fields: timeLimitsData});
-  //   }
-  //   if (fieldsData['procedureChangeOptions'] !== undefined) {
-  //     this.procedureChangeOptions.fill(fieldsData['procedureChangeOptions']);
-  //   }
-  //   if (fieldsData['procedureRequests'] !== undefined) {
-  //     for (const procedureRequestData of fieldsData['procedureRequests']) {
-  //       const procedureRequestRow = {
-  //         id: '',
-  //         requestNumber: '',
-  //         sendDateTime: '',
-  //         organization: '',
-  //         status: '',
-  //         blockMoney: '',
-  //         freeFinance: '',
-  //         targetStatus: ''
-  //       };
-  //       for (const i in procedureRequestData) {
-  //         if (procedureRequestData.hasOwnProperty(i) && i === '_fields') {
-  //           for (const name in procedureRequestData[i]) {
-  //             if (procedureRequestData[i].hasOwnProperty(name) && procedureRequestData[i][name]['_default'] !== null) {
-  //               procedureRequestRow[name] = procedureRequestData[i][name]['_default'];
-  //             }
-  //           }
-  //         }
-  //       }
-  //       procedureRequestRow['test'] = '222';
-  //       this.procedureRequests.push(procedureRequestRow);
-  //     }
-  //   }
-  //   if (fieldsData['priceOffer'] !== undefined) {
-  //     this.priceOffer.fill(fieldsData['priceOffer']);
-  //   }
-  //   if (fieldsData['timeLimits'] !== undefined) {
-  //     // console.log('KOTA timeLimitsData 2  = ', fieldsData['timeLimits']);
-  //     this.timeLimits.fill(fieldsData['timeLimits']);
-  //   }
-  //   if (fieldsData['extraConditions'] !== undefined) {
-  //     this.extraConditions.fill(fieldsData['extraConditions']);
-  //   }
-  // }
-
   // ============================================
 
-  get procedureInfo(): ProcedureInfo {
-    return this._procedureInfo;
-  }
-
-  set procedureInfo(value: ProcedureInfo) {
-    this._procedureInfo = value;
-  }
-
-  get procedureChangeOptions(): ProcedureChangeOptions {
-    return this._procedureChangeOptions;
-  }
-
-  set procedureChangeOptions(value: ProcedureChangeOptions) {
-    this._procedureChangeOptions = value;
-  }
-
-  get procedureRequests(): any[] {
-    return this._procedureRequests;
-  }
-
-  set procedureRequests(value: any[]) {
-    this._procedureRequests = value;
-  }
-
-  get priceOffer(): PriceOffers {
-    return this._priceOffer;
-  }
-
-  set priceOffer(value: PriceOffers) {
-    this._priceOffer = value;
-  }
-
-
-  get timeLimits(): TimeLimits {
-    return this._timeLimits;
-  }
-
-  set timeLimits(value: TimeLimits) {
-    this._timeLimits = value;
-  }
-
-  get extraConditions(): ExtraConditions {
-    return this._extraConditions;
-  }
-
-  set extraConditions(value: ExtraConditions) {
-    this._extraConditions = value;
-  }
+  // get procedureInfo(): ProcedureInfo {
+  //   return this._procedureInfo;
+  // }
+  //
+  // set procedureInfo(value: ProcedureInfo) {
+  //   this._procedureInfo = value;
+  // }
+  //
+  // get procedureChangeOptions(): ProcedureChangeOptions {
+  //   return this._procedureChangeOptions;
+  // }
+  //
+  // set procedureChangeOptions(value: ProcedureChangeOptions) {
+  //   this._procedureChangeOptions = value;
+  // }
+  //
+  // get procedureRequests(): any[] {
+  //   return this._procedureRequests;
+  // }
+  //
+  // set procedureRequests(value: any[]) {
+  //   this._procedureRequests = value;
+  // }
+  //
+  // get priceOffer(): PriceOffers {
+  //   return this._priceOffer;
+  // }
+  //
+  // set priceOffer(value: PriceOffers) {
+  //   this._priceOffer = value;
+  // }
+  //
+  //
+  // get timeLimits(): TimeLimits {
+  //   return this._timeLimits;
+  // }
+  //
+  // set timeLimits(value: TimeLimits) {
+  //   this._timeLimits = value;
+  // }
+  //
+  // get extraConditions(): ExtraConditions {
+  //   return this._extraConditions;
+  // }
+  //
+  // set extraConditions(value: ExtraConditions) {
+  //   this._extraConditions = value;
+  // }
 }
