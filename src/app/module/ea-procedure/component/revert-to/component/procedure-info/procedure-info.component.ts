@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
-import { ProcedureInfo } from '../../../../service/revert-to/procedure-info';
+// import { ProcedureInfo } from '../../../../service/revert-to/procedure-info';
 
 @Component({
   selector: 'app-revert-to-procedure-info',
@@ -10,7 +10,7 @@ import { ProcedureInfo } from '../../../../service/revert-to/procedure-info';
 })
 export class ProcedureInfoComponent implements OnInit {
   @Input()formElement: FormGroup;
-  @Input()elementData: ProcedureInfo;
+  // @Input()elementData: ProcedureInfo;
 
   constructor() { }
 

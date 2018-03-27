@@ -1,0 +1,119 @@
+<div class="card-header">
+  Выбор статуса и отменяемые протоколы
+</div>
+<div class="card-body">
+  <div class="form-group">
+    <label for="field__7">Новый статус закупки</label>
+    <ngx-form-control-select
+      [elementClass]="'form-control'"
+      [formElement]="formElement.controls['targetStatus']"
+      [id]="'field__7'"
+    ></ngx-form-control-select>
+  </div>
+  <div class="form-group">
+    <label>Отменяемые протоколы</label>
+
+    <ngx-form-control-multi-checkbox
+      [id]="'procedureChangeOptions__protocols'"
+      [formElement]="formElement.controls['protocols']"
+      [mode]="'view'"
+      [wrapCheckboxClass]="'custom-control custom-checkbox'"
+      [checkboxLabelClass]="'custom-control-label'"
+    ></ngx-form-control-multi-checkbox>
+  </div>
+  <div class="form-group">
+    <label>Документ-основание для отмены протокола</label>
+
+    <ngx-form-control-radio
+      [formElement]="formElement.controls['documentReason']"
+      [id]="'procedureChangeOptions__documentReason'"
+    ></ngx-form-control-radio>
+  </div>
+  <div class="form-group" *ngIf="documentReasonFAS()">
+    <label>Данные о предписании из реестра результатов контроля</label>
+
+    <ngx-form-control-radio
+      [formElement]="formElement.controls['instructionData']"
+      [id]="'procedureChangeOptions__instructionData'"
+    ></ngx-form-control-radio>
+
+    <div class="form-group row mt-3" *ngIf="formElement.get('controlNumber').status != 'DISABLED'">
+      <label for="procedureChangeOptions__controlNumber" class="col-md-5 col-form-label">
+        Номер результата контроля по предписанию
+      </label>
+      <div class="col-md-7">
+        <ngx-form-control-text
+          [id]="'procedureChangeOptions__controlNumber'"
+          [elementClass]="'form-control'"
+          [formElement]="formElement.controls['controlNumber']"
+        ></ngx-form-control-text>
+      </div>
+    </div>
+
+    <div class="form-group row mt-3" *ngIf="formElement.controls['authorityName'].status != 'DISABLED'">
+      <label for="procedureChangeOptions__authorityName" class="col-md-5 col-form-label">
+        Наименование органа, уполномоченного на осуществление контроля
+      </label>
+      <div class="col-md-7">
+        <ngx-form-control-textarea
+          [id]="'procedureChangeOptions__authorityName'"
+          [elementClass]="'form-control'"
+          [formElement]="formElement.controls['authorityName']"
+        ></ngx-form-control-textarea>
+      </div>
+    </div>
+
+    <div class="form-group row mt-3" *ngIf="formElement.controls['authorityType'].status != 'DISABLED'">
+      <label for="procedureChangeOptions__authorityType" class="col-md-5 col-form-label">
+        Вид органа, уполномоченного на осуществление контроля
+      </label>
+      <div class="col-md-7">
+        <ngx-form-control-select
+          [elementClass]="'form-control'"
+          [formElement]="formElement.controls['authorityType']"
+          [id]="'procedureChangeOptions__authorityType'"
+        ></ngx-form-control-select>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row mt-3" *ngIf="formElement.controls['docName'].status != 'DISABLED'">
+    <label for="procedureChangeOptions__docName" class="col-md-5 col-form-label">
+      Наименование документа
+    </label>
+    <div class="col-md-7">
+      <ngx-form-control-text
+        [id]="'procedureChangeOptions__docName'"
+        [elementClass]="'form-control'"
+        [formElement]="formElement.controls['docName']"
+      ></ngx-form-control-text>
+    </div>
+  </div>
+
+  <div class="form-group row mt-3" *ngIf="formElement.controls['docDate'].status != 'DISABLED'">
+    <label for="procedureChangeOptions__docDate" class="col-md-5 col-form-label">
+      Дата документа
+    </label>
+    <div class="col-md-7">
+      <ngx-form-control-text
+        [id]="'procedureChangeOptions__docDate'"
+        [elementClass]="'form-control'"
+        [formElement]="formElement.controls['docDate']"
+      ></ngx-form-control-text>
+    </div>
+  </div>
+
+  <div class="form-group row mt-3" *ngIf="formElement.controls['docNumber'].status != 'DISABLED'">
+    <label for="procedureChangeOptions__docNumber" class="col-md-5 col-form-label">
+      Номер документа
+    </label>
+    <div class="col-md-7">
+      <ngx-form-control-text
+        [id]="'procedureChangeOptions__docNumber'"
+        [elementClass]="'form-control'"
+        [formElement]="formElement.controls['docNumber']"
+      ></ngx-form-control-text>
+    </div>
+  </div>
+</div>

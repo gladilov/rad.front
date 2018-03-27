@@ -1,6 +1,7 @@
 import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { FormControl, NG_VALUE_ACCESSOR, ControlValueAccessor, ValidatorFn, AsyncValidatorFn, Validators } from '@angular/forms';
 import { ColumnApi, GridApi, GridOptions } from 'ag-grid';
+import {FormControlAgGrid} from '../../controls/form-control-ag-grid';
 
 const noop = () => { };
 export const AGGRID_MODE_READONLY = 'readonly';
@@ -23,7 +24,7 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   private gridColumnApi: ColumnApi;
   public gridOptions: GridOptions;
 
-  @Input() formElement = new FormControl('', {});
+  @Input() formElement = new FormControlAgGrid([], {});
   @Input() rowData: any[];
   @Input() columnDefs: any[];
   // Optional:
@@ -62,6 +63,8 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
       // this.gridOptions.onSelectionChanged = this.onSelectionChanged;
       this.gridOptions.onCellEditingStopped = this.onCellEditingStopped;
     }
+
+    // this.formElement.gridOptions = this.gridOptions;
   }
 
   // get accessor

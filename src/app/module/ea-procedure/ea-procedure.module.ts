@@ -6,8 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular/main';
 
 import { environment } from '../../../environments/environment';
-// import { FormElementRenderModule } from '../../form-element-render/form-element-render.module';
 import { FormElementRenderModule } from '../../form-element-render/form-element-render.module';
+import { NgxFormControlsModule } from 'ngx-form-controls';
 
 import { CommonComponent } from './component/common/common.component';
 import { RevertToComponent } from './component/revert-to/revert-to.component';
@@ -16,6 +16,7 @@ import { ProcedureInfoComponent } from './component/revert-to/component/procedur
 import { TimeLimitsComponent } from './component/revert-to/component/time-limits/time-limits.component';
 import { ExtraConditionsComponent } from './component/revert-to/component/extra-conditions/extra-conditions.component';
 import { DocumentsComponent } from './component/revert-to/component/documents/documents.component';
+import {ProcedureChangeOptionsComponent} from './component/revert-to/component/procedure-change-options/procedure-change-options.component';
 
 const objectRoutes: Routes = [
   {
@@ -48,6 +49,7 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxFormControlsModule,
     FormElementRenderModule,
     objectRouting,
     AgGridModule.withComponents([
@@ -61,7 +63,8 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     ProcedureInfoComponent,
     TimeLimitsComponent,
     ExtraConditionsComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    ProcedureChangeOptionsComponent
   ],
   providers: [],
   entryComponents: [],

@@ -1,5 +1,9 @@
 import {Component, OnInit, Input, OnChanges, ViewChild} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
+
+import { NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox } from 'ngx-form-controls';
+import { NpxControlDataSetter } from 'ngx-form-controls';
+
 import {GridOptions} from 'ag-grid';
 import {
   AGGRID_MODE_EDITABLE,
@@ -20,13 +24,13 @@ export class ProcedureRequestsComponent implements OnInit {
   };
 
   public gridOptions: GridOptions;
-  // @Input() form: FormArray;
-  @Input() form: FormControl;
-  @Input() elementData;
+  @Input() form: NgxFormControlMultiSelect;
+  // @Input() form: FormControl;
+  // @Input() elementData;
   @ViewChild(AgGridFormcontrolComponent) grid: AgGridFormcontrolComponent;
 
   public columnDefs: any[] = [
-    {field: 'id', headerName: 'id', hide: true,},
+    {field: 'id', headerName: 'id', hide: true},
     {field: 'requestNumber', headerName: 'Номер', width: 120, /*checkboxSelection: true,*/ /*headerCheckboxSelection: true*/},
     {field: 'sendDateTime', headerName: 'Дата и время регистрации заявки'},
     {field: 'organization', headerName: 'Наименование участника'},
@@ -108,9 +112,10 @@ export class ProcedureRequestsComponent implements OnInit {
   }
 
   updateGrid() {
-    for (const i in this.elementData) {
-      if (this.elementData.hasOwnProperty(i)) {
-        this.grid.addRow(this.elementData[i]);
+    const elementData = <Array<any>>this.form.elementData.value;
+    for (const i in elementData) {
+      if (elementData.hasOwnProperty(i)) {
+        this.grid.addRow(elementData[i]);
       }
     }
   }
