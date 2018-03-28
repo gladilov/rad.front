@@ -41,7 +41,6 @@ export class UploadDocumentsComponent implements OnInit {
        this.onSuccessItem(item, response, status, headers);
 
     this.uploader.onAfterAddingFile = (fileItem: FileItem) => this.onAfterAddingFile(fileItem);
-
   }
 
   onAfterAddingFile(fileItem: FileItem): any {
@@ -68,8 +67,19 @@ export class UploadDocumentsComponent implements OnInit {
     const controlFiles = this.formElement;
     controlFiles.addControl(key, new FormControl({ key: key}, []));
     console.log('KOTA onSuccessItem FileItem KEY=', result['key']);
+    const data = this.getDataByFileItem(item);
+    data.key = result['key'];
   }
 
+  removeItem (item: FileItem) {
+    const data = this.getDataByFileItem(item);
+    console.log('KOTA удаляем fileItem с даными ', data);
+    item.remove();
+    if (data['key'] !== '') {
+      const controlFiles = this.formElement;
+      controlFiles.removeControl(<string>data['key']);
+    }
+  }
   /**
    * Сохраняем название документа для загрузки файла
    * @param {FileItem} item
