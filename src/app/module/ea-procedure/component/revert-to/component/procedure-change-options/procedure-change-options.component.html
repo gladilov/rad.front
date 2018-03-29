@@ -9,6 +9,7 @@
       [formElement]="formElement.controls['targetStatus']"
       [id]="'field__7'"
     ></ngx-form-control-select>
+    <ngx-form-control-error-message [formElement]="formElement.controls['targetStatus']"></ngx-form-control-error-message>
   </div>
   <div class="form-group">
     <label>Отменяемые протоколы</label>
@@ -28,6 +29,7 @@
       [formElement]="formElement.controls['documentReason']"
       [id]="'procedureChangeOptions__documentReason'"
     ></ngx-form-control-radio>
+    <ngx-form-control-error-message [formElement]="formElement.controls['documentReason']"></ngx-form-control-error-message>
   </div>
   <div class="form-group" *ngIf="documentReasonFAS()">
     <label>Данные о предписании из реестра результатов контроля</label>
@@ -36,6 +38,7 @@
       [formElement]="formElement.controls['instructionData']"
       [id]="'procedureChangeOptions__instructionData'"
     ></ngx-form-control-radio>
+    <ngx-form-control-error-message [formElement]="formElement.controls['instructionData']"></ngx-form-control-error-message>
 
     <div class="form-group row mt-3" *ngIf="formElement.get('controlNumber').status != 'DISABLED'">
       <label for="procedureChangeOptions__controlNumber" class="col-md-5 col-form-label">
@@ -47,6 +50,7 @@
           [elementClass]="'form-control'"
           [formElement]="formElement.controls['controlNumber']"
         ></ngx-form-control-text>
+        <ngx-form-control-error-message [formElement]="formElement.controls['controlNumber']"></ngx-form-control-error-message>
       </div>
     </div>
 
@@ -60,6 +64,7 @@
           [elementClass]="'form-control'"
           [formElement]="formElement.controls['authorityName']"
         ></ngx-form-control-textarea>
+        <ngx-form-control-error-message [formElement]="formElement.controls['authorityName']"></ngx-form-control-error-message>
       </div>
     </div>
 
@@ -73,6 +78,7 @@
           [formElement]="formElement.controls['authorityType']"
           [id]="'procedureChangeOptions__authorityType'"
         ></ngx-form-control-select>
+        <ngx-form-control-error-message [formElement]="formElement.controls['authorityType']"></ngx-form-control-error-message>
       </div>
     </div>
 
@@ -88,6 +94,7 @@
         [elementClass]="'form-control'"
         [formElement]="formElement.controls['docName']"
       ></ngx-form-control-text>
+      <ngx-form-control-error-message [formElement]="formElement.controls['docName']"></ngx-form-control-error-message>
     </div>
   </div>
 
@@ -101,6 +108,7 @@
         [elementClass]="'form-control'"
         [formElement]="formElement.controls['docDate']"
       ></ngx-form-control-text>
+      <ngx-form-control-error-message [formElement]="formElement.controls['docDate']"></ngx-form-control-error-message>
     </div>
   </div>
 
@@ -114,6 +122,7 @@
         [elementClass]="'form-control'"
         [formElement]="formElement.controls['docNumber']"
       ></ngx-form-control-text>
+      <ngx-form-control-error-message [formElement]="formElement.controls['docNumber']"></ngx-form-control-error-message>
     </div>
   </div>
 </div>
