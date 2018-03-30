@@ -1,9 +1,10 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR, ControlValueAccessor, ValidatorFn, AsyncValidatorFn, Validators } from '@angular/forms';
-import { ColumnApi, GridApi, GridOptions } from 'ag-grid';
+import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
+import {FormControl, NG_VALUE_ACCESSOR, ControlValueAccessor, ValidatorFn, AsyncValidatorFn, Validators} from '@angular/forms';
+import {ColumnApi, GridApi, GridOptions} from 'ag-grid';
 import {FormControlAgGrid} from '../../controls/form-control-ag-grid';
 
-const noop = () => { };
+const noop = () => {
+};
 export const AGGRID_MODE_READONLY = 'readonly';
 export const AGGRID_MODE_EDITABLE = 'editable';
 
@@ -30,6 +31,8 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   // Optional:
   @Input() mode = AGGRID_MODE_READONLY; // 'readonly' or 'editable'
   @Input() themeClass = 'ag-theme-balham';
+  @Input() frameworkComponents = {};
+  @Input() context = {};
 
   // @Output() onChange: EventEmitter<any> = new EventEmitter();
 
@@ -60,73 +63,70 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
     this.gridOptions.rowData = this.rowData;
 
     if (this.mode === AGGRID_MODE_EDITABLE) {
-      // this.gridOptions.onSelectionChanged = this.onSelectionChanged;
       this.gridOptions.onCellEditingStopped = this.onCellEditingStopped;
     }
-
-    // this.formElement.gridOptions = this.gridOptions;
   }
 
   // get accessor
   get value(): any {
-      return this.innerValue;
+    return this.innerValue;
   }
 
   // set accessor including call the onchange callback
   set value(v: any) {
-      if (v !== this.innerValue) {
-          this.innerValue = v;
-          this.onChangeCallback(v);
-      }
+    if (v !== this.innerValue) {
+      this.innerValue = v;
+      this.onChangeCallback(v);
+    }
   }
 
   // get accessor
   get changedValues(): any {
-      return this.innerChangedValues;
+    return this.innerChangedValues;
   }
 
   // set accessor including call the onchange callback
   set changedValues(values: any) {
-      this.innerChangedValues = values;
-      this.onChangeCallback(values);
+    this.innerChangedValues = values;
+    this.onChangeCallback(values);
   }
 
   // push value to changedValues
   private pushToChangedValues(value: any) {
-      const changedValuesRows = this.changedValues;
-      changedValuesRows.forEach(function(row, i) {
-          // remove if exist
-          if (value.rowIndex === row.rowIndex) {
-            const removed = changedValuesRows.splice(i, 1);
-          }
-      });
+    const changedValuesRows = this.changedValues;
+    changedValuesRows.forEach(function (row, i) {
+      // remove if exist
+      if (value.rowIndex === row.rowIndex) {
+        const removed = changedValuesRows.splice(i, 1);
+      }
+    });
 
-      changedValuesRows.push(value);
-      this.changedValues = changedValuesRows;
+    changedValuesRows.push(value);
+    this.changedValues = changedValuesRows;
   }
 
   writeValue(value: any): void {
-      this.value = value;
+    this.value = value;
   }
 
   // From ControlValueAccessor interface
   registerOnChange(fn: any) {
-      this.onChangeCallback = fn;
+    this.onChangeCallback = fn;
   }
 
   // From ControlValueAccessor interface
   registerOnTouched(fn: any) {
-      this.onTouchedCallback = fn;
+    this.onTouchedCallback = fn;
   }
 
   private onSelectionChanged = (params: any): void => {
     const selectedRows: any[] = this.gridApi.getSelectedRows();
     // console.log(selectedRows);
     if (selectedRows.length === 0) {
-        // necessary for Validators.required to work
-        this.value = [];
+      // necessary for Validators.required to work
+      this.value = [];
     } else {
-        this.value = selectedRows;
+      this.value = selectedRows;
     }
 
     this.onChangeCallback(this.value);
@@ -155,6 +155,23 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
    * @returns {RowNodeTransaction}
    */
   addRow(rowData) {
-    return this.gridOptions.api.updateRowData({add: [rowData]});
+    const params = { force: true };
+    return this.gridApi.refreshCells(params);
+    // return this.gridOptions.api.updateRowData({add: [rowData]});
+  }
+
+  /**
+   * Обновление записей в grid
+   * @param rowData
+   * @returns {RowNodeTransaction}
+   */
+  updateRowData(rowData) {
+    const params = { force: true };
+    return this.gridApi.refreshCells(params);
+    // return this.gridOptions.api.updateRowData({update: [rowData]});
+  }
+
+  columnSize() {
+    return this.gridOptions.api.sizeColumnsToFit();
   }
 }

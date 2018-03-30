@@ -1,5 +1,7 @@
 <ag-grid-angular #agGrid class="{{themeClass}}"
                  [gridOptions]="gridOptions"
                  [enableSorting]="true"
+                 [context]="context"
+                 [frameworkComponents]="frameworkComponents"
                  (gridReady)="onGridReady($event)"
 ></ag-grid-angular>

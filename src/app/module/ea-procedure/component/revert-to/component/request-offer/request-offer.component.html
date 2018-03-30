@@ -1,0 +1,18 @@
+<app-ag-grid-formcontrol
+  [formControl]="form"
+  [columnDefs]="gridOptions.columnDefs"
+  [rowData]="form.elementData.value"
+  [mode]="gridMode"
+  [context]="context"
+  [frameworkComponents]="frameworkComponents"
+></app-ag-grid-formcontrol>
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-4">
+    <button type="button" class="btn btn-primary" (click)="deleteSelected()">Удалить выбранные</button>
+  </div>
+  <div class="col-sm-4">
+    <button type="button" class="btn btn-primary" (click)="cancelDeleteSelected()">Отменить удаление для выбранных</button>
+  </div>
+  <div class="col-sm-2"></div>
+</div>

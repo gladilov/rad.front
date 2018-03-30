@@ -1,0 +1,15 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{title || 'ЭТП РАД Госзакупки'}}</h4>
+      <button type="button" class="close" (click)="close()" >&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>{{message || 'Вы уверены?'}}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="confirm()">Да</button>
+      <button type="button" class="btn btn-default" (click)="close()" >Отмена</button>
+    </div>
+  </div>
+</div>

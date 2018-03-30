@@ -21,59 +21,14 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" [hidden]="hidden">
       <div class="card-header">
         Ценовые предложения
       </div>
       <div class="card-body">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <th scope="col">Номер заявки участника</th>
-            <th scope="col">Наименование участника</th>
-            <th scope="col">Предложенная цена (руб)</th>
-            <th scope="col">Тип ценового предложения</th>
-            <th scope="col">Дата и время подачи предложения</th>
-            <th scope="col">Выбрать</th>
-            <th scope="col">Действует/Удалено</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>1</td>
-            <td>Компания 1</td>
-            <td>3000.00</td>
-            <td>На понижение</td>
-            <td>03.10.2017/13:03:00 (MSK+00:00)</td>
-            <td class="text-center">
-              <div class="custom-control custom-checkbox custom-control-inline mr-0">
-                <input type="checkbox" id="table_checkbox__1" class="custom-control-input">
-                <label class="custom-control-label" for="table_checkbox__1"></label>
-              </div>
-            </td>
-            <td>Действует</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Компания 2</td>
-            <td>3100.00</td>
-            <td>На понижение</td>
-            <td>04.10.2017/14:04:00 (MSK+00:00)</td>
-            <td class="text-center">
-              <div class="custom-control custom-checkbox custom-control-inline mr-0">
-                <input type="checkbox" id="table_checkbox__2" class="custom-control-input">
-                <label class="custom-control-label" for="table_checkbox__2"></label>
-              </div>
-            </td>
-            <td>Удалено</td>
-          </tr>
-          </tbody>
-        </table>
-
-        <div class="form-group">
-          <button type="button" class="btn btn-primary">Удалить выбранные</button>
-          <button type="button" class="btn btn-primary">Отменить удаление для выбранных</button>
-        </div>
+        <app-revert-to-request-offer
+          [form]="procedureOffers"
+        ></app-revert-to-request-offer>
       </div>
     </div>
 
@@ -86,9 +41,6 @@
         Прикрепляемые документы
       </div>
       <app-revert-to-documents class="card-body" [formElement]="documents"></app-revert-to-documents>
-      <!--<div class="card-body">-->
-        <!--<p>Стандартный блок прикрепления документов..</p>-->
-      <!--</div>-->
     </div>
 
   </div>

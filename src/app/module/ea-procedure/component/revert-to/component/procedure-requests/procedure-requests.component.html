@@ -1,7 +1,7 @@
 <app-ag-grid-formcontrol
         [formControl]="form"
         [columnDefs]="gridOptions.columnDefs"
-        [rowData]="elementData"
+        [rowData]="form.elementData.value"
         [mode]="gridMode"
 ></app-ag-grid-formcontrol>
 

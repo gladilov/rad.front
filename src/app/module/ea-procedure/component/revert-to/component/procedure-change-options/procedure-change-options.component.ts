@@ -5,13 +5,14 @@ import {RevertToService} from '../../../../service/revert-to/revert-to.service';
 
 import { NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox } from 'ngx-form-controls';
 import { NpxControlDataSetter } from 'ngx-form-controls';
+import {SharedService} from '../../../../service/revert-to/shared.service';
 
 @Component({
   selector: 'app-revert-to-procedure-change-options',
   templateUrl: './procedure-change-options.component.html',
   styleUrls: ['./procedure-change-options.component.css'],
   providers: [
-    RevertToService,
+    RevertToService
   ],
 })
 export class ProcedureChangeOptionsComponent implements OnInit {
@@ -25,6 +26,7 @@ export class ProcedureChangeOptionsComponent implements OnInit {
 
   constructor(
     public revertToS: RevertToService,
+    public ss: SharedService
   ) {
   }
 
@@ -36,6 +38,10 @@ export class ProcedureChangeOptionsComponent implements OnInit {
 
     this.formElement.controls['instructionData'].statusChanges.subscribe(status => {
       this.toggleByInstructionStatus(status);
+    });
+
+    this.formElement.controls['targetStatus'].valueChanges.subscribe(data => {
+      this.changeShared(data);
     });
 
     this.formElement.controls['documentReason'].setValue(this.DOC_REASON_TYPE_FAS_ORDER);
@@ -118,18 +124,22 @@ export class ProcedureChangeOptionsComponent implements OnInit {
     const id = this.requestId; // FIXME брать из роутинга
 
     // загрузка протоколов с сервера
-    // const protocolsFC = formElement.get('protocols');
     const res = this.revertToS.loadProtocolData(id, targetStatus);
     res.subscribe(
       data => {
-        // console.log('SUCCESS LOAD DATA =', data);
         NpxControlDataSetter.setControlsData(protocols, data);
-//        FillData.fill(protocols, this.revertToS.procedureChangeOptions.protocols, data);
       },
       err => {
-        // console.log('ERROR ', err);
         // FIXME что-то нужно сделать в случае ошибки получения списка протоколов
       }
     );
+  }
+
+  changeShared(data) {
+    if (data === 'procedure.trades.awaiting') {
+      this.ss.change(false);
+    } else {
+      this.ss.change(true);
+    }
   }
 }

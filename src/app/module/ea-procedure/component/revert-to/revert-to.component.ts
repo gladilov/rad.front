@@ -1,19 +1,17 @@
-import {Component, OnInit, Input, ViewChild} from '@angular/core';
-// import { ComponentRef, ViewContainerRef, ElementRef, ComponentFactoryResolver, ViewChild, Type } from '@angular/core';
-import {FormControl, FormGroup, FormArray, NgForm, Validators, AbstractControl} from '@angular/forms';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import { FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute} from '@angular/router';
 
-import { NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox } from 'ngx-form-controls';
-import { NpxControlDataSetter } from 'ngx-form-controls';
-
-import {environment} from '../../../../../environments/environment';
+import {NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox} from 'ngx-form-controls';
+import {NpxControlDataSetter} from 'ngx-form-controls';
 
 import {RevertToService} from '../../service/revert-to/revert-to.service';
-import {FillData} from '../../../../service/FillData';
 import {markFormGroupTouched} from '../../../../service/Object';
 import {ProcedureRequestsComponent} from './component/procedure-requests/procedure-requests.component';
 import {FormControlAgGrid} from '../../../../form-element-render/controls/form-control-ag-grid';
+import {RequestOfferComponent} from './component/request-offer/request-offer.component';
+import {SharedService} from '../../service/revert-to/shared.service';
 
 @Component({
   selector: 'app-revert-to',
@@ -21,22 +19,21 @@ import {FormControlAgGrid} from '../../../../form-element-render/controls/form-c
   styleUrls: ['./revert-to.component.css'],
   providers: [
     RevertToService,
+    SharedService
   ],
 })
 export class RevertToComponent implements OnInit {
-  private DOC_REASON_TYPE_FAS_ORDER = 'authorityPrescription';
-  private DOC_REASON_TYPE_COURT_DECISION = 'courtDecision';
-  private INSTRUCTION_DATA_REESTR_PRESCRIPTION = 'reestrPrescription';
-  private INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION = 'externalPrescription';
   public summaryErrorMessage = null;
 
   @ViewChild(ProcedureRequestsComponent) requestsComponent: ProcedureRequestsComponent;
+  @ViewChild(RequestOfferComponent) offersComponent: RequestOfferComponent;
 
   /**
    * Идентификатор заявки
    * @type {number}
    */
   requestId = 3779; // -1;
+  hidden: boolean;
 
   procedureInfo = new FormGroup({
     registrationNumber: new NgxFormControlText({value: '', disabled: true}, {}),
@@ -71,9 +68,7 @@ export class RevertToComponent implements OnInit {
 
   procedureRequests = new FormControlAgGrid([], {});
 
-  priceOffer = new FormGroup({
-    offers: new FormArray([])
-  });
+  procedureOffers = new FormControlAgGrid([], {});
 
   timeLimits = new FormGroup({
     requestEndGiveDateTime: new NgxFormControlText('', {}),
@@ -92,7 +87,7 @@ export class RevertToComponent implements OnInit {
     procedureInfo: this.procedureInfo,
     procedureChangeOptions: this.procedureChangeOptions,
     procedureRequests: this.procedureRequests,
-    priceOffer: this.priceOffer,
+    procedureOffers: this.procedureOffers,
     timeLimits: this.timeLimits,
     extraConditions: this.extraConditions,
     documents: this.documents
@@ -105,43 +100,19 @@ export class RevertToComponent implements OnInit {
   subscription: Subscription;
 
   constructor(public revertToS: RevertToService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public ss: SharedService) {
+    this.hidden = true;
     this.subscription = route.params.subscribe((params) => {
       const id = +this.route.snapshot.paramMap.get('id');
       this.loadData(id);
     });
-
-    // // протоколы только для информационных целей
-    // this.documentReason.valueChanges.subscribe(data => {
-    //   this.toggleByDocumentReason(data);
-    // });
-    //
-    // this.instructionData.statusChanges.subscribe(status => {
-    //   this.toggleByInstructionStatus(status);
-    // });
-
-    // this.documentReason.setValue(this.DOC_REASON_TYPE_FAS_ORDER);
-
-    // /** подписанты на различные изменения */
-    // this.procedureChangeOptions.get('targetStatus').valueChanges.subscribe(value => {
-    //   this.loadRemovableProtocols(value);
-    // });
   }
 
   ngOnInit() {
-    // const id = this.requestId; // FIXME брать из роутинга
-    // // загрузка данных с сервера
-    // const res = this.revertToS.loadData(this.formData, id);
-    // res.subscribe(
-    //   data => {
-    //     console.log('SUCCESS LOAD DATA =', data);
-    //     FillData.fill(this.form, this.revertToS, data);
-    //   },
-    //   err => {
-    //     console.log('ERROR ', err);
-    //     FillData.fill(this.form, this.revertToS, err);
-    //   }
-    // );
+    this.subscription = this.ss.getEmittedValue().subscribe((item) => {
+      this.hidden = item;
+    });
   }
 
   /**
@@ -154,7 +125,7 @@ export class RevertToComponent implements OnInit {
     res.subscribe(
       data => {
         if (data['_fields'] !== undefined
-            && data['_fields']['data'] !== undefined
+          && data['_fields']['data'] !== undefined
         ) {
           const formData = data['_fields']['data'];
           if (formData['_fields']['procedureInfo'] !== undefined) {
@@ -162,39 +133,31 @@ export class RevertToComponent implements OnInit {
           }
         }
 
-        // console.log('SUCCESS LOAD DATA =', data);
-        // FillData.fill(this.form, this.revertToS, data);
-
         NpxControlDataSetter.setControlsData(this.form, data);
         this.requestsComponent.updateGrid();
+        if (this.offersComponent !== undefined) {
+          this.offersComponent.updateGrid();
+        }
       },
       err => {
-        // console.log('ERROR ', err);
         NpxControlDataSetter.setControlsData(this.form, err);
-        // FillData.fill(this.form, this.revertToS, err);
       }
     );
   }
 
   onSubmit() {
-    console.log(this.form.value);  // {first: 'Nancy', last: 'Drew'}
     const id = this.requestId; // FIXME брать из роутинга
 
     this.clearSummaryErrorMessage();
     if (this.form.invalid === true) {
-      // console.log('KOTA ошибка встроенной валидации формы');
       return false;
     }
 
     const res = this.revertToS.submitData(this.form, id);
     res.subscribe(data => {
-      // console.log('SUCCESS SUBMIT DATA =', data);
       // если сохранение успешно, то нам ничего не нужно делать с данными.
-      // FillData.fill(this.form, this.revertToS, data);
     }, err => {
-      // console.log('ERROR ', err);
       NpxControlDataSetter.setControlsData(this.form, err);
-      // FillData.fill(this.form, this.revertToS, err);
       markFormGroupTouched(this.form);
       const msg = err['_error'] || null;
       this.setSummaryErrorMessage(msg);
@@ -202,81 +165,6 @@ export class RevertToComponent implements OnInit {
 
     return false;
   }
-
-  // /**
-  //  * прячет элементы в зависимости от причины выполнения действия documentReason
-  //  * @param data
-  //  */
-  // private toggleByDocumentReason(data) {
-  //   if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
-  //     this.instructionData.enable();
-  //   } else {
-  //     this.instructionData.disable();
-  //   }
-  // }
-
-  // /**
-  //  * выбрана ли причина "Предписание контролирующего органа"
-  //  * @returns {boolean}
-  //  */
-  // documentReasonFAS() {
-  //   const procedureChangeOptions = <FormGroup>this.procedureChangeOptions;
-  //   return (procedureChangeOptions.controls['documentReason'].value === this.DOC_REASON_TYPE_FAS_ORDER);
-  // }
-
-  // /**
-  //  * прячет элементы в зависимости от причины выполнения действия documentReason
-  //  * @param data
-  //  */
-  // private toggleByInstructionData(data) {
-  //   console.log(data);
-  //   if (data === this.DOC_REASON_TYPE_FAS_ORDER) {
-  //     this.instructionData.enable();
-  //   } else {
-  //     this.instructionData.disable();
-  //   }
-  // }
-
-  // private toggleByInstructionStatus(status) {
-  //   if (status === 'DISABLED') {
-  //     this.controlNumber.disable();
-  //     this.authorityName.disable();
-  //     this.authorityType.disable();
-  //
-  //     if (this.documentReason.value === this.DOC_REASON_TYPE_FAS_ORDER) {
-  //       this.docName.disable();
-  //       this.docDate.disable();
-  //       this.docNumber.disable();
-  //     } else if (this.documentReason.value === this.DOC_REASON_TYPE_COURT_DECISION) {
-  //       this.docName.enable();
-  //       this.docDate.enable();
-  //       this.docNumber.enable();
-  //     }
-  //   } else {
-  //     if (this.instructionData.value === this.INSTRUCTION_DATA_REESTR_PRESCRIPTION) {
-  //       this.controlNumber.enable();
-  //       this.authorityName.disable();
-  //       this.authorityType.disable();
-  //       this.docName.disable();
-  //       this.docDate.disable();
-  //       this.docNumber.disable();
-  //     } else if (this.instructionData.value === this.INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION) {
-  //       this.controlNumber.disable();
-  //       this.authorityName.enable();
-  //       this.authorityType.enable();
-  //       this.docName.enable();
-  //       this.docDate.enable();
-  //       this.docNumber.enable();
-  //     } else {
-  //       this.controlNumber.disable();
-  //       this.authorityName.disable();
-  //       this.authorityType.disable();
-  //       this.docName.disable();
-  //       this.docDate.disable();
-  //       this.docNumber.disable();
-  //     }
-  //   }
-  // }
 
   setSummaryErrorMessage(msg?: string) {
     if (msg) {
@@ -289,27 +177,4 @@ export class RevertToComponent implements OnInit {
   clearSummaryErrorMessage() {
     this.summaryErrorMessage = null;
   }
-
-  // /**
-  //  * подгружает отменяемые протоколы по заданному новому статусу закупки
-  //  * @param {string} targetStatus
-  //  */
-  // loadRemovableProtocols(targetStatus: string): void {
-  //   const formElement = this.procedureChangeOptions.get('protocols');
-  //   const id = this.requestId; // FIXME брать из роутинга
-  //
-  //   // загрузка протоколов с сервера
-  //   const protocolsFC = this.procedureChangeOptions.get('protocols');
-  //   const res = this.revertToS.loadProtocolData(id, targetStatus);
-  //   res.subscribe(
-  //     data => {
-  //       // console.log('SUCCESS LOAD DATA =', data);
-  //       FillData.fill(formElement, this.revertToS.procedureChangeOptions.protocols, data);
-  //     },
-  //     err => {
-  //       // console.log('ERROR ', err);
-  //       // FIXME что-то нужно сделать в случае ошибки получения списка протоколов
-  //     }
-  //   );
-  // }
 }

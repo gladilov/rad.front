@@ -25,8 +25,6 @@ export class ProcedureRequestsComponent implements OnInit {
 
   public gridOptions: GridOptions;
   @Input() form: NgxFormControlMultiSelect;
-  // @Input() form: FormControl;
-  // @Input() elementData;
   @ViewChild(AgGridFormcontrolComponent) grid: AgGridFormcontrolComponent;
 
   public columnDefs: any[] = [
@@ -44,14 +42,6 @@ export class ProcedureRequestsComponent implements OnInit {
       cellClass: 'ag-cell-custom-select',
       editable: true,
       cellEditor: 'agSelectCellEditor',
-      // cellEditor: 'agPopupSelectCellEditor',
-      // cellEditorParams: {
-      //   cellRenderer: 'requestStatusCellRenderer',
-      //   values: [
-      //       'Подана',
-      //       'Заблокирована',
-      //   ],
-      // },
       cellEditorParams: {
         values: ProcedureRequestsComponent.extractValues(ProcedureRequestsComponent.statusMappings)
       },
