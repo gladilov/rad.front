@@ -8,3 +8,8 @@
 body {
     min-width: 0;
 }
+
+.form-control-error-item {
+  color: #f00;
+  font-size: small;
+}
