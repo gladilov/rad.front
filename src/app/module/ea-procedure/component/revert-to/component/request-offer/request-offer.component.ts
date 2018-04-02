@@ -78,12 +78,7 @@ export class RequestOfferComponent implements OnInit {
   }
 
   updateGrid() {
-    const elementData = <Array<any>>this.form.elementData.value;
-    for (const i in elementData) {
-      if (elementData.hasOwnProperty(i)) {
-        this.grid.addRow(elementData[i]);
-      }
-    }
+    this.grid.updateRowData();
   }
 
   columnSize() {
@@ -111,19 +106,43 @@ export class RequestOfferComponent implements OnInit {
   }
 
   deleteSelected() {
+    const self = this;
     this.showConfirm('Вы уверены что хотите удалить выбранные ценовые предложения?',
       (isConfirmed) => {
         // We get dialog result
         if (isConfirmed) {
-          alert('accepted');
+          const data = self.grid.rowData;
+          for (let i = 0; i < data.length; i++) {
+            for (const n in data[i]) {
+              if (n === 'select' && data[i].hasOwnProperty(n) && data[i][n]) {
+                data[i]['active'] = 'Удалено';
+                data[i]['select'] = false;
+              }
+            }
+          }
+          self.updateGrid();
         }
       });
-
   }
 
   cancelDeleteSelected() {
-    console.log('!!!!!!');
-
+    const self = this;
+    this.showConfirm('Вы уверены что хотите отменить удаление для выбранных ценовых предложений?',
+      (isConfirmed) => {
+        // We get dialog result
+        if (isConfirmed) {
+          const data = self.grid.rowData;
+          for (let i = 0; i < data.length; i++) {
+            for (const n in data[i]) {
+              if (n === 'select' && data[i].hasOwnProperty(n) && data[i][n]) {
+                data[i]['active'] = 'Действует';
+                data[i]['select'] = false;
+              }
+            }
+          }
+          self.updateGrid();
+        }
+      });
   }
 
 

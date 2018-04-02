@@ -155,20 +155,14 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
    * @returns {RowNodeTransaction}
    */
   addRow(rowData) {
-    const params = { force: true };
-    return this.gridApi.refreshCells(params);
-    // return this.gridOptions.api.updateRowData({add: [rowData]});
+    return this.gridOptions.api.updateRowData({add: [rowData]});
   }
 
   /**
    * Обновление записей в grid
-   * @param rowData
-   * @returns {RowNodeTransaction}
    */
-  updateRowData(rowData) {
-    const params = { force: true };
-    return this.gridApi.refreshCells(params);
-    // return this.gridOptions.api.updateRowData({update: [rowData]});
+  updateRowData() {
+    return this.gridOptions.api.setRowData(this.rowData);
   }
 
   columnSize() {

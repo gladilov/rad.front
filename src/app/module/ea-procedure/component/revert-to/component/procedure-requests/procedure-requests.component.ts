@@ -102,11 +102,6 @@ export class ProcedureRequestsComponent implements OnInit {
   }
 
   updateGrid() {
-    const elementData = <Array<any>>this.form.elementData.value;
-    for (const i in elementData) {
-      if (elementData.hasOwnProperty(i)) {
-        this.grid.addRow(elementData[i]);
-      }
-    }
+    this.grid.updateRowData();
   }
 }
