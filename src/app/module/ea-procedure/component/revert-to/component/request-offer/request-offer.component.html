@@ -5,6 +5,13 @@
   [mode]="gridMode"
   [context]="context"
   [frameworkComponents]="frameworkComponents"
+  [rowModelType]="rowModelType"
+  [cacheOverflowSize]="cacheOverflowSize"
+  [sortingOrder]="sortingOrder"
+  [dataUrl]="dataUrl"
+  [enableServerSideSorting]="true"
+  [enableServerSideFilter]="true"
+
 ></app-ag-grid-formcontrol>
 <div class="row">
   <div class="col-sm-2"></div>
@@ -12,7 +19,8 @@
     <button type="button" class="btn btn-primary" (click)="deleteSelected()">Удалить выбранные</button>
   </div>
   <div class="col-sm-4">
-    <button type="button" class="btn btn-primary" (click)="cancelDeleteSelected()">Отменить удаление для выбранных</button>
+    <button type="button" class="btn btn-primary" (click)="cancelDeleteSelected()">Отменить удаление для выбранных
+    </button>
   </div>
   <div class="col-sm-2"></div>
 </div>

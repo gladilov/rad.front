@@ -135,9 +135,6 @@ export class RevertToComponent implements OnInit {
 
         NpxControlDataSetter.setControlsData(this.form, data);
         this.requestsComponent.updateGrid();
-        if (this.offersComponent !== undefined) {
-          this.offersComponent.updateGrid();
-        }
       },
       err => {
         NpxControlDataSetter.setControlsData(this.form, err);

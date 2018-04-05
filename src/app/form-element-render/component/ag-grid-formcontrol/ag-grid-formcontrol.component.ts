@@ -2,6 +2,7 @@ import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angul
 import {FormControl, NG_VALUE_ACCESSOR, ControlValueAccessor, ValidatorFn, AsyncValidatorFn, Validators} from '@angular/forms';
 import {ColumnApi, GridApi, GridOptions} from 'ag-grid';
 import {FormControlAgGrid} from '../../controls/form-control-ag-grid';
+import {HttpClient} from '@angular/common/http';
 
 const noop = () => {
 };
@@ -33,8 +34,21 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   @Input() themeClass = 'ag-theme-balham';
   @Input() frameworkComponents = {};
   @Input() context = {};
+  @Input() floatingFiler = false;
+  // фильтрацию и сортировку включать именно серверную, для бесконечного грида
+  @Input() enableServerSideSorting = false;
+  @Input() enableServerSideFilter = false;
+  // сортировка в столбцах
+  @Input() sortingOrder = [null];
+  @Input() dataUrl = '';
 
-  // @Output() onChange: EventEmitter<any> = new EventEmitter();
+  @Input() rowModelType: string;
+  @Input() cacheOverflowSize = 1;
+  @Input() maxConcurrentDatasourceRequests = 1;
+  @Input() maxBlocksInCache = 1;
+  @Input() pagination = true;
+  @Input() paginationPageSize = 10;
+  @Input() getMoreTextFunction: any;
 
   // The internal data model
   private innerValue: any = '';
@@ -44,7 +58,9 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: any) => void = noop;
 
-  constructor() {
+  constructor(
+    private http: HttpClient
+  ) {
     this.gridOptions = <GridOptions>{
       context: {
         componentParent: this
@@ -61,10 +77,117 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   ngOnInit() {
     this.gridOptions.columnDefs = this.columnDefs;
     this.gridOptions.rowData = this.rowData;
+    this.gridOptions.floatingFilter = this.floatingFiler;
+    this.gridOptions.enableServerSideSorting = this.enableServerSideSorting;
+    this.gridOptions.enableServerSideFilter = this.enableServerSideFilter;
+    this.gridOptions.pagination = this.pagination;
+    this.gridOptions.paginationPageSize = this.paginationPageSize;
+    this.gridOptions.cacheBlockSize = this.paginationPageSize;
+    this.gridOptions.sortingOrder = this.sortingOrder;
+
+    if (this.rowModelType !== undefined) {
+      this.gridOptions.rowModelType = this.rowModelType;
+    }
+
+    // Настройки для бесконечного грида
+    if (this.rowModelType === 'infinite') {
+      this.gridOptions.cacheOverflowSize = this.cacheOverflowSize;
+      this.gridOptions.maxConcurrentDatasourceRequests = this.maxConcurrentDatasourceRequests;
+      this.gridOptions.maxBlocksInCache = this.maxBlocksInCache;
+    }
 
     if (this.mode === AGGRID_MODE_EDITABLE) {
       this.gridOptions.onCellEditingStopped = this.onCellEditingStopped;
     }
+
+    // i18n for grid
+    this.gridOptions.localeText = {
+      // for filter panel
+      page: 'страница',
+      more: 'неизвестно',
+      to: 'по',
+      of: 'из',
+      next: 'следующая',
+      last: 'последняя',
+      first: 'первая',
+      previous: 'предыдущая',
+      loadingOoo: 'загрузка...',
+
+      // for set filter
+      selectAll: 'выбрать все',
+      searchOoo: 'поиск',
+      blanks: 'blanks',
+
+      // for number filter and text filter
+      filterOoo: 'отфильтровать',
+      applyFilter: 'применить фильтр',
+
+      // for number filter
+      equals: 'соответствует',
+      notEqual: 'не соответствует',
+      lessThan: 'меньше чем',
+      greaterThan: 'больше чем',
+
+      // for text filter
+      contains: 'содержит',
+      notContains: 'не содержит',
+      startsWith: 'начинается с',
+      endsWith: 'заканчивается на',
+
+      // the header of the default group column
+      group: 'сгруппировать',
+
+      // tool panel
+      columns: 'колонки',
+      rowGroupColumns: 'сгруппированные колонки',
+      rowGroupColumnsEmptyMessage: 'нет колонок для группировки',
+      valueColumns: 'значение колонок',
+      pivotMode: 'вид',
+      groups: 'группы',
+      values: 'значения',
+      pivots: 'точки',
+      valueColumnsEmptyMessage: 'нет данных для отображения',
+      pivotColumnsEmptyMessage: 'нет данных для отображения',
+      toolPanelButton: 'панель инструментов',
+
+      // other
+      noRowsToShow: 'нет данных для отображения',
+
+      // enterprise menu
+      pinColumn: 'laPin Column',
+      valueAggregation: 'laValue Agg',
+      autosizeThiscolumn: 'laAutosize Diz',
+      autosizeAllColumns: 'laAutsoie em All',
+      groupBy: 'laGroup by',
+      ungroupBy: 'laUnGroup by',
+      resetColumns: 'laReset Those Cols',
+      expandAll: 'laOpen-em-up',
+      collapseAll: 'laClose-em-up',
+      toolPanel: 'laTool Panelo',
+      export: 'laExporto',
+      csvExport: 'la CSV Exportp',
+      excelExport: 'la Excel Exporto',
+
+      // enterprise menu pinning
+      pinLeft: 'laPin <<',
+      pinRight: 'laPin >>',
+      noPin: 'laDontPin <>',
+
+      // enterprise menu aggregation and status panel
+      sum: 'laSum',
+      min: 'laMin',
+      max: 'laMax',
+      none: 'laNone',
+      count: 'laCount',
+      average: 'laAverage',
+
+      // standard menu
+      copy: 'копировать',
+      copyWithHeaders: 'копировать с заголовком',
+      ctrlC: 'ctrl + c',
+      paste: 'вставить',
+      ctrlV: 'ctrl + v'
+    };
   }
 
   // get accessor
@@ -131,7 +254,7 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
 
     this.onChangeCallback(this.value);
     this.onTouchedCallback();
-  }
+  };
 
   private onCellEditingStopped = (event: any): void => {
     const rowEditingData = event.data;
@@ -140,13 +263,35 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
       rowEditingData.rowIndex = event.rowIndex;
       this.pushToChangedValues(rowEditingData);
     }
-  }
+  };
 
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
     this.gridOptions.api.sizeColumnsToFit();
+    if (this.rowModelType === 'infinite') {
+      const self = this;
+      const api = params.api;
+      const dataSource = {
+        rowCount: null,
+        getRows: function (params) {
+          const gridParams = {
+            startRow: params.startRow,
+            endRow: params.endRow,
+            filterModel: params.filterModel,
+            sortModel: params.sortModel
+          };
+          self.http
+            .post<any>(self.dataUrl, JSON.stringify(gridParams), {})
+            .subscribe((data: any[]) => {
+              const count = data.splice(0, 1);
+              params.successCallback(data, count[0]);
+            });
+        }
+      };
+      params.api.setDatasource(dataSource);
+    }
   }
 
   /**
@@ -165,6 +310,9 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
     return this.gridOptions.api.setRowData(this.rowData);
   }
 
+  /**
+   * маленький костыль для приятного отображения грида если он изначально hidden
+   */
   columnSize() {
     return this.gridOptions.api.sizeColumnsToFit();
   }

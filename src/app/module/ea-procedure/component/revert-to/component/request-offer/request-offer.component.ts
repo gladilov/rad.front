@@ -10,12 +10,10 @@ import {
 import {ActiveCheckboxComponent} from './component/active-checkbox/active-checkbox.component';
 import {SharedService} from '../../../../service/revert-to/shared.service';
 import {Subscription} from 'rxjs/Subscription';
-import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {environment} from '../../../../../../../environments/environment';
-import {ActivatedRoute} from '@angular/router';
 import {DialogService} from 'ng2-bootstrap-modal';
 import {ConfirmComponent} from '../../../confirm/confirm.component';
+import {environment} from '../../../../../../../environments/environment';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-revert-to-request-offer',
@@ -26,7 +24,10 @@ export class RequestOfferComponent implements OnInit {
 
   private context;
   private frameworkComponents;
-  private apiBaseUrl = environment.apiBaseUrl;
+  private rowModelType = 'infinite';
+  private cacheOverflowSize = 500;
+  private sortingOrder = ['desc', 'asc', null];
+  private dataUrl = environment.apiBaseUrl + '/EA/procedure/offer-grid/' + (+this.route.snapshot.paramMap.get('id'))
 
   public gridOptions: GridOptions;
   @Input() hidden: boolean;
@@ -48,12 +49,13 @@ export class RequestOfferComponent implements OnInit {
     },
     {field: 'active', headerName: 'Действует / Удалено'},
   ];
+
   public gridMode = AGGRID_MODE_EDITABLE;
   subscription: Subscription;
 
   constructor(public ss: SharedService,
-              private route: ActivatedRoute, private http: HttpClient,
-              private dialogService: DialogService) {
+              private dialogService: DialogService,
+              private route: ActivatedRoute) {
     this.gridOptions = <GridOptions>{
       onGridReady: () => {
       },
@@ -144,6 +146,5 @@ export class RequestOfferComponent implements OnInit {
         }
       });
   }
-
 
 }
