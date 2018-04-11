@@ -3,7 +3,13 @@
 @import "assets/css/common.css";
 @import "assets/css/layout.css";
 @import "assets/css/form.css";
+@import "assets/css/green_demo.css";
+@import "assets/css/highlight.css";
+@import "assets/css/selectize.default.css";
 @import "assets/css/ag-grid.css";
+@import "assets/css/ag-theme-fresh.css";
+@import "assets/css/theme-fresh.css";
+@import "assets/css/compiled-icons.css";
 
 body {
     min-width: 0;

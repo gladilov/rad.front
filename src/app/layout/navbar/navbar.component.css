@@ -2,3 +2,7 @@ nav.navbar {
     background: none;
     border: 0;
 }
+
+.g__header-logo {
+  border-right: none;
+}

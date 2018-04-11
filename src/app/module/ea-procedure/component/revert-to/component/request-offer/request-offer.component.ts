@@ -27,7 +27,7 @@ export class RequestOfferComponent implements OnInit {
   private rowModelType = 'infinite';
   private cacheOverflowSize = 500;
   private sortingOrder = ['desc', 'asc', null];
-  private dataUrl = environment.apiBaseUrl + '/EA/procedure/offer-grid/' + (+this.route.snapshot.paramMap.get('id'))
+  private dataUrl = environment.apiBaseUrl + '/EA/procedure/offer-grid/' + (+this.route.snapshot.paramMap.get('id'));
 
   public gridOptions: GridOptions;
   @Input() hidden: boolean;
@@ -36,18 +36,64 @@ export class RequestOfferComponent implements OnInit {
 
   public columnDefs: any[] = [
     {field: 'id', headerName: 'id', hide: true},
-    {field: 'requestId', headerName: 'Номер заявки участника', width: 120},
-    {field: 'organization', headerName: 'Наименование участника'},
-    {field: 'price', headerName: 'Предложенная цена, (руб)'},
-    {field: 'offerType', headerName: 'Тип ценового предложения'},
-    {field: 'createDateTime', headerName: 'Дата и время подачи предложения'},
+    {
+      field: 'requestId',
+      headerName: 'Номер заявки участника',
+      width: 120,
+      filter: 'agNumberColumnFilter',
+      filterParams: { // включает кнопку применение фильтра, дабы не перегружать бек лишними запросами
+        applyButton: true,
+        clearButton: true
+      }
+    },
+    {
+      field: 'organization',
+      headerName: 'Наименование участника',
+      filterParams: { // включает кнопку применение фильтра, дабы не перегружать бек лишними запросами
+        applyButton: true,
+        clearButton: true
+      }
+    },
+    {
+      field: 'price',
+      headerName: 'Предложенная цена, (руб)',
+      filterParams: { // включает кнопку применение фильтра, дабы не перегружать бек лишними запросами
+        applyButton: true,
+        clearButton: true
+      }
+    },
+    {
+      field: 'offerType',
+      headerName: 'Тип ценового предложения',
+      sortingOrder: [null],
+      suppressFilter: true, // отключить фильтр
+      suppressSorting: true // отключить сортировку
+    },
+    {
+      field: 'createDateTime',
+      headerName: 'Дата и время подачи предложения',
+      filter: 'agDateColumnFilter',
+      filterParams: { // включает кнопку применение фильтра, дабы не перегружать бек лишними запросами
+        applyButton: true,
+        clearButton: true
+      }
+    },
     {
       headerName: 'Выбрать',
       field: 'select',
       cellRenderer: 'activeCheckboxRenderer',
-      width: 110
+      width: 110,
+      sortingOrder: [null],
+      suppressFilter: true, // отключить фильтр
+      suppressSorting: true // отключить сортировку
     },
-    {field: 'active', headerName: 'Действует / Удалено'},
+    {
+      field: 'active',
+      headerName: 'Действует / Удалено',
+      sortingOrder: [null],
+      suppressFilter: true, // отключить фильтр
+      suppressSorting: true // отключить сортировку
+    },
   ];
 
   public gridMode = AGGRID_MODE_EDITABLE;

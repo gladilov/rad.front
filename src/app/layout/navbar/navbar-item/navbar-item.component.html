@@ -1,0 +1,8 @@
+<!--<ul class="{{ulClass}}" >-->
+  <li class="{{liClass}}">
+    <a href="{{item.uri}}" target="{{item.target}}">{{item.label}}</a>
+    <ul>
+      <app-navbar-item *ngFor="let page of item.pages" [item]="page"></app-navbar-item>
+    </ul>
+  </li>
+<!--</ul>-->

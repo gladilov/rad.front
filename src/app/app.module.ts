@@ -20,8 +20,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import {LazyLoadGuard} from './pages/lazy-load/lazy-load.guard';
 
 import { JsonService as JsonInterceptor } from './service/http-client-interceptor/json.service';
-// import { ErrorHandleService } from './service/http-client-interceptor/error-handle.service';
-import { XdebugService as XdebugInterceptor} from './service/http-client-interceptor/xdebug.service';
+import { NavbarItemComponent } from './layout/navbar/navbar-item/navbar-item.component';
+import { CustomDatePipe } from './pipe/custom-date.pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,8 @@ import { XdebugService as XdebugInterceptor} from './service/http-client-interce
     HomeComponent,
     NotFoundComponent,
     ServicesComponent,
+    NavbarItemComponent,
+    CustomDatePipe
   ],
   imports: [
     BrowserModule,

@@ -189,11 +189,22 @@ nav ul.navigation > li a {
   background: none;
 }
 
+nav ul.navigation app-navbar-item > li a {
+  text-transform: none;
+  background: none;
+}
+
 nav ul.navigation > li ul {
+  background: #31851b;
+}
+nav ul.navigation app-navbar-item > li ul {
   background: #31851b;
 }
 
 nav ul.g__navigation > li ul a {
+  text-transform: none;
+}
+nav ul.g__navigation app-navbar-item > li ul a {
   text-transform: none;
 }
 
@@ -204,12 +215,25 @@ nav {
   border-top: none;
 }
 
-nav ul.g__navigation {
+nav ul.g__navigation app-navbar-item {
   width: auto;
   height: auto;
 }
 
 nav ul.g__navigation > li > a {
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: normal;
+  display: block;
+  background: none;
+  padding: 14px 5px 16px 5px;
+  text-transform: none;
+}
+
+nav ul.g__navigation > app-navbar-item > li > a {
   color: #fff;
   text-decoration: none;
   position: relative;
@@ -235,7 +259,24 @@ nav ul.g__navigation > li > a:before {
   transition: width .3s ease;
 }
 
+nav ul.g__navigation > app-navbar-item > li > a:before {
+  display: block;
+  content: '';
+  position: absolute;
+  height: 4px;
+  background: #e79627;
+  bottom: -8px;
+  width: 0;
+  left: 0;
+  -webkit-transition: width .3s ease;
+  transition: width .3s ease;
+}
+
 nav ul.g__navigation > li > a li:hover > a {
+  background: #1a9e29;
+}
+
+nav ul.g__navigation > app-navbar-item > li > a li:hover > a {
   background: #1a9e29;
 }
 
@@ -251,8 +292,19 @@ nav ul.g__navigation > li ul.g__user-is-active {
 nav ul.g__navigation > li ul.g__navigation__nav--sub {
   background: #31851b;
 }
+nav  ul.g__navigation app-navbar-item > li ul.g__navigation__nav--sub {
+  background: #31851b;
+}
 
 nav ul.g__navigation > li ul li a {
+  color: #fff !important;
+  font-size: 14px !important;
+  line-height: normal;
+  text-transform: none !important;
+  font-weight: normal;
+}
+
+ul.g__navigation > app-navbar-item > li ul app-navbar-item li a {
   color: #fff !important;
   font-size: 14px !important;
   line-height: normal;
@@ -269,7 +321,21 @@ nav ul.g__navigation > li ul li :hover > a {
   background: #1a9e29;
 }
 
+nav ul.g__navigation > app-navbar-item > li ul app-navbar-item li:hover > a {
+  color: #fff !important;
+  font-size: 14px !important;
+  line-height: normal;
+  text-transform: none !important;
+  font-weight: normal;
+  background: #1a9e29;
+}
+
 nav ul.g__navigation > li:hover a {
+  color: #fff;
+  background: #31851b;
+}
+
+nav ul.g__navigation app-navbar-item > li:hover a {
   color: #fff;
   background: #31851b;
 }
@@ -279,7 +345,17 @@ nav ul.navigation li:hover a, nav ul.navigation li.active a {
   background: #31851b;
 }
 
+nav ul.navigation app-navbar-item li:hover a, nav ul.navigation app-navbar-item li.active a {
+  color: #fff;
+  background: #31851b;
+}
+
 nav ul.navigation li:hover a:before, nav ul.navigation li.active a:before {
+  width: 100%;
+}
+
+nav ul.navigation app-navbar-item li:hover a:before,
+nav ul.navigation app-navbar-item li.active a:before {
   width: 100%;
 }
 
@@ -301,6 +377,10 @@ nav ul.navigation li:hover a:before, nav ul.navigation li.active a:before {
 }
 
 nav ul.navigation li li:hover > a {
+  background: #1a9e29;
+}
+
+nav ul.navigation app-navbar-item li li:hover > a {
   background: #1a9e29;
 }
 

@@ -1,4 +1,3 @@
-import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
 import {FormControl, NG_VALUE_ACCESSOR, ControlValueAccessor, ValidatorFn, AsyncValidatorFn, Validators} from '@angular/forms';
 import {ColumnApi, GridApi, GridOptions} from 'ag-grid';
 import {FormControlAgGrid} from '../../controls/form-control-ag-grid';
@@ -31,7 +30,7 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   @Input() columnDefs: any[];
   // Optional:
   @Input() mode = AGGRID_MODE_READONLY; // 'readonly' or 'editable'
-  @Input() themeClass = 'ag-theme-balham';
+  @Input() themeClass = 'ag-theme-fresh';
   @Input() frameworkComponents = {};
   @Input() context = {};
   @Input() floatingFiler = false;
@@ -48,7 +47,8 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   @Input() maxBlocksInCache = 1;
   @Input() pagination = true;
   @Input() paginationPageSize = 10;
-  @Input() getMoreTextFunction: any;
+
+  @Input() autoSize = true;
 
   // The internal data model
   private innerValue: any = '';
@@ -59,8 +59,7 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   private onChangeCallback: (_: any) => void = noop;
 
   constructor(
-    private http: HttpClient
-  ) {
+    private http: HttpClient) {
     this.gridOptions = <GridOptions>{
       context: {
         componentParent: this
@@ -121,12 +120,16 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
       // for number filter and text filter
       filterOoo: 'отфильтровать',
       applyFilter: 'применить фильтр',
+      clearFilter: 'очистить фильтр',
 
       // for number filter
       equals: 'соответствует',
       notEqual: 'не соответствует',
       lessThan: 'меньше чем',
+      lessThanOrEqual: 'меньше или равно',
       greaterThan: 'больше чем',
+      greaterThanOrEqual: 'больше или равно',
+      inRange: 'между',
 
       // for text filter
       contains: 'содержит',
@@ -269,7 +272,9 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
-    this.gridOptions.api.sizeColumnsToFit();
+    if (this.autoSize) {
+      this.gridOptions.api.sizeColumnsToFit();
+    }
     if (this.rowModelType === 'infinite') {
       const self = this;
       const api = params.api;

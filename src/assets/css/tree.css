@@ -1,0 +1,14 @@
+label.tree-toggler {
+    display: block;
+    position: absolute;
+    padding: 10px 4px;
+    margin: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.nav-list {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 0;
+}
