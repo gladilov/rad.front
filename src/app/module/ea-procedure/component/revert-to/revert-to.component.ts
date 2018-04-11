@@ -49,6 +49,7 @@ export class RevertToComponent implements OnInit {
   authorityName = new NgxFormControlText('', {});
   authorityType = new NgxFormControlSelect('', {});
   documentReason = new NgxFormControlSelect('', {});
+  courtName = new NgxFormControlText('', {});
   docName = new NgxFormControlText('', {});
   docDate = new NgxFormControlText('', {});
   docNumber = new NgxFormControlText('', {});
@@ -61,6 +62,7 @@ export class RevertToComponent implements OnInit {
     controlNumber: this.controlNumber,
     authorityName: this.authorityName,
     authorityType: this.authorityType,
+    courtName: this.courtName,
     docName: this.docName,
     docDate: this.docDate,
     docNumber: this.docNumber,
@@ -135,6 +137,9 @@ export class RevertToComponent implements OnInit {
 
         NpxControlDataSetter.setControlsData(this.form, data);
         this.requestsComponent.updateGrid();
+        if (this.offersComponent !== undefined) {
+          this.offersComponent.updateGrid();
+        }
       },
       err => {
         NpxControlDataSetter.setControlsData(this.form, err);

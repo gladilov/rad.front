@@ -84,6 +84,7 @@ export class ProcedureChangeOptionsComponent implements OnInit {
         formElement.controls['docDate'].disable();
         formElement.controls['docNumber'].disable();
       } else if (formElement.controls['documentReason'].value === this.DOC_REASON_TYPE_COURT_DECISION) {
+        formElement.controls['courtName'].enable();
         formElement.controls['docName'].enable();
         formElement.controls['docDate'].enable();
         formElement.controls['docNumber'].enable();
@@ -96,6 +97,7 @@ export class ProcedureChangeOptionsComponent implements OnInit {
         formElement.controls['docName'].disable();
         formElement.controls['docDate'].disable();
         formElement.controls['docNumber'].disable();
+        formElement.controls['courtName'].disable();
       } else if (formElement.controls['instructionData'].value === this.INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION) {
         formElement.controls['controlNumber'].disable();
         formElement.controls['authorityName'].enable();
@@ -103,7 +105,9 @@ export class ProcedureChangeOptionsComponent implements OnInit {
         formElement.controls['docName'].enable();
         formElement.controls['docDate'].enable();
         formElement.controls['docNumber'].enable();
+        formElement.controls['courtName'].disable();
       } else {
+        formElement.controls['courtName'].disable();
         formElement.controls['controlNumber'].disable();
         formElement.controls['authorityName'].disable();
         formElement.controls['authorityType'].disable();
