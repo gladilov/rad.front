@@ -141,9 +141,9 @@ export class ProcedureChangeOptionsComponent implements OnInit {
 
   changeShared(data) {
     if (data === 'procedure.trades.awaiting') {
-      this.ss.change(false);
+      this.ss.change(false, data);
     } else {
-      this.ss.change(true);
+      this.ss.change(true, data);
     }
   }
 }

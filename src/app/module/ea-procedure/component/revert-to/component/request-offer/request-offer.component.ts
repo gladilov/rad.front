@@ -44,7 +44,8 @@ export class RequestOfferComponent implements OnInit {
       filterParams: { // включает кнопку применение фильтра, дабы не перегружать бек лишними запросами
         applyButton: true,
         clearButton: true
-      }
+      },
+      cellStyle: { 'white-space': 'normal' }
     },
     {
       field: 'organization',
@@ -52,7 +53,8 @@ export class RequestOfferComponent implements OnInit {
       filterParams: { // включает кнопку применение фильтра, дабы не перегружать бек лишними запросами
         applyButton: true,
         clearButton: true
-      }
+      },
+      cellStyle: { 'white-space': 'normal' }
     },
     {
       field: 'price',
@@ -60,7 +62,8 @@ export class RequestOfferComponent implements OnInit {
       filterParams: { // включает кнопку применение фильтра, дабы не перегружать бек лишними запросами
         applyButton: true,
         clearButton: true
-      }
+      },
+      cellStyle: { 'white-space': 'normal' }
     },
     {
       field: 'offerType',
@@ -76,13 +79,14 @@ export class RequestOfferComponent implements OnInit {
       filterParams: { // включает кнопку применение фильтра, дабы не перегружать бек лишними запросами
         applyButton: true,
         clearButton: true
-      }
+      },
+      cellStyle: { 'white-space': 'normal' }
     },
     {
       headerName: 'Выбрать',
       field: 'select',
       cellRenderer: 'activeCheckboxRenderer',
-      width: 110,
+      width: 120,
       sortingOrder: [null],
       suppressFilter: true, // отключить фильтр
       suppressSorting: true // отключить сортировку

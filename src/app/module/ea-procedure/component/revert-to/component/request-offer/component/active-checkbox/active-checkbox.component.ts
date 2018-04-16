@@ -8,12 +8,17 @@ import {ICellRendererAngularComp} from 'ag-grid-angular';
 })
 export class ActiveCheckboxComponent implements ICellRendererAngularComp {
   public params: any;
+  checked = false;
 
   agInit(params: any): void {
     this.params = params;
+    if (params.hasOwnProperty('value')) {
+      this.checked = params.value;
+    }
   }
 
   public invokeParentMethod() {
+    this.checked = !this.checked;
     this.params.context.componentParent.methodFromParent(this.params.node.rowIndex);
   }
 

@@ -21,6 +21,15 @@ export class ProcedureRequestsComponent implements OnInit {
     'request.refused': 'Отозвана',
     'request.rejected': 'Отклонена оператором',
     'request.returned': 'Возвращена',
+    'request.no.decision': 'Решение не принято', // 91
+    'request.review': 'Рассмотрение первых частей', // 51
+    'request.electronic.auction.final.review': 'Рассмотрение вторых частей', // 90
+    'request.electronic.auction.no.offer': 'Нет ценовых предложений', // 89
+    'request.electronic.auction.final.rejected': 'Не соответствует', // 88
+    'request.electronic.auction.final.accepted': 'Соответствует', // 87
+    'request.electronic.auction.rejected': 'Не допущена', // 86
+    'request.electronic.auction.accepted': 'Допущена', // 85
+    'request.discharge': 'Отстранена', // 61
   };
 
   public gridOptions: GridOptions;
@@ -28,13 +37,53 @@ export class ProcedureRequestsComponent implements OnInit {
   @ViewChild(AgGridFormcontrolComponent) grid: AgGridFormcontrolComponent;
 
   public columnDefs: any[] = [
-    {field: 'id', headerName: 'id', hide: true},
-    {field: 'requestNumber', headerName: 'Номер', width: 120, /*checkboxSelection: true,*/ /*headerCheckboxSelection: true*/},
-    {field: 'sendDateTime', headerName: 'Дата и время регистрации заявки'},
-    {field: 'organization', headerName: 'Наименование участника'},
-    {field: 'status', headerName: 'Текущий статус',},
-    {field: 'blockMoney', headerName: 'Заблокированные средства (руб)',},
-    {field: 'freeFinance', headerName: 'Свободные средства (руб)',},
+    {
+      field: 'id',
+      headerName: 'id',
+      hide: true
+    },
+    {
+      field: 'requestNumber',
+      headerName: 'Номер',
+      width: 120,
+      cellStyle: { 'white-space': 'normal' }
+    },
+    {
+      field: 'sendDateTime',
+      headerName: 'Дата и время регистрации заявки',
+      cellStyle: { 'white-space': 'normal' }
+    },
+    {
+      field: 'organization',
+      headerName: 'Наименование участника',
+      cellStyle: { 'white-space': 'normal' }
+    },
+    {
+      field: 'status',
+      headerName: 'Текущий статус',
+      cellEditorParams: {
+        values: ProcedureRequestsComponent.extractValues(ProcedureRequestsComponent.statusMappings)
+      },
+      valueFormatter: function (params) {
+        // convert code to value
+        return ProcedureRequestsComponent.lookupValue(ProcedureRequestsComponent.statusMappings, params.value);
+      },
+      valueParser: function (params) {
+        // convert value to code
+        return ProcedureRequestsComponent.lookupKey(ProcedureRequestsComponent.statusMappings, params.newValue);
+      },
+      cellStyle: { 'white-space': 'normal' }
+    },
+    {
+      field: 'blockMoney',
+      headerName: 'Заблокированные средства (руб)',
+      cellStyle: { 'white-space': 'normal' }
+    },
+    {
+      field: 'freeFinance',
+      headerName: 'Свободные средства (руб)',
+      cellStyle: { 'white-space': 'normal' }
+    },
     {
       field: 'targetStatus',
       headerName: 'Новый статус',
@@ -52,7 +101,8 @@ export class ProcedureRequestsComponent implements OnInit {
       valueParser: function (params) {
         // convert value to code
         return ProcedureRequestsComponent.lookupKey(ProcedureRequestsComponent.statusMappings, params.newValue);
-      }
+      },
+      cellStyle: { 'white-space': 'normal' }
     }
   ];
   public gridMode = AGGRID_MODE_EDITABLE;

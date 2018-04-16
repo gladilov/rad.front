@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import { FormGroup} from '@angular/forms';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute} from '@angular/router';
 
@@ -22,7 +22,7 @@ import {SharedService} from '../../service/revert-to/shared.service';
     SharedService
   ],
 })
-export class RevertToComponent implements OnInit {
+export class RevertToComponent implements OnInit, OnDestroy {
   public summaryErrorMessage = null;
 
   @ViewChild(ProcedureRequestsComponent) requestsComponent: ProcedureRequestsComponent;
@@ -99,32 +99,42 @@ export class RevertToComponent implements OnInit {
     sign: new NgxFormControlText('', {})
   });
 
-  subscription: Subscription;
+  subscription = new Subscription;
 
   constructor(public revertToS: RevertToService,
               private route: ActivatedRoute,
               public ss: SharedService) {
     this.hidden = true;
-    this.subscription = route.params.subscribe((params) => {
-      const id = +this.route.snapshot.paramMap.get('id');
-      this.loadData(id);
-    });
+    this.subscription.add(route.params.subscribe((params) => {
+      this.requestId = +this.route.snapshot.paramMap.get('id');
+      this.loadData();
+    }));
   }
 
   ngOnInit() {
-    this.subscription = this.ss.getEmittedValue().subscribe((item) => {
+    this.subscription.add(this.ss.getEmittedValue().subscribe((item) => {
       this.hidden = item;
-    });
+    }));
+    // this.subscription.add(this.ss.getEmittedTargetStatus().subscribe((item) => {
+    //   if (typeof item === 'string') {
+    //     this.loadDataGrid(item);
+    //   }
+    // }));
+  }
+
+  ngOnDestroy() {
+    for (const sub in this.subscription) {
+      if (this.subscription.hasOwnProperty(sub)) {
+        this.subscription[sub].unsubscribe();
+      }
+    }
   }
 
   /**
    * Начальная загрузка данных формы
-   * @param {number | string} id
    */
-  loadData(id: number) {
-    this.requestId = id;
-    const res = this.revertToS.loadData(this.formData, id);
-    res.subscribe(
+  loadData() {
+    this.revertToS.loadData(this.requestId).subscribe(
       data => {
         if (data['_fields'] !== undefined
           && data['_fields']['data'] !== undefined
@@ -146,9 +156,40 @@ export class RevertToComponent implements OnInit {
       }
     );
   }
+  //
+  // loadDataGrid(targetStatus: string) {
+  //   this.revertToS.loadDataGrid(targetStatus, this.requestId).subscribe(
+  //     data => {
+  //       if (data['_fields'] !== undefined
+  //         && data['_fields']['data'] !== undefined
+  //       ) {
+  //         const formData = data['_fields']['data'];
+  //         if (formData['_fields']['procedureInfo'] !== undefined) {
+  //           formData['_fields']['timeLimits'] = formData['_fields']['procedureInfo'];
+  //         }
+  //       }
+  //
+  //       // очищение имеющихся в гридах данных
+  //       this.requestsComponent.grid.rowData.splice(0, this.requestsComponent.grid.rowData.length);
+  //       this.offersComponent.grid.rowData.splice(0, this.offersComponent.grid.rowData.length);
+  //
+  //       // сет новых данных
+  //       NpxControlDataSetter.setControlsData(this.form, data);
+  //
+  //       // обновление гридов
+  //       this.requestsComponent.updateGrid();
+  //       if (this.offersComponent !== undefined) {
+  //         this.offersComponent.updateGrid();
+  //       }
+  //     },
+  //     err => {
+  //       NpxControlDataSetter.setControlsData(this.form, err);
+  //     }
+  //   );
+  // }
 
   onSubmit() {
-    const id = this.requestId; // FIXME брать из роутинга
+    const id = this.requestId;
 
     this.clearSummaryErrorMessage();
     if (this.form.invalid === true) {

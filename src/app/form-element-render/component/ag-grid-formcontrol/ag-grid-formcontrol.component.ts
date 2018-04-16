@@ -50,6 +50,7 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
   @Input() paginationPageSize = 10;
 
   @Input() autoSize = true;
+  @Input() rowHeight = 50;
 
   // The internal data model
   private innerValue: any = '';
@@ -70,7 +71,10 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
       headerHeight: 48,
       columnDefs: [],
       rowData: [],
-      domLayout: 'autoHeight',
+      domLayout: 'autoHeight', // если будет нужна вертикальная полоса прокрутки убрать это свойство
+      getRowHeight: () => {
+        return this.rowHeight;
+      },
     };
   }
 

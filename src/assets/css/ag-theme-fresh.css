@@ -1236,7 +1236,7 @@
     padding: 12px;
     z-index: 2; }
     .ag-theme-fresh .ag-cell-inline-editing select {
-      height: auto; }
+      height: 100%; }
   .ag-theme-fresh .ag-popup-editor {
     background: #f6f6f6;
     border-radius: 0;
@@ -1704,7 +1704,7 @@
     opacity: 1;
     width: 12px; }
   .ag-theme-fresh .ag-cell-inline-editing {
-    height: 25px;
+    height: 100%;
     padding: 0; }
     .ag-theme-fresh .ag-cell-inline-editing input {
       box-sizing: border-box; }
