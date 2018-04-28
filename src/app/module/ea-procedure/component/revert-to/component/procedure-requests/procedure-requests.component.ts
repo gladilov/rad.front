@@ -17,6 +17,7 @@ import {
 })
 export class ProcedureRequestsComponent implements OnInit {
   static statusMappings = {
+    '': 'Выберите новый статус заявки',
     'request.published': 'Подана',
     'request.refused': 'Отозвана',
     'request.rejected': 'Отклонена оператором',
