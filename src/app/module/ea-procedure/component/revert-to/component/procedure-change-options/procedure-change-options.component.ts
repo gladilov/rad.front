@@ -140,7 +140,7 @@ export class ProcedureChangeOptionsComponent implements OnInit {
   }
 
   changeShared(data) {
-    if (data === 'procedure.trades.awaiting') {
+    if (data === 'procedure.trades.awaiting' || data === 'procedure.request.review') {
       this.ss.change(false, data);
     } else {
       this.ss.change(true, data);
