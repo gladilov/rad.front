@@ -117,11 +117,10 @@
       Дата документа
     </label>
     <div class="col-md-7">
-      <ngx-form-control-text
+      <app-date-formcontrol
         [id]="'procedureChangeOptions__docDate'"
-        [elementClass]="'form-control'"
         [formElement]="formElement.controls['docDate']"
-      ></ngx-form-control-text>
+      ></app-date-formcontrol>
       <ngx-form-control-error-message [formElement]="formElement.controls['docDate']"></ngx-form-control-error-message>
     </div>
   </div>

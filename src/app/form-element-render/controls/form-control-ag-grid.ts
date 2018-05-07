@@ -3,7 +3,6 @@ import {AbstractControlOptions} from '@angular/forms/src/model';
 
 import {NgxFormControlInterface, NpxBaseObject as BaseObject} from 'ngx-form-controls';
 import {AgGridObject} from '../objects/ag-grid-object';
-import {GridOptions} from 'ag-grid';
 
 export class FormControlAgGrid extends FormControl implements NgxFormControlInterface {
   public static cnt = 1;
@@ -25,18 +24,7 @@ export class FormControlAgGrid extends FormControl implements NgxFormControlInte
   }
 
   set elementData(value: AgGridObject) {
-    // console.log('KOTA FormControlAgGrid set AgGridObject number = ', this.myNumber);
-    // console.log('KOTA FormControlAgGrid set AgGridObject = ', value);
     this._elementData = value;
   }
 
-  // get gridOptions(): GridOptions {
-  //   return this.elementData.gridOptions;
-  // }
-  //
-  // set gridOptions(value: GridOptions) {
-  //   console.log('KOTA FormControlAgGrid set AgGridObject number = ', this.myNumber);
-  //   console.log('KOTA CCCC set gridOptions = ', value);
-  //   this.elementData.gridOptions = value;
-  // }
 }

@@ -73,8 +73,11 @@ export class RevertToComponent implements OnInit, OnDestroy {
   procedureOffers = new FormControlAgGrid([], {});
 
   timeLimits = new FormGroup({
+    oldRequestEndGiveDateTime: new NgxFormControlText('', {}),
     requestEndGiveDateTime: new NgxFormControlText('', {}),
+    oldRequestReviewDateTime: new NgxFormControlText('', {}),
     requestReviewDateTime: new NgxFormControlText('', {}),
+    oldConditionalHoldingDateTime: new NgxFormControlText('', {}),
     conditionalHoldingDateTime: new NgxFormControlText('', {}),
   });
 
@@ -140,8 +143,22 @@ export class RevertToComponent implements OnInit, OnDestroy {
           && data['_fields']['data'] !== undefined
         ) {
           const formData = data['_fields']['data'];
-          if (formData['_fields']['procedureInfo'] !== undefined) {
-            formData['_fields']['timeLimits'] = formData['_fields']['procedureInfo'];
+          if (formData['_fields']['procedureInfo']['_fields']['requestEndGiveDateTime'] !== undefined) {
+            formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime'] = {};
+            Object.assign(formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime'], formData['_fields']['procedureInfo']['_fields']['requestEndGiveDateTime']);
+            formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime']._default.slice(0, -12);
+          }
+
+          if (formData['_fields']['procedureInfo']['_fields']['requestReviewDateTime'] !== undefined) {
+            formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime'] = {};
+            Object.assign(formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime'], formData['_fields']['procedureInfo']['_fields']['requestReviewDateTime']);
+            formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime']._default.slice(0, -12);
+          }
+
+          if (formData['_fields']['procedureInfo']['_fields']['conditionalHoldingDateTime'] !== undefined) {
+            formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime'] = {};
+            Object.assign(formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime'], formData['_fields']['procedureInfo']['_fields']['conditionalHoldingDateTime']);
+            formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime']._default.slice(0, -12);
           }
         }
 

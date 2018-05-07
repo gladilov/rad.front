@@ -14,6 +14,9 @@ import { TextareaComponent } from './component/textarea/textarea.component';
 import { CheckboxComponent } from './component/checkbox/checkbox.component';
 import { UploadDocumentsComponent } from './component/upload-documents/upload-documents.component';
 import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-grid-formcontrol.component';
+import { DateTimeFormcontrolComponent } from './component/date-time-formcontrol/date-time-formcontrol.component';
+import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { DateFormcontrolComponent } from './component/date-formcontrol/date-formcontrol.component';
 
 @NgModule({
   imports: [
@@ -23,7 +26,8 @@ import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-g
 
     FileUploadModule,
     AgGridModule.withComponents([]),
-    NgxFormControlsModule
+    NgxFormControlsModule,
+    Ng2FlatpickrModule
   ],
   declarations: [
     SelectComponent,
@@ -34,7 +38,9 @@ import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-g
     CheckboxComponent,
     UploadDocumentsComponent,
     CheckboxComponent,
-    AgGridFormcontrolComponent
+    AgGridFormcontrolComponent,
+    DateTimeFormcontrolComponent,
+    DateFormcontrolComponent
   ],
   exports: [
     SelectComponent,
@@ -45,7 +51,9 @@ import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-g
     CheckboxComponent,
     UploadDocumentsComponent,
     CheckboxComponent,
-    AgGridFormcontrolComponent
+    AgGridFormcontrolComponent,
+    DateTimeFormcontrolComponent,
+    DateFormcontrolComponent
   ]
 })
 export class FormElementRenderModule { }

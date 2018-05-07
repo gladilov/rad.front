@@ -43,7 +43,7 @@ import { CustomDatePipe } from './pipe/custom-date.pipe';
     FormsModule,
     ReactiveFormsModule,
 
-    FormElementRenderModule
+    FormElementRenderModule,
     // appRouting
   ],
   providers: [
