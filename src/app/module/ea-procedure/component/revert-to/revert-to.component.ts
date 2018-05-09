@@ -34,6 +34,7 @@ export class RevertToComponent implements OnInit, OnDestroy {
    */
   requestId = 3779; // -1;
   hidden: boolean;
+  requestHidden: boolean;
 
   procedureInfo = new FormGroup({
     registrationNumber: new NgxFormControlText({value: '', disabled: true}, {}),
@@ -79,6 +80,8 @@ export class RevertToComponent implements OnInit, OnDestroy {
     requestReviewDateTime: new NgxFormControlText('', {}),
     oldConditionalHoldingDateTime: new NgxFormControlText('', {}),
     conditionalHoldingDateTime: new NgxFormControlText('', {}),
+    oldResultDateTime: new NgxFormControlText('', {}),
+    resultDateTime: new NgxFormControlText('', {}),
   });
 
   extraConditions = new FormGroup({
@@ -108,6 +111,7 @@ export class RevertToComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               public ss: SharedService) {
     this.hidden = true;
+    this.requestHidden = true;
     this.subscription.add(route.params.subscribe((params) => {
       this.requestId = +this.route.snapshot.paramMap.get('id');
       this.loadData();
@@ -118,11 +122,14 @@ export class RevertToComponent implements OnInit, OnDestroy {
     this.subscription.add(this.ss.getEmittedValue().subscribe((item) => {
       this.hidden = item;
     }));
-    // this.subscription.add(this.ss.getEmittedTargetStatus().subscribe((item) => {
-    //   if (typeof item === 'string') {
-    //     this.loadDataGrid(item);
-    //   }
-    // }));
+    this.subscription.add(this.ss.getRequestHiddenValue().subscribe((item) => {
+      this.requestHidden = item;
+    }));
+    this.subscription.add(this.ss.getEmittedTargetStatus().subscribe((item) => {
+      if (typeof item === 'string' && item !== 'default' && item !== 'procedure.contract') {
+        this.loadDataGrid(item);
+      }
+    }));
   }
 
   ngOnDestroy() {
@@ -146,24 +153,30 @@ export class RevertToComponent implements OnInit, OnDestroy {
           if (formData['_fields']['procedureInfo']['_fields']['requestEndGiveDateTime'] !== undefined) {
             formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime'] = {};
             Object.assign(formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime'], formData['_fields']['procedureInfo']['_fields']['requestEndGiveDateTime']);
-            formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime']._default.slice(0, -12);
+            // formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldRequestEndGiveDateTime']._default.slice(0, -12);
           }
 
           if (formData['_fields']['procedureInfo']['_fields']['requestReviewDateTime'] !== undefined) {
             formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime'] = {};
             Object.assign(formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime'], formData['_fields']['procedureInfo']['_fields']['requestReviewDateTime']);
-            formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime']._default.slice(0, -12);
+            // formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldRequestReviewDateTime']._default.slice(0, -12);
           }
 
           if (formData['_fields']['procedureInfo']['_fields']['conditionalHoldingDateTime'] !== undefined) {
             formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime'] = {};
             Object.assign(formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime'], formData['_fields']['procedureInfo']['_fields']['conditionalHoldingDateTime']);
-            formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime']._default.slice(0, -12);
+            // formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime']._default.slice(0, -12);
+          }
+
+          if (formData['_fields']['procedureInfo']['_fields']['resultDateTime'] !== undefined) {
+            formData['_fields']['timeLimits']['_fields']['oldResultDateTime'] = {};
+            Object.assign(formData['_fields']['timeLimits']['_fields']['oldResultDateTime'], formData['_fields']['procedureInfo']['_fields']['resultDateTime']);
+            // formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime']._default = formData['_fields']['timeLimits']['_fields']['oldConditionalHoldingDateTime']._default.slice(0, -12);
           }
         }
 
         NpxControlDataSetter.setControlsData(this.form, data);
-        this.requestsComponent.updateGrid();
+        // this.requestsComponent.updateGrid();
         if (this.offersComponent !== undefined) {
           this.offersComponent.updateGrid();
         }
@@ -173,37 +186,39 @@ export class RevertToComponent implements OnInit, OnDestroy {
       }
     );
   }
-  //
-  // loadDataGrid(targetStatus: string) {
-  //   this.revertToS.loadDataGrid(targetStatus, this.requestId).subscribe(
-  //     data => {
-  //       if (data['_fields'] !== undefined
-  //         && data['_fields']['data'] !== undefined
-  //       ) {
-  //         const formData = data['_fields']['data'];
-  //         if (formData['_fields']['procedureInfo'] !== undefined) {
-  //           formData['_fields']['timeLimits'] = formData['_fields']['procedureInfo'];
-  //         }
-  //       }
-  //
-  //       // очищение имеющихся в гридах данных
-  //       this.requestsComponent.grid.rowData.splice(0, this.requestsComponent.grid.rowData.length);
-  //       this.offersComponent.grid.rowData.splice(0, this.offersComponent.grid.rowData.length);
-  //
-  //       // сет новых данных
-  //       NpxControlDataSetter.setControlsData(this.form, data);
-  //
-  //       // обновление гридов
-  //       this.requestsComponent.updateGrid();
-  //       if (this.offersComponent !== undefined) {
-  //         this.offersComponent.updateGrid();
-  //       }
-  //     },
-  //     err => {
-  //       NpxControlDataSetter.setControlsData(this.form, err);
-  //     }
-  //   );
-  // }
+
+  loadDataGrid(targetStatus: string) {
+    this.revertToS.loadDataGrid(targetStatus, this.requestId).subscribe(
+      data => {
+        if (data['_fields'] !== undefined
+          && data['_fields']['data'] !== undefined
+        ) {
+          const formData = data['_fields']['data'];
+          if (formData['_fields']['procedureInfo'] !== undefined) {
+            formData['_fields']['timeLimits'] = formData['_fields']['procedureInfo'];
+          }
+        }
+
+        // очищение имеющихся в гридах данных
+        this.requestsComponent.grid.rowData.splice(0, this.requestsComponent.grid.rowData.length);
+        // this.offersComponent.grid.rowData.splice(0, this.offersComponent.grid.rowData.length);
+
+        // сет новых данных
+        NpxControlDataSetter.setControlsData(this.form, data);
+
+        // обновление гридов
+        if (this.requestsComponent !== undefined) {
+          this.requestsComponent.updateGrid();
+        }
+        // if (this.offersComponent !== undefined) {
+        //   this.offersComponent.updateGrid();
+        // }
+      },
+      err => {
+        NpxControlDataSetter.setControlsData(this.form, err);
+      }
+    );
+  }
 
   onSubmit() {
     const id = this.requestId;

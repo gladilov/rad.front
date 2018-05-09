@@ -44,31 +44,31 @@ export class RevertToService {
         });
       });
   }
-  //
-  // loadDataGrid(targetStatus: string, id: number): Observable<any> {
-  //   const url = this.apiBaseUrl + '/EA/procedure/request-grid/' + targetStatus + '/' + id;
-  //   return this.http
-  //     .get<any>(url, {observe: 'response'})
-  //     .map((respData: HttpResponse<any>) => {
-  //       return respData.body;
-  //     })
-  //     .catch((err: HttpErrorResponse, caught) => {
-  //       let error;
-  //
-  //       if ((<HttpErrorResponse>err).status >= 400 && err.status < 500) {
-  //         error = err.error;
-  //       } else {
-  //         error = {
-  //           _error: 'Непредвиденная ошибка со стороны сервера'
-  //         };
-  //       }
-  //
-  //       return new Observable<any>(observer => {
-  //         observer.error(error);
-  //         observer.complete();
-  //       });
-  //     });
-  // }
+
+  loadDataGrid(targetStatus: string, id: number): Observable<any> {
+    const url = this.apiBaseUrl + '/EA/procedure/request-grid/' + targetStatus + '/' + id;
+    return this.http
+      .get<any>(url, {observe: 'response'})
+      .map((respData: HttpResponse<any>) => {
+        return respData.body;
+      })
+      .catch((err: HttpErrorResponse, caught) => {
+        let error;
+
+        if ((<HttpErrorResponse>err).status >= 400 && err.status < 500) {
+          error = err.error;
+        } else {
+          error = {
+            _error: 'Непредвиденная ошибка со стороны сервера'
+          };
+        }
+
+        return new Observable<any>(observer => {
+          observer.error(error);
+          observer.complete();
+        });
+      });
+  }
 
   loadProtocolData(id: number, targetStatus: string) {
     const url = this.apiBaseUrl + '/EA/procedure/get-protocol-list/' + targetStatus + '/' + id;

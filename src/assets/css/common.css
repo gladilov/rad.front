@@ -112,6 +112,10 @@
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 
+p {
+  margin-bottom: 0;
+}
+
 div.ng2-flatpickr-input-container {
   display: inline;
 }
@@ -1795,4 +1799,8 @@ fieldset span.clearfix {
   background-color: #579c00;
   border-color: #156516;
   opacity: 0.8;
+}
+
+.text-success {
+  color: #3c763d !important;
 }

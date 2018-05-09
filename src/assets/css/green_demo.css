@@ -1546,8 +1546,8 @@ button.g__add-more:after {
     border: 1px solid #31851b;
     left: -13px;
     top: 7px; }
-button.g__add-more:hover {
-    color: #31851b;
+button.g__add-more:hover, button.g__add-more:focus, button.g__add-more:active {
+  color: #000;
     background: none; }
 button.g__add-more span {
     display: none; }

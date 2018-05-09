@@ -20,6 +20,10 @@ import {RequestOfferComponent} from './component/revert-to/component/request-off
 import {ActiveCheckboxComponent} from './component/revert-to/component/request-offer/component/active-checkbox/active-checkbox.component';
 import {BootstrapModalModule} from 'ng2-bootstrap-modal';
 import {ConfirmComponent} from './component/confirm/confirm.component';
+import { RequestEndGiveDateTimeComponent } from './component/revert-to/component/time-limits/component/request-end-give-date-time/request-end-give-date-time.component';
+import { RequestReviewDateTimeComponent } from './component/revert-to/component/time-limits/component/request-review-date-time/request-review-date-time.component';
+import { ConditionalHoldingDateTimeComponent } from './component/revert-to/component/time-limits/component/conditional-holding-date-time/conditional-holding-date-time.component';
+import { ResultDateTimeComponent } from './component/revert-to/component/time-limits/component/result-date-time/result-date-time.component';
 
 const objectRoutes: Routes = [
   {
@@ -63,7 +67,11 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     ProcedureChangeOptionsComponent,
     RequestOfferComponent,
     ActiveCheckboxComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    RequestEndGiveDateTimeComponent,
+    RequestReviewDateTimeComponent,
+    ConditionalHoldingDateTimeComponent,
+    ResultDateTimeComponent
   ],
   providers: [],
   entryComponents: [

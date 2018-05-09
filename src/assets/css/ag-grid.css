@@ -251,7 +251,7 @@ ag-grid-aurelia {
   height: 100%;
   left: 0;
   pointer-events: none;
-  position: absolute;
+  position: relative !important;
   top: 0;
   width: 100%; }
 

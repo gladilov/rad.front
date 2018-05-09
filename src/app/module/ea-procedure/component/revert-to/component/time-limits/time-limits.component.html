@@ -9,14 +9,13 @@
     <div class="col-md-3">
       <label>Текущие</label>
       <ngx-form-control-text [formElement]="formElement.controls['oldRequestEndGiveDateTime']"
-                    [id]="'timeLimits__requestEndGiveDateTime'" [mode]="'view'"></ngx-form-control-text>
+                             [id]="'timeLimits__oldRequestEndGiveDateTime'" [mode]="'view'"></ngx-form-control-text>
     </div>
     <div class="col-md-3">
       <label>Новые</label>
-      <app-date-time-formcontrol
-        [id]="'timeLimits__requestEndGiveDateTime'"
+      <app-request-end-give-date-time
         [formElement]="formElement.controls['requestEndGiveDateTime']"
-      ></app-date-time-formcontrol>
+      ></app-request-end-give-date-time>
     </div>
 
   </div>
@@ -26,13 +25,12 @@
     </label>
     <div class="col-md-3">
       <ngx-form-control-text [formElement]="formElement.controls['oldRequestReviewDateTime']"
-                    [id]="'timeLimits__requestReviewDateTime'" [mode]="'view'"></ngx-form-control-text>
+                             [id]="'timeLimits__oldRequestReviewDateTime'" [mode]="'view'"></ngx-form-control-text>
     </div>
     <div class="col-md-3">
-      <app-date-time-formcontrol
-        [id]="'timeLimits__requestReviewDateTime'"
+      <app-request-review-date-time
         [formElement]="formElement.controls['requestReviewDateTime']"
-      ></app-date-time-formcontrol>
+      ></app-request-review-date-time>
     </div>
   </div>
   <div class="form-group row">
@@ -41,13 +39,26 @@
     </label>
     <div class="col-md-3">
       <ngx-form-control-text [formElement]="formElement.controls['oldConditionalHoldingDateTime']"
-                    [id]="'timeLimits__conditionalHoldingDateTime'" [mode]="'view'"></ngx-form-control-text>
+                             [id]="'timeLimits__oldConditionalHoldingDateTime'" [mode]="'view'"></ngx-form-control-text>
     </div>
     <div class="col-md-3">
-      <app-date-time-formcontrol
-        [id]="'timeLimits__conditionalHoldingDateTime'"
+      <app-conditional-holding-date-time
         [formElement]="formElement.controls['conditionalHoldingDateTime']"
-      ></app-date-time-formcontrol>
+      ></app-conditional-holding-date-time>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-6 col-form-label">
+      Дата и время подведения итогов
+    </label>
+    <div class="col-md-3">
+      <ngx-form-control-text [formElement]="formElement.controls['oldResultDateTime']"
+                             [id]="'timeLimits__oldResultDateTime'" [mode]="'view'"></ngx-form-control-text>
+    </div>
+    <div class="col-md-3">
+      <app-result-date-time
+        [formElement]="formElement.controls['resultDateTime']"
+      ></app-result-date-time>
     </div>
   </div>
 </div>

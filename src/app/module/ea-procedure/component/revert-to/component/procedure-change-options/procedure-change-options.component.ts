@@ -3,8 +3,8 @@ import {FormGroup} from '@angular/forms';
 import {FillData} from '../../../../../../service/FillData';
 import {RevertToService} from '../../../../service/revert-to/revert-to.service';
 
-import { NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox } from 'ngx-form-controls';
-import { NpxControlDataSetter } from 'ngx-form-controls';
+import {NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox} from 'ngx-form-controls';
+import {NpxControlDataSetter} from 'ngx-form-controls';
 import {SharedService} from '../../../../service/revert-to/shared.service';
 
 @Component({
@@ -21,8 +21,8 @@ export class ProcedureChangeOptionsComponent implements OnInit {
   private INSTRUCTION_DATA_REESTR_PRESCRIPTION = 'reestrPrescription';
   private INSTRUCTION_DATA_EXTERNAL_PRESCRIPTION = 'externalPrescription';
 
-  @Input()formElement: FormGroup;
-  @Input()requestId: number;
+  @Input() formElement: FormGroup;
+  @Input() requestId: number;
 
   constructor(
     public revertToS: RevertToService,
@@ -140,10 +140,16 @@ export class ProcedureChangeOptionsComponent implements OnInit {
   }
 
   changeShared(data) {
+    let hiddenOffer = true;
+    let hiddenRequest = false;
     if (data === 'procedure.trades.awaiting' || data === 'procedure.request.review') {
-      this.ss.change(false, data);
-    } else {
-      this.ss.change(true, data);
+      hiddenOffer = false;
     }
+
+    if (data === 'default' || data === 'procedure.contract' || data === null) {
+      hiddenRequest = true;
+    }
+
+    this.ss.change(hiddenOffer, hiddenRequest, data);
   }
 }

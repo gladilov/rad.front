@@ -1,3 +1,6 @@
 <ng2-flatpickr
-  [config]="exampleOptions" (change)="showValue()" class="glyphicon-calendar glyphicon">
+  [config]="exampleOptions"
+  (change)="showValue()"
+  [class]="elementClass"
+  [ngStyle]="{'pointer-events': pointerEvents}">
 </ng2-flatpickr>

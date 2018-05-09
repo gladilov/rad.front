@@ -16,6 +16,7 @@ export class DateFormcontrolComponent implements OnInit {
   // @Input() defaultDate = 'today';
 
   date: string;
+  pointerEvents = 'all';
 
   exampleOptions: FlatpickrOptions = {
     parent: this,
@@ -25,6 +26,7 @@ export class DateFormcontrolComponent implements OnInit {
     // time_24hr: true,
     dateFormat: 'd.m.Y',
     locale: Russian.ru,
+    clickOpens: true,
     onChange: function(selectedDates, dateStr, instance) {
       this.config.parent.date = dateStr;
     },
@@ -39,5 +41,15 @@ export class DateFormcontrolComponent implements OnInit {
 
   showValue() {
     this.formElement.setValue(this.date);
+  }
+
+  disablePopup() {
+    this.exampleOptions.clickOpens = false;
+    this.pointerEvents = 'none';
+  }
+
+  enablePopup() {
+    this.exampleOptions.clickOpens = true;
+    this.pointerEvents = 'all';
   }
 }

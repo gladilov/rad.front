@@ -18,7 +18,7 @@ export class DocumentsComponent implements OnInit {
     headers: [{name: 'Accept', value: 'application/json'}]
   };
   @Input()minFiles = 0;
-  @Input()maxFiles = 2; // Number.MAX_SAFE_INTEGER;
+  @Input()maxFiles = 10; // Number.MAX_SAFE_INTEGER;
 
   constructor() { }
 

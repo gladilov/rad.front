@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, OnChanges, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, OnChanges, ViewChild, OnDestroy} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 
 import { NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox } from 'ngx-form-controls';
@@ -9,13 +9,15 @@ import {
   AGGRID_MODE_EDITABLE,
   AgGridFormcontrolComponent
 } from '../../../../../../form-element-render/component/ag-grid-formcontrol/ag-grid-formcontrol.component';
+import {Subscription} from 'rxjs/Subscription';
+import {SharedService} from '../../../../service/revert-to/shared.service';
 
 @Component({
   selector: 'app-revert-to-procedure-requests',
   templateUrl: './procedure-requests.component.html',
   styleUrls: ['./procedure-requests.component.css']
 })
-export class ProcedureRequestsComponent implements OnInit {
+export class ProcedureRequestsComponent implements OnInit, OnDestroy {
   static statusMappings = {
     '': 'Выберите новый статус заявки',
     'request.published': 'Подана',
@@ -46,7 +48,7 @@ export class ProcedureRequestsComponent implements OnInit {
     {
       field: 'requestNumber',
       headerName: 'Номер',
-      width: 120,
+      width: 70,
       cellStyle: { 'white-space': 'normal' }
     },
     {
@@ -107,6 +109,7 @@ export class ProcedureRequestsComponent implements OnInit {
     }
   ];
   public gridMode = AGGRID_MODE_EDITABLE;
+  subscription = new Subscription;
 
   static lookupValue(mappings, key) {
     return mappings[key];
@@ -126,10 +129,10 @@ export class ProcedureRequestsComponent implements OnInit {
     return Object.keys(mappings);
   }
 
-  constructor() {
+  constructor(public ss: SharedService) {
     this.gridOptions = <GridOptions>{
       onGridReady: () => {
-        this.gridOptions.api.sizeColumnsToFit();
+        // this.gridOptions.api.sizeColumnsToFit();
       },
       context: {
         componentParent: this
@@ -145,6 +148,17 @@ export class ProcedureRequestsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.subscription.add(this.ss.getEmittedUpdateRequest().subscribe((item) => {
+      this.columnSize();
+    }));
+  }
+
+  ngOnDestroy() {
+    for (const sub in this.subscription) {
+      if (this.subscription.hasOwnProperty(sub)) {
+        this.subscription[sub].unsubscribe();
+      }
+    }
   }
 
   // simple function cellRenderer, just returns back the name of the requestStatus
@@ -155,4 +169,9 @@ export class ProcedureRequestsComponent implements OnInit {
   updateGrid() {
     this.grid.updateRowData();
   }
+
+  columnSize() {
+    this.grid.columnSize();
+  }
+
 }

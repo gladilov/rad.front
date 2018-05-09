@@ -1,34 +1,49 @@
 <table class="table" [formGroup]="formElement">
   <thead>
-    <tr>
-      <td>Название документа</td>
-      <td>Имя файла</td>
-      <td>Размер</td>
-      <td>Действия</td>
-    </tr>
+  <tr>
+    <td class="col-sm-5">Название документа</td>
+    <td class="col-sm-5">Имя файла</td>
+    <td class="col-sm-2">Действия</td>
+  </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of uploader.queue">
-      <td><input type="text" (keyup)="saveDocumentName(item, $event)" ></td>
-      <td>{{item.file.name}}</td>
-      <td></td>
-      <td>
-        <button type="button" class="btn btn-success btn-xs"
-                (click)="item.upload()" [disabled]="disabledUpload(item)">
-          <span class="glyphicon glyphicon-upload"></span> Upload
-        </button>
-        <button type="button" class="btn btn-warning btn-xs"
-                (click)="item.cancel()" [disabled]="!item.isUploading">
-          <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-        </button>
-        <button type="button" class="btn btn-danger btn-xs"
-                (click)="removeItem(item)">
-          <span class="glyphicon glyphicon-trash"></span> Remove
-        </button>
-      </td>
-    </tr>
+  <tr>
+  <tr *ngFor="let item of files; let i = index">
+    <td class="col-sm-5">
+      <input *ngIf="datas[i] !== undefined" type="text" (keyup)="saveDocumentName(item, $event)"
+             value="{{datas[i].title}}">
+      <input *ngIf="datas[i] === undefined" type="text" (keyup)="saveDocumentName(item, $event)">
+    </td>
+    <td *ngIf="item !== undefined" class="col-sm-5">
+      <p *ngIf="!uploads[i]">{{item.file.name}}</p>
+      <p *ngIf="uploads[i]"><a href="{{hrefs[i]}}" target="_blank">{{item.file.name}}</a></p>
+      <p *ngIf="item !== undefined && item.isUploading" class="upload-progress progress-in">начало загрузки...</p>
+      <p *ngIf="uploads[i]" class="upload-progress progress-success text-success">Успешно загружен</p>
+      <button *ngIf="item !== undefined && !uploads[i]" type="button"
+              class="file-append-button btn rus1__btn-default rus__btn"
+              (click)="item.upload()">Прикрепить
+      </button>
+      <button *ngIf="item !== undefined && !uploads[i]" type="button"
+              class="file-cancel-button btn rus1__btn-default rus__btn"
+              (click)="removeItem(item)">Отмена
+      </button>
+      <button *ngIf="item !== undefined && uploads[i]" type="button"
+              class="file-cancel-button btn rus1__btn-default rus__btn"
+              (click)="removeItem(item)">Удалить
+      </button>
+
+    </td>
+    <td *ngIf="item === undefined"><input type="file" ng2FileSelect [uploader]="uploader" class="col-sm-4"/></td>
+    <td class="col-sm-2">
+      <button *ngIf="files.length > 1" class="btn btn-default delete-document g__delete-document"
+              (click)="removeFile(i, item)" type="button">
+        <span class="glyphicon glyphicon-trash"></span>Удалить
+      </button>
+    </td>
+  </tr>
   </tbody>
 </table>
-<div>
-  <input type="file" ng2FileSelect [uploader]="uploader" id="file" [hidden]="disableAdd()" />
-</div>
+<button class="btn btn-default add-document g__add-more" type="button" (click)="addFile()">
+  <span class="glyphicon glyphicon-plus"></span>
+  Добавить
+</button>

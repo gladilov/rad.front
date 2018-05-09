@@ -1,13 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { FileSelectDirective, FileDropDirective, FileUploader, FileItem } from 'ng2-file-upload/ng2-file-upload';
+import {FileSelectDirective, FileDropDirective, FileUploader, FileItem} from 'ng2-file-upload/ng2-file-upload';
 import {ParsedResponseHeaders, Headers} from 'ng2-file-upload/ng2-file-upload';
 import {FormControl, FormGroup, FormArray} from '@angular/forms';
-import { ExtraFileData } from './extra-file-data';
+import {ExtraFileData} from './extra-file-data';
 
-import { environment } from '../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 
- const URL = environment.apiOptions.uploadFileUrl;
-// const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+const URL = environment.apiOptions.uploadFileUrl;
 
 @Component({
   selector: 'app-fer-upload-documents',
@@ -15,36 +14,44 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./upload-documents.component.css']
 })
 export class UploadDocumentsComponent implements OnInit {
-  @Input()formElement = new FormGroup({});
-  @Input()options = {};
-  @Input()minFiles = 0;
-  @Input()maxFiles = Number.MAX_SAFE_INTEGER;
+  @Input() formElement = new FormGroup({});
+  @Input() options = {};
+  @Input() minFiles = 0;
+  @Input() maxFiles = Number.MAX_SAFE_INTEGER;
 
   public uploader: FileUploader = new FileUploader({});
+  public files = [];
+  private uploads = [];
+  private hrefs = [];
 
   /**
    * Уникальный сквозной индекс для идентификации файлов и связынных с ними сущностей.
    * @type {number}
    */
   private uniqueIndex = 1;
+  public datas = [];
+  public formControls = [];
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
     // options are getting from parent components
     this.uploader.setOptions(this.options);
 
     this.uploader.onBuildItemForm = (fileItem, form) => this.onBuildItemForm(fileItem, form);
-    // this.uploader.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) =>
-    //   this.onCompleteItem(item, response, status, headers);
+
     this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) =>
-       this.onSuccessItem(item, response, status, headers);
+      this.onSuccessItem(item, response, status, headers);
 
     this.uploader.onAfterAddingFile = (fileItem: FileItem) => this.onAfterAddingFile(fileItem);
+    this.files[0] = this.uploader.queue[0];
   }
 
   onAfterAddingFile(fileItem: FileItem): any {
     this.getDataByFileItem(fileItem);
+    const index = this.uploader.getIndexOfItem(fileItem);
+    this.files[index] = this.uploader.queue[index];
   }
 
   onBuildItemForm(fileItem: FileItem, form: any): void {
@@ -54,71 +61,119 @@ export class UploadDocumentsComponent implements OnInit {
   }
 
   onCompleteItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // console.log('KOTA onCompleteItem FileItem.index', item.index);
-    // console.log('KOTA onCompleteItem FileItem filename', item.file.name);
   }
 
   onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // console.log('KOTA onSuccessItem FileItem.index', item.index);
-    // console.log('KOTA onSuccessItem FileItem filename', item.file.name);
-    console.log('KOTA onSuccessItem FileItem response', response);
     const result = JSON.parse(response);
     const key = <string> result['key'];
+    const index = this.uploader.getIndexOfItem(item);
     const controlFiles = this.formElement;
-    controlFiles.addControl(key, new FormControl({ key: key}, []));
-    console.log('KOTA onSuccessItem FileItem KEY=', result['key']);
-    const data = this.getDataByFileItem(item);
+    const data = this.getData(index);
     data.key = result['key'];
+    const formControl = this.getFormControl(index);
+    formControl.value.key = data.key;
+    controlFiles.addControl(key, formControl);
+    this.setUpload(index, true);
+    this.setHref(index, '/etp_back/File/default/download/' + result['key']);
   }
 
-  removeItem (item: FileItem) {
+  removeItem(item: FileItem) {
+    const index = this.uploader.getIndexOfItem(item);
     const data = this.getDataByFileItem(item);
-    console.log('KOTA удаляем fileItem с даными ', data);
     item.remove();
     if (data['key'] !== '') {
       const controlFiles = this.formElement;
       controlFiles.removeControl(<string>data['key']);
     }
+    this.setFile(index, this.uploader.queue[index]);
+    this.setUpload(index, false);
   }
+
   /**
    * Сохраняем название документа для загрузки файла
-   * @param {FileItem} item
-   * @param {Event} event
    */
   saveDocumentName(item: FileItem, event: Event) {
+    let index = this.files.length - 1;
+    if (item !== undefined) {
+      index = this.uploader.getIndexOfItem(item);
+    }
     const target = <HTMLInputElement>event.target;
-    const data = this.getDataByFileItem(item);
+    const data = this.getData(index);
+    const formControl = this.getFormControl(index);
     data.title = target.value;
+    formControl.value.title = data.title;
   }
 
-  disabledUpload(item: FileItem): boolean {
-    return (item.isReady || item.isUploading || item.isSuccess || !this.hasDocName(item));
+  protected getData(index: number) {
+    if (this.datas[index] === undefined) {
+      this.datas[index] = new ExtraFileData(this.uniqueIndex++);
+    }
+    return this.datas[index];
   }
 
-  /**
-   * Метод-ограничитель на добавление файлов
-   * @returns {boolean}
-   */
-  disableAdd(): boolean {
-    return (this.uploader.queue.length >= this.maxFiles);
+  protected getFormControl(index: number) {
+    const data = this.getData(index);
+    if (this.formControls[index] === undefined) {
+      this.formControls[index] = new FormControl({key: data.key, title: data.title}, []);
+    }
+    return this.formControls[index];
   }
 
-  /**
-   * проверка что для заданного файла есть название документа
-   * @param {FileItem} item
-   * @returns {boolean}
-   */
-  hasDocName(item: FileItem): boolean {
-    const data = this.getDataByFileItem(item);
-    return (data.title !== '');
+  protected getFile(index: number) {
+    if (this.files[index] === undefined) {
+      this.files[index] = this.uploader.queue[index];
+    }
+    return this.files[index];
+  }
+
+  protected setFile(index: number, file) {
+    this.files[index] = file;
+  }
+
+  protected getUpload(index: number) {
+    if (this.uploads[index] === undefined) {
+      this.uploads[index] = false;
+    }
+    return this.uploads[index];
+  }
+
+  protected setUpload(index: number, value: boolean) {
+    this.uploads[index] = value;
+  }
+
+  protected getHref(index: number) {
+    if (this.hrefs[index] === undefined) {
+      this.hrefs[index] = '';
+    }
+    return this.hrefs[index];
+  }
+
+  protected setHref(index: number, value: string) {
+    this.hrefs[index] = value;
   }
 
   private getDataByFileItem(item: FileItem): ExtraFileData {
     if (item.formData.length === 0) {
-      const data = new ExtraFileData(this.uniqueIndex++);
+      const index = this.uploader.getIndexOfItem(item);
+      const data = this.getData(index);
       item.formData.push(data);
-      return data;
     }
     return item.formData[0];
+  }
+
+  removeFile(index: number, item) {
+    if (item !== undefined) {
+      this.removeItem(item);
+    }
+    this.files.splice(index, 1);
+    this.uploads.splice(index, 1);
+    this.hrefs.splice(index, 1);
+    this.datas.splice(index, 1);
+  }
+
+  addFile() {
+    if ((this.uploader.queue.length + 1) !== this.files.length && this.files.length < this.maxFiles) {
+      this.files.push(undefined);
+    }
   }
 }
