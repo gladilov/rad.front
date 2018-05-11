@@ -51,6 +51,7 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
 
   @Input() autoSize = true;
   @Input() rowHeight = 50;
+  @Input() rowHeightMainColumn;
 
   // The internal data model
   private innerValue: any = '';
@@ -72,8 +73,12 @@ export class AgGridFormcontrolComponent implements ControlValueAccessor, OnInit 
       columnDefs: [],
       rowData: [],
       domLayout: 'autoHeight', // если будет нужна вертикальная полоса прокрутки убрать это свойство
-      getRowHeight: () => {
-        return this.rowHeight;
+      getRowHeight: (params) => {
+        if (this.rowHeightMainColumn === undefined) {
+          return this.rowHeight;
+        } else {
+          return 55 * Math.ceil(params.data[this.rowHeightMainColumn].length / 40);
+        }
       },
     };
   }

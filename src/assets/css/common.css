@@ -1804,3 +1804,26 @@ fieldset span.clearfix {
 .text-success {
   color: #3c763d !important;
 }
+
+app-target-status-select {
+  display: block;
+  height: calc(100% - 2px);
+}
+
+ng-select, .ng-select.ng-select-single .ng-select-container {
+  height: 50px;
+}
+
+.ng-select.ng-select-single .ng-select-container .ng-value-container,
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+  white-space: normal !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  white-space: normal !important;
+  padding: 1px;
+}
+
+.ag-cell, .ag-root, .ag-body-viewport {
+  overflow: visible !important;
+}

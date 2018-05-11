@@ -1,4 +1,6 @@
 import {Component, Injectable, Input, Output, EventEmitter} from '@angular/core';
+import {ProcedureRequestsComponent} from '../../component/revert-to/component/procedure-requests/procedure-requests.component';
+import {TargetStatusSelectComponent} from '../../component/revert-to/component/procedure-requests/component/target-status-select/target-status-select.component';
 
 @Injectable()
 export class SharedService {
@@ -27,7 +29,7 @@ export class SharedService {
     if (!hiddenRequest) {
       this.updateRequest.emit(true);
     }
-
+    TargetStatusSelectComponent.newStatus = targetStatus;
     switch (targetStatus) {
       case 'procedure.published':
         this.disableRequestEndGiveDateTime.emit(false);

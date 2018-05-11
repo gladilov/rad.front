@@ -1,5 +1,6 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import "~flatpickr/dist/flatpickr.min.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 @import "assets/css/common.css";
 @import "assets/css/layout.css";

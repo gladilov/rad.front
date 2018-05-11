@@ -24,6 +24,8 @@ import { RequestEndGiveDateTimeComponent } from './component/revert-to/component
 import { RequestReviewDateTimeComponent } from './component/revert-to/component/time-limits/component/request-review-date-time/request-review-date-time.component';
 import { ConditionalHoldingDateTimeComponent } from './component/revert-to/component/time-limits/component/conditional-holding-date-time/conditional-holding-date-time.component';
 import { ResultDateTimeComponent } from './component/revert-to/component/time-limits/component/result-date-time/result-date-time.component';
+import { TargetStatusSelectComponent } from './component/revert-to/component/procedure-requests/component/target-status-select/target-status-select.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const objectRoutes: Routes = [
   {
@@ -52,9 +54,11 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     FormElementRenderModule,
     objectRouting,
     AgGridModule.withComponents([
-      ActiveCheckboxComponent
+      ActiveCheckboxComponent,
+      TargetStatusSelectComponent
     ]),
-    BootstrapModalModule.forRoot({container: document.body})
+    BootstrapModalModule.forRoot({container: document.body}),
+    NgSelectModule
   ],
   declarations: [
     CommonComponent,
@@ -71,7 +75,8 @@ const objectRouting: ModuleWithProviders = RouterModule.forChild(objectRoutes);
     RequestEndGiveDateTimeComponent,
     RequestReviewDateTimeComponent,
     ConditionalHoldingDateTimeComponent,
-    ResultDateTimeComponent
+    ResultDateTimeComponent,
+    TargetStatusSelectComponent
   ],
   providers: [],
   entryComponents: [

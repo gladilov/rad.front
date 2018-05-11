@@ -1,8 +1,6 @@
-import {Component, OnInit, Input, OnChanges, ViewChild, OnDestroy} from '@angular/core';
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {Component, OnInit, Input, ViewChild, OnDestroy} from '@angular/core';
 
-import { NgxFormControlText, NgxFormControlSelect, NgxFormControlMultiSelect, NgxFormControlCheckbox } from 'ngx-form-controls';
-import { NpxControlDataSetter } from 'ngx-form-controls';
+import {NgxFormControlMultiSelect} from 'ngx-form-controls';
 
 import {GridOptions} from 'ag-grid';
 import {
@@ -11,6 +9,7 @@ import {
 } from '../../../../../../form-element-render/component/ag-grid-formcontrol/ag-grid-formcontrol.component';
 import {Subscription} from 'rxjs/Subscription';
 import {SharedService} from '../../../../service/revert-to/shared.service';
+import {TargetStatusSelectComponent} from './component/target-status-select/target-status-select.component';
 
 @Component({
   selector: 'app-revert-to-procedure-requests',
@@ -36,6 +35,13 @@ export class ProcedureRequestsComponent implements OnInit, OnDestroy {
   };
 
   public gridOptions: GridOptions;
+  frameworkComponents = {
+    'targetStatusSelect': TargetStatusSelectComponent,
+  };
+  context = {componentParent: this};
+  rowHeight = 80;
+  rowHeightMainColumn = 'organization';
+  private _set = false;
   @Input() form: NgxFormControlMultiSelect;
   @ViewChild(AgGridFormcontrolComponent) grid: AgGridFormcontrolComponent;
 
@@ -49,21 +55,24 @@ export class ProcedureRequestsComponent implements OnInit, OnDestroy {
       field: 'requestNumber',
       headerName: 'Номер',
       width: 70,
-      cellStyle: { 'white-space': 'normal' }
+      cellStyle: {'white-space': 'normal'}
     },
     {
       field: 'sendDateTime',
       headerName: 'Дата и время регистрации заявки',
-      cellStyle: { 'white-space': 'normal' }
+      width: 175,
+      cellStyle: {'white-space': 'normal'}
     },
     {
       field: 'organization',
       headerName: 'Наименование участника',
-      cellStyle: { 'white-space': 'normal' }
+      width: 190,
+      cellStyle: {'white-space': 'normal'}
     },
     {
       field: 'status',
       headerName: 'Текущий статус',
+      width: 145,
       cellEditorParams: {
         values: ProcedureRequestsComponent.extractValues(ProcedureRequestsComponent.statusMappings)
       },
@@ -75,37 +84,25 @@ export class ProcedureRequestsComponent implements OnInit, OnDestroy {
         // convert value to code
         return ProcedureRequestsComponent.lookupKey(ProcedureRequestsComponent.statusMappings, params.newValue);
       },
-      cellStyle: { 'white-space': 'normal' }
+      cellStyle: {'white-space': 'normal'}
     },
     {
       field: 'blockMoney',
       headerName: 'Заблокированные средства (руб)',
-      cellStyle: { 'white-space': 'normal' }
+      width: 165,
+      cellStyle: {'white-space': 'normal'}
     },
     {
       field: 'freeFinance',
       headerName: 'Свободные средства (руб)',
-      cellStyle: { 'white-space': 'normal' }
+      width: 165,
+      cellStyle: {'white-space': 'normal'}
     },
     {
       field: 'targetStatus',
       headerName: 'Новый статус',
-      width: 170,
-      cellClass: 'ag-cell-custom-select',
-      editable: true,
-      cellEditor: 'agSelectCellEditor',
-      cellEditorParams: {
-        values: ProcedureRequestsComponent.extractValues(ProcedureRequestsComponent.statusMappings)
-      },
-      valueFormatter: function (params) {
-        // convert code to value
-        return ProcedureRequestsComponent.lookupValue(ProcedureRequestsComponent.statusMappings, params.value);
-      },
-      valueParser: function (params) {
-        // convert value to code
-        return ProcedureRequestsComponent.lookupKey(ProcedureRequestsComponent.statusMappings, params.newValue);
-      },
-      cellStyle: { 'white-space': 'normal' }
+      width: 250,
+      cellRenderer: 'targetStatusSelect',
     }
   ];
   public gridMode = AGGRID_MODE_EDITABLE;
@@ -141,7 +138,7 @@ export class ProcedureRequestsComponent implements OnInit, OnDestroy {
       rowData: [],
       // domLayout: 'autoHeight',
       components: {
-        requestStatusCellRenderer: this.requestStatusCellRenderer
+        // requestStatusCellRenderer: this.requestStatusCellRenderer
       }
     };
     this.gridOptions.columnDefs = this.columnDefs;
@@ -161,17 +158,24 @@ export class ProcedureRequestsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // simple function cellRenderer, just returns back the name of the requestStatus
-  requestStatusCellRenderer(params) {
-    return params.value.name;
-  }
-
   updateGrid() {
     this.grid.updateRowData();
   }
 
   columnSize() {
     this.grid.columnSize();
+  }
+
+  selectStatus(rowIndex, value) {
+    this.form.elementData.value[rowIndex]['targetStatus'] = value;
+    this.form.setValue(this.form.elementData.value);
+  }
+
+  setValueForm() {
+    if (!this._set) {
+      this.form.setValue(this.form.elementData.value);
+      this._set = true;
+    }
   }
 
 }

@@ -28,6 +28,7 @@ export class RequestOfferComponent implements OnInit {
   private cacheOverflowSize = 500;
   private sortingOrder = ['desc', 'asc', null];
   private dataUrl = environment.apiBaseUrl + '/EA/procedure/offer-grid/' + (+this.route.snapshot.paramMap.get('id'));
+  private rowHeightMainColumn = 'organization';
 
   public gridOptions: GridOptions;
   @Input() hidden: boolean;
