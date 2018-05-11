@@ -1,20 +1,20 @@
 <table class="table" [formGroup]="formElement">
   <thead>
   <tr>
-    <td class="col-sm-5">Название документа</td>
-    <td class="col-sm-5">Имя файла</td>
-    <td class="col-sm-2">Действия</td>
+    <td>Название документа</td>
+    <td>Имя файла</td>
+    <td>Действия</td>
   </tr>
   </thead>
   <tbody>
   <tr>
   <tr *ngFor="let item of files; let i = index">
-    <td class="col-sm-5">
+    <td>
       <input *ngIf="datas[i] !== undefined" type="text" (keyup)="saveDocumentName(item, $event)"
              value="{{datas[i].title}}">
       <input *ngIf="datas[i] === undefined" type="text" (keyup)="saveDocumentName(item, $event)">
     </td>
-    <td *ngIf="item !== undefined" class="col-sm-5">
+    <td *ngIf="item !== undefined">
       <p *ngIf="!uploads[i]">{{item.file.name}}</p>
       <p *ngIf="uploads[i]"><a href="{{hrefs[i]}}" target="_blank">{{item.file.name}}</a></p>
       <p *ngIf="item !== undefined && item.isUploading" class="upload-progress progress-in">начало загрузки...</p>
@@ -33,8 +33,8 @@
       </button>
 
     </td>
-    <td *ngIf="item === undefined"><input type="file" ng2FileSelect [uploader]="uploader" class="col-sm-4"/></td>
-    <td class="col-sm-2">
+    <td *ngIf="item === undefined"><input type="file" ng2FileSelect [uploader]="uploader"/></td>
+    <td>
       <button *ngIf="files.length > 1" class="btn btn-default delete-document g__delete-document"
               (click)="removeFile(i, item)" type="button">
         <span class="glyphicon glyphicon-trash"></span>Удалить
