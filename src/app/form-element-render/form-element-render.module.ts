@@ -17,6 +17,7 @@ import { AgGridFormcontrolComponent } from './component/ag-grid-formcontrol/ag-g
 import { DateTimeFormcontrolComponent } from './component/date-time-formcontrol/date-time-formcontrol.component';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
 import { DateFormcontrolComponent } from './component/date-formcontrol/date-formcontrol.component';
+import { SignComponent } from './component/sign/sign.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { DateFormcontrolComponent } from './component/date-formcontrol/date-form
     CheckboxComponent,
     AgGridFormcontrolComponent,
     DateTimeFormcontrolComponent,
-    DateFormcontrolComponent
+    DateFormcontrolComponent,
+    SignComponent
   ],
   exports: [
     SelectComponent,
