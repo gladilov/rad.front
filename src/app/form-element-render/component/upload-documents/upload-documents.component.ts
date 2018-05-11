@@ -176,4 +176,8 @@ export class UploadDocumentsComponent implements OnInit {
       this.files.push(undefined);
     }
   }
+
+  unBlur(event) {
+    event.target.blur();
+  }
 }
