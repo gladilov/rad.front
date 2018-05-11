@@ -33,7 +33,9 @@
       </button>
 
     </td>
-    <td *ngIf="item === undefined"><input type="file" ng2FileSelect [uploader]="uploader"/></td>
+    <td *ngIf="item === undefined">
+      <input type="file" ng2FileSelect [uploader]="uploader" (click)="unBlur($event)"/>
+    </td>
     <td>
       <button *ngIf="files.length > 1" class="btn btn-default delete-document g__delete-document"
               (click)="removeFile(i, item)" type="button">
